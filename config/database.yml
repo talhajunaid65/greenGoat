@@ -83,5 +83,4 @@ test:
 production:
   <<: *default
   database: GreenGoatAPI_production
-  username: GreenGoatAPI
-  password: <%= ENV['GREENGOATAPI_DATABASE_PASSWORD'] %>
+  password: 12345678
