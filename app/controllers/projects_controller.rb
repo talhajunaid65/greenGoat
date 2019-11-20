@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-    # before_action :authenticate_user!
+    before_action :authenticate_user!, only: [:my_activity]
 
     def index
       projects = Project.all
@@ -133,6 +133,12 @@ class ProjectsController < ApplicationController
 		  	ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
 	    end	
 
+    	render json: { message: "Please check your email for response. Thankyou !"}, status: :ok
+    end	
+
+    def my_activity
+    	my_projects = current_user.projects.select("id, created_at")
+    	
     	render json: { message: "Please check your email for response. Thankyou !"}, status: :ok
     end	
 

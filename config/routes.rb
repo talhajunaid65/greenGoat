@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
 	get '/myprofile', to: 'user_profile#show'
 
+	get '/myactivity', to: 'projects#my_activity'
+
 end
