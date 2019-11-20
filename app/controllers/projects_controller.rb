@@ -141,7 +141,7 @@ class ProjectsController < ApplicationController
     	return_object = []
 
     	my_projects.each do |project|
-    		return_object << {id: project.id.to_s , message: "You donation form #{project.id} is under review", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
+    		return_object << {id: project.id.to_s , message: "Your donation form ID:#{project.id} is under review", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
     	end	
     	
     	render json: return_object, status: :ok
