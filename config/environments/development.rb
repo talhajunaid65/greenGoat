@@ -60,7 +60,7 @@ Rails.application.configure do
   # config.action_mailer.default_url_options = {:host => "localhost", :port => '3000', :protocol => "http"}
   # config.action_mailer.preview_path = "#{Rails.root}/tmp/mailers/previews"
   # config.cache_store = :redis_store, 'redis://localhost:6379/'
-
+  Rails.application.routes.default_url_options[:host] = "greengoat.com"
 
 
   config.action_mailer.delivery_method = :smtp
