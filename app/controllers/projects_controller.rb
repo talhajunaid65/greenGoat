@@ -138,8 +138,13 @@ class ProjectsController < ApplicationController
 
     def my_activity
     	my_projects = current_user.projects.select("id, created_at")
+    	return_object = []
+
+    	my_projects.each do |project|
+    		return_object << {message: "You donation form #{project.id} is under review", created_at: "#{project.created_at.to_date} #{{project.created_at.strftime("%I:%M%p")}}"}
+    	end	
     	
-    	render json: my_projects, status: :ok
+    	render json: return_object, status: :ok
     end	
 
     private
