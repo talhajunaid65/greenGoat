@@ -139,7 +139,7 @@ class ProjectsController < ApplicationController
     def my_activity
     	my_projects = current_user.projects.select("id, created_at")
     	
-    	render json: { message: "Please check your email for response. Thankyou !"}, status: :ok
+    	render json: my_projects, status: :ok
     end	
 
     private
