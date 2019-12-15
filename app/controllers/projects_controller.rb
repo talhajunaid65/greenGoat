@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController
+class ProjectsController < ApiController
     before_action :authenticate_user!, only: [:my_activity]
 
     def index
@@ -150,6 +150,6 @@ class ProjectsController < ApplicationController
     private
 
     def project_params
-      params.require(:project).permit(:type_of_project, :address, :city, :state, :zip, :year_built, :user_id)
+      params.require(:project).permit(:type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date)
     end
 end

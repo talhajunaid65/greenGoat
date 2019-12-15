@@ -33,6 +33,10 @@ gem 'geocoder'
 
 gem 'sidekiq'
 gem 'redis-rails'
+gem 'activeadmin'
+gem 'active_model_serializers'
+gem 'ransack'
+gem 'cancan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

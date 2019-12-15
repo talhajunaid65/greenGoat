@@ -18,3 +18,4 @@ Project.create(type_of_project: 2, address: '124 Day St', city: 'Newton', state:
 Project.create(type_of_project: 2, address: '20 Evelyn Ave', city: 'Waban', state: 'MA', zip: '02468', user_id: 1, year_built: '1900', val_sf: '7.57805395574417')
 Project.create(type_of_project: 2, address: '8 Juniper Rd', city: 'Sudbury', state: 'MA', zip: '01776', user_id: 1, year_built: '1966', val_sf: '2.06100577081616')
 Project.create(type_of_project: 2, address: '21 Marlborough St', city: 'Boston', state: 'MA', zip: '02136', user_id: 1, year_built: '1910', val_sf: '32.5971580208868')
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

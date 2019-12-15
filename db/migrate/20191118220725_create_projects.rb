@@ -12,6 +12,7 @@ class CreateProjects < ActiveRecord::Migration[5.2]
       t.float :val_sf
       t.float :estimated_value
       t.belongs_to :user
+      t.integer :status
 
       t.timestamps
     end
