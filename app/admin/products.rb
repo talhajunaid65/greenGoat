@@ -27,7 +27,7 @@ permit_params :title, :room_id,:category, :need_uninstallation, :location, :appr
        ul do
         ad.images.each do |img|
           li do 
-            image_tag url_for(img)
+            image_tag url_for(img), height: '100'
           end
         end
        end
