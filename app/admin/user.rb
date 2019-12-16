@@ -6,26 +6,24 @@ ActiveAdmin.register User do
     selectable_column
     id_column
     column :email
-    column :current_sign_in_at
     column :sign_in_count
     column :created_at
     actions
   end
 
   filter :email
-  filter :current_sign_in_at
   filter :sign_in_count
   filter :created_at
 
   form do |f|
-    f.inputs 
+    f.inputs :except => [:tokens]
     f.actions
   end
 
   show do
     attributes_table(*resource.attributes.keys) do
       row :image do |ad|
-          image_tag url_for(ad.image)
+          image_tag url_for(ad.image), height: '60'
         end
     end
   end  

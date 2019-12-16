@@ -3,11 +3,17 @@ class WishlistsController < ApiController
 
 	def index
 		wishlist = current_user.wishlist
-		product_ids = wishlist.product_ids
+		if wishlist.present?
+			product_ids = wishlist.product_ids
 
-		products = Product.where(id: product_ids)
+			products = Product.where(id: product_ids)
 
-		render json: products, status: :ok
+			render json: products, status: :ok
+		else
+			render json: {}, status: :ok
+		end	
+
+		
 	end	
 
 	def add_to_wishlist
