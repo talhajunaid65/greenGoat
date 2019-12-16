@@ -8,7 +8,7 @@ class WishlistsController < ApiController
 
 			products = Product.where(id: product_ids)
 
-			render json: {products: products, wishlist_id: wishlist.id}, status: :ok
+			render json: wishlist, status: :ok
 		else
 			render json: {}, status: :ok
 		end	
