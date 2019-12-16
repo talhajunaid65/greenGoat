@@ -41,7 +41,7 @@ class ProjectsController < ApiController
     def zillow_flow
     	project = Project.create(project_params)
     	puts project.inspect
-    	old_projects = Project.all.first(10)
+    	old_projects = ZillowLocation.all
     	closest_distance_project = ['', '']
 
     	#getting location information from zilloq

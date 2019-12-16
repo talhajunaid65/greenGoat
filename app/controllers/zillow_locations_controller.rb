@@ -1,0 +1,2 @@
+class ZillowLocationsController < ApplicationController
+end
