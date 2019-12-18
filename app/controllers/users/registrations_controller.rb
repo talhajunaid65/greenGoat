@@ -42,9 +42,11 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
 
       if @resource.save
         require 'open-uri'
-        base64image = Base64.decode64(params[:image])
-        decoded_image = StringIO.new(base64image)
-      	@resource.image.attach(io: decoded_image, filename: "#{params[:firstname]}.jpg")
+        if params[:image].present?
+          base64image = Base64.decode64(params[:image])
+          decoded_image = StringIO.new(base64image)
+        	@resource.image.attach(io: decoded_image, filename: "#{params[:firstname]}.jpg")
+        end  
         yield @resource if block_given?
 
         unless @resource.confirmed?
