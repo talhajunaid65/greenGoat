@@ -74,7 +74,7 @@ Rails.application.configure do
     user_name:            'tech@greengoat.org',
     password:             'greenGoat123',
     authentication:       :login,
-    enable_starttls_auto: false
+    enable_starttls_auto: true
   }
 
 end
