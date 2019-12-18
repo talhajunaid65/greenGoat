@@ -63,18 +63,22 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = "greengoat.com"
 
 
+ config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = {
+    :host => "greengoat.com"
+  }
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'thegoat@greengoat.org'}
-  config.action_mailer.default_url_options = { :host => 'http://167.172.245.215/' }
+  config.action_mailer.default_options = {from: 'tech@greengoat.org'}
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    domain: "gmail.com",
-    user_name: 'test44149@gmail.com',
-    password: 'greengoat@1',
-    authentication: 'login',
-    enable_starttls_auto: true
+    address:              'smtpout.secureserver.net',
+    port:                 25,
+    domain:               'greengoat.com',
+    user_name:            'tech@greengoat.org',
+    password:             'greenGoat123',
+    authentication:       :login,
+    enable_starttls_auto: false
   }
 
 end

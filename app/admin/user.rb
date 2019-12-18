@@ -23,8 +23,10 @@ ActiveAdmin.register User do
   show do
     attributes_table(*resource.attributes.keys) do
       row :image do |ad|
-          image_tag url_for(ad.image), height: '60' if ad.image.present?
-        end
+        if user.image.attached?
+          image_tag url_for(ad.image), height: '60'
+        end  
+      end
     end
   end  
 
