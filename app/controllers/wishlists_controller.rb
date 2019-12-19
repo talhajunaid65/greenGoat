@@ -10,7 +10,8 @@ class WishlistsController < ApiController
 
 			render json: wishlist, status: :ok
 		else
-			render json: {}, status: :ok
+			wishlist = Wishlist.create(user_id: current_user.id, product_ids: [])
+			render json: wishlist, status: :ok
 		end	
 
 		
