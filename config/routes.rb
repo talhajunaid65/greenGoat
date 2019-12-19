@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :home_images
   resources :zillow_locations
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
