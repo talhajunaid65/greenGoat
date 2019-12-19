@@ -18,8 +18,10 @@ namespace :old_orders do
           type_of_project = 0
         end    
 
+        puts project['type'].strip
+
               
-       ZillowLocation.create(type_of_project: 0, address: project['Street'], city: project['City'], state: project['State'],
+       ZillowLocation.create(type_of_project: type_of_project, address: project['Street'], city: project['City'], state: project['State'],
         zip: project['zip'], user_id: 14, year_built: project['year_built'], val_sf: project['val_sf'])
       end
    
