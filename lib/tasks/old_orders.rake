@@ -20,7 +20,7 @@ namespace :old_orders do
 
               
        ZillowLocation.create(type_of_project: 0, address: project['Street'], city: project['City'], state: project['State'],
-        zip: project['zip'], user_id: 1, year_built: project['year_built'], val_sf: project['val_sf'])
+        zip: project['zip'], user_id: 14, year_built: project['year_built'], val_sf: project['val_sf'])
       end
    
   end
