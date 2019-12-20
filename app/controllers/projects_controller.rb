@@ -88,7 +88,7 @@ class ProjectsController < ApiController
 
 	    	unless project.type_of_project == "other" 	
 		    	#calculating estimation
-		    	closest_project = Project.find(closest_distance_project[1])
+		    	closest_project = ZillowLocation.find(closest_distance_project[1])
 		    	
 		    	if closest_distance_project[0] < 2
 		    		if zestimate.to_i < 1000000
