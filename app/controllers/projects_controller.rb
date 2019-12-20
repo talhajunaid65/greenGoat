@@ -93,7 +93,7 @@ class ProjectsController < ApiController
 		    	if closest_distance_project[0] < 2
 		    		if zestimate.to_i < 1000000
 		    			ProjectMailer.less_estimate(project.user, project).deliver_now
-		    			msg_return = "Sorry! we don't have any comparable products to share."
+		    			msg_return = "We will get back to you after further review of your application. Hang tight!!!"
 		    		else
 		    			if (closest_project.year_built.to_i - year_built.to_i) <10
 		    				final_estimation = sqfoot * closest_project.val_sf
@@ -109,7 +109,7 @@ class ProjectsController < ApiController
 		    	elsif closest_distance_project[0] <5
 		    		if zestimate.to_i < 1000000
 		    			ProjectMailer.less_estimate(project.user, project).deliver_now
-		    			msg_return = "Sorry! we don't have any comparable products to share."
+		    			msg_return = "We will get back to you after further review of your application. Hang tight!!!"
 		    		else
 		    			if (closest_project.year_built.to_i - year_built.to_i) <10
 		    				final_estimation = sqfoot * closest_project.val_sf
