@@ -1,7 +1,7 @@
 class ProjectMailer < ApplicationMailer
 	layout 'mailer'
 	default from: 'tech@greengoat.org'
-  emails_send = ['abauman@greengoat.org']
+  @@emails_send = ['abauman@greengoat.org']
  
   def other_type_project(user, project)
     @user  = user
