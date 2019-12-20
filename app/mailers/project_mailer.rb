@@ -6,6 +6,7 @@ class ProjectMailer < ApplicationMailer
   def other_type_project(user, project)
     @user  = user
     @project = project
+    emails_send = @@emails_send
     emails_send << @user.email
     mail(to: emails_send, subject: 'Donation estimation update')
   end
@@ -13,6 +14,7 @@ class ProjectMailer < ApplicationMailer
   def less_estimate(user, project)
     @user  = user
     @project = project
+    emails_send = @@emails_send
     emails_send << @user.email
     mail(to: emails_send, subject: 'Donation estimation update')
   end
@@ -22,6 +24,7 @@ class ProjectMailer < ApplicationMailer
     @project = project
     @estimate = estimate
     @msg = msg
+    emails_send = @@emails_send
     emails_send << @user.email
     mail(to: emails_send, subject: 'Donation estimation update')
   end
@@ -30,12 +33,14 @@ class ProjectMailer < ApplicationMailer
     @user  = user
     @project = project
     @msg = msg
+    emails_send = @@emails_send
     emails_send << @user.email
     mail(to: emails_send, subject: 'Donation estimation update')
   end
 
   def wrong_donation_data(project, user_email)
     @project = project
+    emails_send = @@emails_send
     emails_send << user_email
     mail(to: emails_send, subject: 'Donation estimation update')
   end	
