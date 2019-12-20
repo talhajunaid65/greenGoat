@@ -99,7 +99,7 @@ class ProjectsController < ApiController
 		    				final_estimation = sqfoot * closest_project.val_sf
 		    				msg = ''
 		    				ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-		    				msg_return = "The estimate for projects is : $ #{final_estimation}"
+		    				msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal"
 		    			else
 		    				msg = 'Your house is within 2 miles of one of our old project, but it is a few years old, so we will contact you after review.'
 		    				ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
