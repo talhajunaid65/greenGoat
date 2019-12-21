@@ -52,14 +52,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.perform_deliveries = true
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.default_options = {from: 'thegoat@greengoat.org'}
-  # config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
-  # config.action_mailer.default_url_options = {:host => "localhost", :port => '3000', :protocol => "http"}
-  # config.action_mailer.preview_path = "#{Rails.root}/tmp/mailers/previews"
-  # config.cache_store = :redis_store, 'redis://localhost:6379/'
+  
   Rails.application.routes.default_url_options[:host] = "greengoat.com"
   config.action_mailer.default_options = {from: 'tech@greengoat.org'}
   config.action_mailer.default_url_options = { :host => 'http://167.172.245.215/' }
@@ -73,7 +66,7 @@ Rails.application.configure do
     domain:               'greengoat.com',
     user_name:            'tech@greengoat.org',
     password:             'greenGoat123',
-    authentication:       :login,
+    authentication:       :plain,
     enable_starttls_auto: true
   }
 
