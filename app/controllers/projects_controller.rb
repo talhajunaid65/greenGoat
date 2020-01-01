@@ -166,7 +166,7 @@ class ProjectsController < ApiController
 
     	ProjectMailer.contact_us(email, query).deliver_now
 
-    	render json: {status = "success"}, status: :ok
+    	render json: {status: "success"}, status: :ok
     end	
 
     private
