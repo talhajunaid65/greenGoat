@@ -153,6 +153,7 @@ class ProjectsController < ApiController
     	return_object = []
 
     	my_projects.each do |project|
+    		status = project.status.present? ? project.status: "Under review"
     		return_object << {id: project.id.to_s , message: "Status of your donation form ID:#{project.id} is #{project.status}", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
     	end	
     	
@@ -164,6 +165,8 @@ class ProjectsController < ApiController
     	query = params[:query]
 
     	ProjectMailer.contact_us(email, query).deliver_now
+
+    	render json: {status = "success"}, status: :ok
     end	
 
     private

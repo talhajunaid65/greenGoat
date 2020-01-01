@@ -60,7 +60,7 @@ permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
 		  	table_for project.group_items do
 		      column :title
 		      column :price
-		      column :product_ids
+		      column :products do |p| Product.where(id: project.product_ids).pluck(:title) end
 		    end
 		end  
 
