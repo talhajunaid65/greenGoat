@@ -45,4 +45,12 @@ class ProjectMailer < ApplicationMailer
     mail(to: emails_send, subject: 'Donation estimation update')
   end	
 
+  def contact_us(email, query)
+    @query = query
+    @email = email
+    # emails_send = @@emails_send
+    # emails_send << user_email
+    mail(to: "tech@greengoat.org", subject: 'User Query')
+  end 
+
 end

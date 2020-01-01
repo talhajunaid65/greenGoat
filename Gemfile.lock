@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/mfairburn/activeadmin-select2.git
+  revision: f35b0367cca61266737c94ca9a94cd142c95b763
+  specs:
+    activeadmin-select2 (0.1.8)
+      activeadmin
+      jquery-rails
+      select2-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,6 +83,13 @@ GEM
     cancan (1.6.10)
     case_transform (0.2)
       activesupport
+    coffee-rails (4.2.2)
+      coffee-script (>= 2.2.0)
+      railties (>= 4.0.0)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     crass (1.0.5)
@@ -231,6 +247,8 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    select2-rails (3.5.9.1)
+      thor (~> 0.14)
     sidekiq (5.2.7)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (>= 1.5.0)
@@ -285,12 +303,15 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   activeadmin
+  activeadmin-select2!
   bootsnap (>= 1.1.0)
   byebug
   cancan
+  coffee-rails
   devise_token_auth
   geocoder
   geokit
+  jquery-rails
   listen (>= 3.0.5, < 3.2)
   mailcatcher
   pg (>= 0.18, < 2.0)
@@ -298,6 +319,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   ransack
   redis-rails
+  select2-rails
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)

@@ -153,10 +153,17 @@ class ProjectsController < ApiController
     	return_object = []
 
     	my_projects.each do |project|
-    		return_object << {id: project.id.to_s , message: "Your donation form ID:#{project.id} is under review", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
+    		return_object << {id: project.id.to_s , message: "Status of your donation form ID:#{project.id} is #{project.status}", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
     	end	
     	
     	render json: return_object, status: :ok
+    end	
+
+    def contact_us
+    	email = params[:email]
+    	query = params[:query]
+
+    	ProjectMailer.contact_us(email, query).deliver_now
     end	
 
     private

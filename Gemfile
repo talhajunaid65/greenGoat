@@ -37,6 +37,10 @@ gem 'activeadmin'
 gem 'active_model_serializers'
 gem 'ransack'
 gem 'cancan'
+gem 'jquery-rails'
+gem 'select2-rails'
+gem 'activeadmin-select2', github: 'mfairburn/activeadmin-select2'
+gem 'coffee-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

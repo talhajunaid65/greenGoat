@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :group_items
   resources :home_images
   resources :zillow_locations
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -22,6 +23,8 @@ Rails.application.routes.draw do
   resources :wishlists
   post '/wishlists/add-to-wishlist', to: 'wishlists#add_to_wishlist'
   post '/wishlists/remove-from-wishlist', to: 'wishlists#remove_from_wishlist'
+
+  post '/contact-us', to: 'projects#contact_us'
 
   resources :tasks
 
