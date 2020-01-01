@@ -154,7 +154,7 @@ class ProjectsController < ApiController
 
     	my_projects.each do |project|
     		status = project.status.present? ? project.status: "Under review"
-    		return_object << {id: project.id.to_s , message: "Status of your donation form ID:#{project.id} is #{project.status}", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
+    		return_object << {id: project.id.to_s , message: "Status of your donation form ID:#{project.id} is #{status}", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
     	end	
     	
     	render json: return_object, status: :ok
