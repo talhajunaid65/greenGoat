@@ -1,6 +1,6 @@
 class GroupItemSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
-  attributes :id , :title, :description, :product_ids, :products
+  attributes :id , :title, :description, :product_ids, :products, :price
 
 
   def products
