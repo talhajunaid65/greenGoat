@@ -149,11 +149,11 @@ class ProjectsController < ApiController
     end	
 
     def my_activity
-    	my_projects = current_user.projects.select("id, created_at")
+    	my_projects = current_user.projects.select("id, status, created_at")
     	return_object = []
 
     	my_projects.each do |project|
-    		status = project.status.present? ? project.status: "Under review"
+    		status = project.status.present? ? project.status : "Under review"
     		return_object << {id: project.id.to_s , message: "Status of your donation form ID:#{project.id} is #{status}", created_at: "#{project.created_at.to_date} #{ project.created_at.strftime('%I:%M%p') }"}
     	end	
     	
