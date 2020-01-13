@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders
   resources :group_items
   resources :home_images
   resources :zillow_locations
@@ -25,6 +26,8 @@ Rails.application.routes.draw do
   post '/wishlists/remove-from-wishlist', to: 'wishlists#remove_from_wishlist'
 
   post '/contact-us', to: 'projects#contact_us'
+
+  post '/checkout', to: 'orders#checkout'
 
   resources :tasks
 

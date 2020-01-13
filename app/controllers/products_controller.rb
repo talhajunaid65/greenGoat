@@ -1,8 +1,7 @@
 class ProductsController < ApiController
     before_action :authenticate_user!
     def index
-    	q = Product.ransack(params[:q])
-		  products = q.result(distinct: true)
+    	products = Product.where(sold: false)
       
       render json: products, status: :ok
     end

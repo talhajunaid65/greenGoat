@@ -4,7 +4,7 @@ ActiveAdmin.register Product do
 #
 permit_params :title, :room_id,:category, :need_uninstallation, :location, :appraised_value, :price, :description,
 							:count, :uom, :width, :height, :depth, :weight, :make, :model,
-							:serial, :sale_date, :pickup_date, :uninstallation_date, :project_id , images: []
+							:serial, :sale_date, :pickup_date, :uninstallation_date, :sold, :project_id , images: []
 #
 # or
 #

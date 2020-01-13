@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_31_231138) do
+ActiveRecord::Schema.define(version: 2020_01_13_132647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,12 +71,24 @@ ActiveRecord::Schema.define(version: 2019_12_31_231138) do
     t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "sold", default: false
     t.index ["project_id"], name: "index_group_items_on_project_id"
   end
 
   create_table "home_images", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.float "price"
+    t.string "item_or_group"
+    t.bigint "user_id"
+    t.integer "item_id"
+    t.string "payment_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -104,6 +116,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_231138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "project_id"
+    t.boolean "sold", default: false
     t.index ["project_id"], name: "index_products_on_project_id"
   end
 

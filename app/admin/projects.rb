@@ -7,7 +7,7 @@ permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
 			  :start_date,
 			  tasks_attributes: [:id, :job_number, :can_be_sold, :completed, :estimated_time,
 			  									 :start_time, :end_time, :_destroy],
-			  group_items_attributes: [:id, :title, :price, :description, :project_id, :_destroy, :product_ids => [] ]									 
+			  group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]									 
 
 #
 # or
@@ -30,6 +30,7 @@ permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
 	        a.input :description
 	        a.input :price
 	        a.input :product_ids, as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]} 
+	        a.input :sold
 	        a.input :project_id, :input_html => { :value => project.id }, as: :hidden
 	    end  
 	end    
@@ -61,6 +62,7 @@ permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
 		      column :title
 		      column :price
 		      column :products do |p| Product.where(id: project.product_ids).pluck(:title) end
+		      column :sold
 		    end
 		end  
 
