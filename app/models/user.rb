@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
   def set_default_role
     self.role ||= :user
   end
+
+  def to_s
+    [firstname, lastname].join(' ')
+  end
 end
