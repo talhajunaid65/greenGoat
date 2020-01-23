@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_13_132647) do
+ActiveRecord::Schema.define(version: 2020_01_23_183653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,16 @@ ActiveRecord::Schema.define(version: 2020_01_13_132647) do
   create_table "home_images", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.bigint "task_id"
+    t.integer "created_by_id"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_notes_on_created_by_id"
+    t.index ["task_id"], name: "index_notes_on_task_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -215,4 +225,5 @@ ActiveRecord::Schema.define(version: 2020_01_13_132647) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notes", "tasks", on_delete: :cascade
 end
