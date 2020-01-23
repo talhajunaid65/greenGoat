@@ -19,6 +19,8 @@ class AdminUser < ApplicationRecord
   enum role: [:admin, :pm]
   after_initialize :set_default_role, :if => :new_record?
 
+  has_many :created_notes, class_name: 'Note', foreign_key: 'created_by_id'
+
   def set_default_role
     self.role ||= :admin
   end       
