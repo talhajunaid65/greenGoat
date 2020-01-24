@@ -4,6 +4,5 @@ class AdminUser < ApplicationRecord
 
   enum role: [:admin, :pm, :appraiser, :contractor]
 
-  has_many :projects
   has_many :created_notes, class_name: 'Note', foreign_key: 'created_by_id'
 end
