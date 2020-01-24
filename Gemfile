@@ -27,20 +27,22 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
+gem 'arctic_admin'
+gem 'activeadmin'
+gem 'activeadmin-select2', github: 'mfairburn/activeadmin-select2'
+gem 'active_model_serializers'
 gem 'devise_token_auth'
 gem 'geokit'
 gem 'geocoder'
-
 gem 'sidekiq'
 gem 'redis-rails'
-gem 'activeadmin'
-gem 'active_model_serializers'
 gem 'ransack'
 gem 'cancan'
 gem 'jquery-rails'
 gem 'select2-rails'
-gem 'activeadmin-select2', github: 'mfairburn/activeadmin-select2'
+gem 'sassc-rails', '~> 2.1', '>= 2.1.1'
 gem 'coffee-rails'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
