@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_23_183653) do
+ActiveRecord::Schema.define(version: 2020_01_24_185015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,12 +141,13 @@ ActiveRecord::Schema.define(version: 2020_01_23_183653) do
     t.string "year_built"
     t.float "val_sf"
     t.float "estimated_value"
-    t.bigint "user_id"
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_hot"
-    t.index ["user_id"], name: "index_projects_on_user_id"
+    t.integer "pm_id"
+    t.integer "appraiser_id"
+    t.integer "contractor_id"
   end
 
   create_table "tasks", force: :cascade do |t|
