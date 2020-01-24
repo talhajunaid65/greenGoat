@@ -7,10 +7,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
-  enum role: [:user, :admin]
+
+  enum role: {
+    donor: 'donor',
+    buyer: 'buyer'
+  }
+
   after_initialize :set_default_role, :if => :new_record?
 
-  has_many :projects
   has_one_attached :image
   has_one :wishlist
 
