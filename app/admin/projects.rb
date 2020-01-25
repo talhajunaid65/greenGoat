@@ -53,8 +53,8 @@ ActiveAdmin.register Project, as: 'Project' do
           a.input :is_hot
           a.input :completed
           a.has_many :notes, heading: 'Notes' do |n|
-            n.input :message, label: 'note', input_html: { readonly: n.object.created_by != current_admin_user  }
-            if n.object.created_by == current_admin_user
+            n.input :message, label: 'note', input_html: { readonly: n.object.created_by && (n.object.created_by != current_admin_user)  }
+            if n.object.new_record? || (n.object.created_by == current_admin_user)
               n.input :created_by_id, input_html: { value: current_admin_user.id }, as: :hidden
               n.input :_destroy, as: :boolean, required: false, label: 'Delete note'
             end
@@ -111,7 +111,12 @@ ActiveAdmin.register Project, as: 'Project' do
   
   controller do
     def scoped_collection
-      Project.where(status: 'contract')
+      return Project.contract_projects if current_admin_user.admin?
+      admin_id = current_admin_user.id
+      return Project.contract_projects.pm_projects(admin_id) if current_admin_user.pm?
+      return Project.contract_projects.contractor_projects(admin_id) if current_admin_user.contractor?
+      return Project.contract_projects.appraiser_projects(admin_id) if current_admin_user.appraiser?
+      Project.contract_projects.architect_projects(admin_id) if current_admin_user.architect?
     end
     
     def update
