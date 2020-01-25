@@ -11,7 +11,14 @@
 
 $primary-color: #8d2977;
 @import "arctic_admin/base";
+@import "active_admin/select2/base";
 
 .has_many_container {
   margin-bottom: 5px;
+}
+
+.formtastic.project {
+  textarea {
+    height: 20px;
+  }
 }

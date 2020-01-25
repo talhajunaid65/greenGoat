@@ -10,10 +10,18 @@ ActiveAdmin.register Project, as: 'Project' do
     column :estimated_value
     column :estimated_time
     column :status
-    column :pm
-    column :appraiser
-    column :contractor
-    column :architect
+    column :'pm' do |project|
+      link_to project.pm, admin_admin_user_path(project.pm) if project.pm
+    end
+    column :appraiser do |project|
+      link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
+    end
+    column :contractor do |project|
+      link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
+    end
+    column :architect do |project|
+      link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+    end
     actions
   end
 
@@ -37,10 +45,21 @@ ActiveAdmin.register Project, as: 'Project' do
     end
     f.inputs do 
       f.has_many :tasks, heading: 'Tasks' do |a|
-        a.inputs
-        a.has_many :notes, heading: 'Notes' do |n|
-          n.input :message, label: 'note'
-          n.input :created_by_id, input_html: { value: current_admin_user.id }, as: :hidden
+        a.inputs do
+          a.input :job_number
+          a.input :estimated_time
+          a.input :start_time
+          a.input :end_time
+          a.input :is_hot
+          a.input :completed
+          a.has_many :notes, heading: 'Notes' do |n|
+            n.input :message, label: 'note', input_html: { readonly: n.object.created_by != current_admin_user  }
+            if n.object.created_by == current_admin_user
+              n.input :created_by_id, input_html: { value: current_admin_user.id }, as: :hidden
+              n.input :_destroy, as: :boolean, required: false, label: 'Delete note'
+            end
+          end
+          a.input :_destroy, as: :boolean, required: false, label: 'Delete task'
         end
       end
 
@@ -51,6 +70,7 @@ ActiveAdmin.register Project, as: 'Project' do
         a.input :product_ids, as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]}
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
+        a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
       end
     end
     f.submit
@@ -65,6 +85,9 @@ ActiveAdmin.register Project, as: 'Project' do
           column :estimated_time
           column :start_time
           column :end_time
+          column 'Notes' do |task|
+            link_to "Notes", admin_task_path(task)
+          end
         end
       end
 
@@ -102,6 +125,6 @@ ActiveAdmin.register Project, as: 'Project' do
   permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
         tasks_attributes: [:id, :job_number, :can_be_sold, :completed, :estimated_time,
-                           :start_time, :end_time, :_destroy, notes_attributes: [:id, :message, :craeted_by_id, :_destroy]],
+                           :start_time, :end_time, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end
