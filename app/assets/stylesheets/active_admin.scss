@@ -12,7 +12,6 @@
 $primary-color: #8d2977;
 @import "arctic_admin/base";
 
-// Overriding any non-variable SASS must be done after the fact.
-// For example, to change the default status-tag color:
-//
-//   .status_tag { background: #6090DB; }
+.has_many_container {
+  margin-bottom: 5px;
+}
