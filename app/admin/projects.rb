@@ -41,6 +41,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :val_sf
       f.input :estimated_value
       f.input :status
+      f.input :picture, as: :file
       f.input :is_hot
     end
     f.inputs do 
@@ -77,7 +78,21 @@ ActiveAdmin.register Project, as: 'Project' do
   end
 
   show do
-    attributes_table(*resource.attributes.keys) do
+    attributes_table do
+      row :picture do |project|
+        project.picture.attached? ? image_tag(project.picture, size: '80x80') : 'Picture not attached'
+      end
+      row :type_of_project
+      row :address
+      row :city
+      row :state
+      row :zip
+      row :start_date
+      row :year_built
+      row :val_sf
+      row :estimated_value
+      row :status
+      row :is_hot
       panel "Tasks" do
         table_for project.tasks do
           column :job_number
@@ -127,7 +142,7 @@ ActiveAdmin.register Project, as: 'Project' do
     
   end
 
-  permit_params :type_of_project, :address, :city, :state, :zip, :year_built,
+  permit_params :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
         tasks_attributes: [:id, :job_number, :can_be_sold, :completed, :estimated_time,
                            :start_time, :end_time, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
