@@ -142,7 +142,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :job_number, :can_be_sold, :completed, :estimated_time,
-                           :start_time, :end_time, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
+        tasks_attributes: [:id, :job_number, :completed, :estimated_time,
+                           :start_time, :end_time, :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end
