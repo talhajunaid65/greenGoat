@@ -304,7 +304,7 @@ ActiveAdmin.setup do |config|
   # By default, the footer shows the current Active Admin version. You can
   # override the content of the footer here.
   #
-  config.footer = "Powered by <b>GreenGoat</b> @2020".html_safe
+  config.footer = "Powered by <b>greenGoat</b> @2020".html_safe
 
   # == Sorting
   #
