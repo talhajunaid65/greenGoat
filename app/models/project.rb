@@ -16,6 +16,8 @@ class Project < ApplicationRecord
   enum type_of_project: [:gut, :full, :kitchen, :other]
   enum status: [:not_pursuing, :appraisal_notes, :propsal, :contract]
 
+  validates :name, :type_of_project, :status, presence: true
+
   scope :contract_projects, -> { where(status: 'contract') }
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
@@ -24,5 +26,9 @@ class Project < ApplicationRecord
 
   def to_s
     name
+  end
+
+  def first_three_hot_tasks
+    tasks.hot_tasks.first(3)
   end
 end

@@ -4,11 +4,20 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc { I18n.t("active_admin.dashboard") } do
     columns do
       column do
-        panel "Recent Prospects" do
-          ul do
-            Project.where(status: ['not_pursuing', 'appraisal_notes', 'propsal', nil]).last(5).map do |post|
-              li link_to("#{post.address} #{post.city} #{post.state} #{post.zip}", admin_prospect_path(post))
+        panel "Recent Projects" do
+          Project.includes(:tasks).contract_projects.last(5).each do |project|
+            panel "Project name: #{project.name}" do
+              head 'Project tasks'
+              hr
+              ul do
+                project.first_three_hot_tasks.each do |task|
+                  li task.job_number
+                end
+                br
+                li link_to 'More', admin_project_path(project)
+              end
             end
+            hr
           end
         end
       end

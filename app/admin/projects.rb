@@ -138,13 +138,6 @@ ActiveAdmin.register Project, as: 'Project' do
       return Project.contract_projects.appraiser_projects(admin_id) if current_admin_user.appraiser?
       Project.contract_projects.architect_projects(admin_id) if current_admin_user.architect?
     end
-    
-    def update
-      update! do |format|
-        format.html { redirect_to admin_projects_path }
-      end
-    end
-    
   end
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
