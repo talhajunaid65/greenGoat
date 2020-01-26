@@ -2,6 +2,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   index do
     selectable_column
+    column :name
     column :type_of_project
     column :start_date
     column :tracking
@@ -31,6 +32,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :appraiser, as: :select, collection: AdminUser.appraisers
       f.input :contractor, as: :select, collection: AdminUser.contractors
       f.input :architect, as: :select, collection: AdminUser.architects
+      f.input :name, label: 'Project Name'
       f.input :type_of_project
       f.input :address
       f.input :city
@@ -81,6 +83,9 @@ ActiveAdmin.register Project, as: 'Project' do
     attributes_table do
       row :picture do |project|
         project.picture.attached? ? image_tag(project.picture, size: '80x80') : 'Picture not attached'
+      end
+      row :project_name do |project|
+        project.name
       end
       row :type_of_project
       row :address
@@ -142,7 +147,7 @@ ActiveAdmin.register Project, as: 'Project' do
     
   end
 
-  permit_params :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
+  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
         tasks_attributes: [:id, :job_number, :can_be_sold, :completed, :estimated_time,
                            :start_time, :end_time, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],

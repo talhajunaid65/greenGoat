@@ -21,4 +21,8 @@ class Project < ApplicationRecord
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
   scope :contractor_projects, -> (contractor_id) { where(contractor_id: contractor_id) }
   scope :architect_projects, -> (architect_id) { where(architect_id: architect_id) }
+
+  def to_s
+    name
+  end
 end

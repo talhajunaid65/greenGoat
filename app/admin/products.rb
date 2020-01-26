@@ -10,7 +10,7 @@ ActiveAdmin.register Product do
   end
 
 	form do |f|
-    f.input :project_id, label: 'Project ID ', as: :select, collection: Project.contract_projects.pluck(:id, :id)
+    f.input :project_id, label: 'Project ID ', as: :select, collection: Project.contract_projects
     f.inputs except: ['project']
     input :images, as: :file, input_html: { multiple: true }
     if f.object.images.attached?

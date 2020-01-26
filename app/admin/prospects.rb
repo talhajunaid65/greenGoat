@@ -2,6 +2,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
   index do
     selectable_column
+    column :name, label: 'Project Name'
     column :type_of_project
     column :start_date
     column :year_built
