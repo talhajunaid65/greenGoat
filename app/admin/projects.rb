@@ -51,10 +51,9 @@ ActiveAdmin.register Project, as: 'Project' do
         a.inputs do
           a.input :job_number
           a.input :estimated_time
-          a.input :start_time
-          a.input :end_time
           a.input :is_hot
-          a.input :completed
+          a.input :closed, label: "This task is Closed by <b>#{a.object.closed_by}</b>".html_safe, input_html: { disabled: true } if a.object.closed
+
           a.has_many :notes, heading: 'Notes' do |n|
             n.input :message, label: 'note', input_html: { readonly: n.object.created_by && (n.object.created_by != current_admin_user)  }
             if n.object.new_record? || (n.object.created_by == current_admin_user)
@@ -101,10 +100,19 @@ ActiveAdmin.register Project, as: 'Project' do
       panel "Tasks" do
         table_for project.tasks do
           column :job_number
-          column :completed
           column :estimated_time
-          column :start_time
-          column :end_time
+          column :start_date
+          column :closed_date
+          column :closed_by do |task|
+            link_to task.closed_by, admin_admin_user_path(task.closed_by) if task.closed_by
+          end
+          column "Close Task" do |task|
+            if task.closed
+              'Closed'
+            else
+              link_to 'Close task', close_admin_task_path(task), data: { confirm: 'Are you sure, you want to close this task?' }
+            end
+          end
           column 'Notes' do |task|
             link_to "Notes", admin_task_path(task)
           end
@@ -142,7 +150,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :job_number, :completed, :estimated_time,
-                           :start_time, :end_time, :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
+        tasks_attributes: [:id, :job_number, :estimated_time,
+                           :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end

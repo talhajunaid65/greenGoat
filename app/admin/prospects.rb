@@ -29,6 +29,6 @@ ActiveAdmin.register Project, as: 'Prospect' do
     end
   end
 
-  permit_params :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date
+  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date
 
 end
