@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  root to: 'admin/dashboard#index'
+
   resources :orders
   resources :group_items
   resources :home_images
