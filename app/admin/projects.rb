@@ -1,4 +1,5 @@
 ActiveAdmin.register Project, as: 'Project' do
+  actions :all, except: [:new, :create]
 
   index do
     selectable_column
@@ -32,6 +33,9 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :appraiser, as: :select, collection: AdminUser.appraisers
       f.input :contractor, as: :select, collection: AdminUser.contractors
       f.input :architect, as: :select, collection: AdminUser.architects
+      f.input :zillow_location
+      f.input :contract_date, as: :date_picker
+      f.input :access_info
       f.input :name, label: 'Project Name'
       f.input :type_of_project
       f.input :address
@@ -86,6 +90,22 @@ ActiveAdmin.register Project, as: 'Project' do
       row :project_name do |project|
         project.name
       end
+      row :pm do |project|
+        link_to project.pm, admin_admin_user_path(project.pm) if project.pm
+      end
+      row :appraiser do |project|
+        link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
+      end
+      row :contractor do |project|
+        link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
+      end
+      row :architect do |project|
+        link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+      end
+      row :zillow_location do |project|
+        link_to project.zillow_location, admin_zillow_location_path(project.zillow_location) if project.zillow_location
+      end
+      row :contract_date
       row :type_of_project
       row :address
       row :city

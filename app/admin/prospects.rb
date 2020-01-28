@@ -14,7 +14,32 @@ ActiveAdmin.register Project, as: 'Prospect' do
     column :appraiser
     column :contractor
     column :architect
-    actions
+    actions do |project|
+      link_to 'Go live', edit_admin_contract_path(project), class: 'member_link' unless project.contract?
+    end
+  end
+
+  form do |f|
+    f.inputs do
+      f.input :name, label: 'Project Name'
+      f.input :type_of_project
+      f.input :address
+      f.input :city
+      f.input :state
+      f.input :zip
+      f.input :start_date
+      f.input :year_built
+      f.input :val_sf
+      f.input :estimated_value
+      f.input :status
+      f.input :picture, as: :file
+      f.input :is_hot
+    end
+    f.submit value: params[:action] == 'edit' ? 'Update Prospect' : 'Create Prospect'
+  end
+
+  action_item :go_live, only: [:show] do
+    link_to 'Go live', edit_admin_contract_path(resource) unless resource.contract?
   end
 
   controller do
