@@ -13,7 +13,7 @@ class ProjectsController < ApiController
     end
 
     def create
-      project = current_user.project.new(project_params)
+      project = current_user.project.new(project_params.merge(status: 'proposal'))
       project.save
 
       render_errors(project.errors.full_messages) && return if project.errors.any?

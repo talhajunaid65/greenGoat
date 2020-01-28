@@ -160,11 +160,7 @@ ActiveAdmin.register Project, as: 'Project' do
   controller do
     def scoped_collection
       return Project.contract_projects if current_admin_user.admin?
-      admin_id = current_admin_user.id
-      return Project.contract_projects.pm_projects(admin_id) if current_admin_user.pm?
-      return Project.contract_projects.contractor_projects(admin_id) if current_admin_user.contractor?
-      return Project.contract_projects.appraiser_projects(admin_id) if current_admin_user.appraiser?
-      Project.contract_projects.architect_projects(admin_id) if current_admin_user.architect?
+      Project.contract_projects.method("#{current_admin_user.role}_projects}").call(current_admin_user.id)
     end
   end
 

@@ -44,7 +44,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
   controller do
     def scoped_collection
-      Project.where(status: ['not_pursuing', 'appraisal_notes', 'propsal', nil])
+      Project.where(status: ['not_pursuing', 'appraisal_notes', 'proposal', nil])
     end
 
      def update

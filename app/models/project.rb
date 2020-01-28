@@ -17,9 +17,9 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :group_items, allow_destroy: true
 
   enum type_of_project: [:gut, :full, :kitchen, :other]
-  enum status: [:not_pursuing, :appraisal_notes, :propsal, :contract]
+  enum status: [:not_pursuing, :appraisal_notes, :proposal, :contract]
 
-  validates :name, :type_of_project, :status, presence: true
+  validates :type_of_project, :status, presence: true
 
   scope :contract_projects, -> { where(status: 'contract') }
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
@@ -28,7 +28,7 @@ class Project < ApplicationRecord
   scope :architect_projects, -> (architect_id) { where(architect_id: architect_id) }
 
   def to_s
-    name
+    "#{name} #{id}"
   end
 
   def first_three_hot_tasks
