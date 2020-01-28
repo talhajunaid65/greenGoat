@@ -34,4 +34,8 @@ class Project < ApplicationRecord
   def first_three_hot_tasks
     tasks.hot_tasks.first(3)
   end
+
+  def update_tasks_start_date
+    tasks.update_all(start_date: contract_date)
+  end
 end

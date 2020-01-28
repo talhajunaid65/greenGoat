@@ -18,6 +18,7 @@ ActiveAdmin.register Project, as: 'Contract' do
   controller do
     def update
       update! do |format|
+        resource.update_tasks_start_date
         format.html { redirect_to admin_project_path(resource) }
       end
     end
