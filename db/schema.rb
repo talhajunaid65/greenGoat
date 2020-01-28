@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_180900) do
+ActiveRecord::Schema.define(version: 2020_01_28_130115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,10 @@ ActiveRecord::Schema.define(version: 2020_01_27_180900) do
     t.integer "contractor_id"
     t.integer "architect_id"
     t.string "name"
+    t.date "contract_date"
+    t.text "access_info"
+    t.bigint "zillow_location_id"
+    t.index ["zillow_location_id"], name: "index_projects_on_zillow_location_id"
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -232,4 +236,5 @@ ActiveRecord::Schema.define(version: 2020_01_27_180900) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "notes", "tasks", on_delete: :cascade
+  add_foreign_key "projects", "zillow_locations"
 end
