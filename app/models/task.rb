@@ -7,5 +7,5 @@ class Task < ApplicationRecord
 
   accepts_nested_attributes_for :notes, allow_destroy: true
 
-  scope :hot_tasks, -> { where(is_hot: true) }
+  scope :hot_tasks, -> { where(is_hot: true, closed: false) }
 end
