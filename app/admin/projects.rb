@@ -42,7 +42,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :city
       f.input :state
       f.input :zip
-      f.input :start_date
+      f.input :start_date, as: :date_picker
       f.input :year_built
       f.input :val_sf
       f.input :estimated_value

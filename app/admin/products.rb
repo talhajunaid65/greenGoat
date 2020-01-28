@@ -4,9 +4,9 @@ ActiveAdmin.register Product do
 							:serial, :sale_date, :pickup_date, :uninstallation_date, :sold, :project_id , images: []
 
   member_action :delete_product_image, method: :delete do
-   @pic = ActiveStorage::Attachment.find(params[:id])
-   @pic.purge_later
-   redirect_back(fallback_location: edit_admin_product_path)
+    @pic = ActiveStorage::Attachment.find(params[:id])
+    @pic.purge_later
+    redirect_back(fallback_location: edit_admin_product_path)
   end
 
 	form do |f|
