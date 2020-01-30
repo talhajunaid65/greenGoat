@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_193931) do
+ActiveRecord::Schema.define(version: 2020_01_30_192548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,9 +116,7 @@ ActiveRecord::Schema.define(version: 2020_01_28_193931) do
   create_table "products", force: :cascade do |t|
     t.string "title"
     t.string "room_id"
-    t.string "category"
     t.boolean "need_uninstallation"
-    t.string "location"
     t.float "appraised_value"
     t.float "price"
     t.string "description"
@@ -128,7 +126,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_193931) do
     t.string "width"
     t.string "height"
     t.string "depth"
-    t.string "weight"
     t.string "make"
     t.string "model"
     t.string "serial"
@@ -138,7 +135,20 @@ ActiveRecord::Schema.define(version: 2020_01_28_193931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "project_id"
-    t.boolean "sold", default: false
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "zipcode"
+    t.float "wood"
+    t.float "ceramic"
+    t.float "glass"
+    t.float "metal"
+    t.float "stone_plastic"
+    t.string "other"
+    t.integer "payment_status"
+    t.integer "sub_category_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["project_id"], name: "index_products_on_project_id"
   end
 
@@ -246,5 +256,6 @@ ActiveRecord::Schema.define(version: 2020_01_28_193931) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "notes", "tasks", on_delete: :cascade
+  add_foreign_key "products", "categories"
   add_foreign_key "projects", "zillow_locations"
 end
