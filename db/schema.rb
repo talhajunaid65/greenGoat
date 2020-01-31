@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_202344) do
+ActiveRecord::Schema.define(version: 2020_01_31_210819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,7 +145,6 @@ ActiveRecord::Schema.define(version: 2020_01_31_202344) do
     t.datetime "uninstallation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "project_id"
     t.string "address"
     t.string "city"
     t.string "state"
@@ -160,7 +159,15 @@ ActiveRecord::Schema.define(version: 2020_01_31_202344) do
     t.integer "sub_category_id"
     t.bigint "category_id"
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["project_id"], name: "index_products_on_project_id"
+  end
+
+  create_table "project_products", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_project_products_on_product_id"
+    t.index ["project_id"], name: "index_project_products_on_project_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -269,5 +276,7 @@ ActiveRecord::Schema.define(version: 2020_01_31_202344) do
   add_foreign_key "buyers", "products"
   add_foreign_key "notes", "tasks", on_delete: :cascade
   add_foreign_key "products", "categories"
+  add_foreign_key "project_products", "products"
+  add_foreign_key "project_products", "projects"
   add_foreign_key "projects", "zillow_locations"
 end

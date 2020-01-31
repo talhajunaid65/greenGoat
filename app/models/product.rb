@@ -1,11 +1,12 @@
 class Product < ApplicationRecord
   has_many_attached :images
 
-  belongs_to :project
   belongs_to :category
   belongs_to :sub_category, class_name: 'Category', foreign_key: 'sub_category_id'
 
   has_many :buyers, dependent: :destroy
+  has_many :project_products, dependent: :destroy
+  has_many :projects, through: :project_products
 
   enum status: {
     'available' => 0,

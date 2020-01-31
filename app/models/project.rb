@@ -8,8 +8,9 @@ class Project < ApplicationRecord
   belongs_to :zillow_location
 
   has_many :tasks
-  has_many :products
   has_many :group_items
+  has_many :project_products, dependent: :destroy
+  has_many :products, through: :project_products
 
   has_one_attached :picture
 
