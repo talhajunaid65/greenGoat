@@ -1,7 +1,8 @@
 ActiveAdmin.register Product do
   permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
                 :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, images: []
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, buyers_attributes: %i[id name status phone contact_date _destroy],
+                images: []
 
   member_action :delete_product_image, method: :delete do
     @pic = ActiveStorage::Attachment.find(params[:id])
@@ -45,10 +46,20 @@ ActiveAdmin.register Product do
       f.input :uninstallation_date, as: :date_picker
       f.input :images, as: :file, input_html: { multiple: true }
     end
+
+    f.inputs do
+      f.has_many :buyers, heading: 'Buyers Information' do |b|
+        b.input :name
+        b.input :status
+        b.input :phone
+        b.input :contact_date, as: :date_picker
+        b.input :_destroy, as: :boolean, required: false, label: 'Delete Buyer'
+      end
+    end
     if f.object.images.attached?
       ul do
         f.object.images.each do |img|
-          li do 
+          li do
             span image_tag(img, height: '100')
             span link_to "delete", delete_product_image_admin_product_path(img.id), method: :delete,data: { confirm: 'Are you sure?' }
           end  
@@ -61,13 +72,22 @@ ActiveAdmin.register Product do
   show do
     attributes_table(*resource.attributes.keys) do
       row :images do |ad|
-       ul do
-        ad.images.each do |img|
-          li do 
-            image_tag url_for(img), height: '100'
+        ul do
+          ad.images.each do |img|
+            li do 
+              image_tag url_for(img), height: '100'
+            end
           end
         end
-       end
+      end
+
+      panel "Buyers" do
+        table_for product.buyers do
+          column :name
+          column :status
+          column :phone
+          column :contact_date
+        end
       end
     end
   end

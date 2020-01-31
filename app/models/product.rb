@@ -5,6 +5,8 @@ class Product < ApplicationRecord
   belongs_to :category
   belongs_to :sub_category, class_name: 'Category', foreign_key: 'sub_category_id'
 
+  has_many :buyers, dependent: :destroy
+
   enum status: {
     'available' => 0,
     'listed_for_sale' => 1,
@@ -18,4 +20,6 @@ class Product < ApplicationRecord
   }
 
   enum payment_status: [:pending, :received]
+
+  accepts_nested_attributes_for :buyers, allow_destroy: true
 end
