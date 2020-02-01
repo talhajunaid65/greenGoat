@@ -22,5 +22,12 @@ class Product < ApplicationRecord
 
   enum payment_status: [:pending, :received]
 
+  validate :project_products_presence
+
   accepts_nested_attributes_for :buyers, allow_destroy: true
+  accepts_nested_attributes_for :project_products, allow_destroy: true
+
+  def project_products_presence
+    errors.add(:missing_product_projects, "Must have at least one Project assigned") if project_products.blank?
+  end
 end
