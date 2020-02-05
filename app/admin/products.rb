@@ -1,13 +1,27 @@
-ActiveAdmin.register Product do
+ActiveAdmin.register Product, as: 'Item' do
   permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
                 :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, buyers_attributes: %i[id name status phone contact_date _destroy],
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other,
                 images: [], project_products_attributes: %i[id project_id product_id _destroy]
 
   member_action :delete_product_image, method: :delete do
     @pic = ActiveStorage::Attachment.find(params[:id])
     @pic.purge_later
-    redirect_back(fallback_location: edit_admin_product_path)
+    redirect_back(fallback_location: edit_admin_item_path)
+  end
+
+  index do
+    column :title
+    column :description
+    column :status
+    column :category
+    column :sub_category
+    column :appraised_value
+    column :price
+    column :uom
+    actions do |item|
+      link_to 'Buyers', admin_item_buyers_path(item), class: 'member_link'
+    end
   end
 
   form do |f|
@@ -54,26 +68,18 @@ ActiveAdmin.register Product do
         p.input :_destroy, as: :boolean, required: false, label: 'Remove product form this project'
       end
     end
-    f.inputs do
-      f.has_many :buyers, heading: 'Buyers Information' do |b|
-        b.input :name
-        b.input :status
-        b.input :phone
-        b.input :contact_date, as: :date_picker
-        b.input :_destroy, as: :boolean, required: false, label: 'Delete Buyer'
-      end
-    end
     if f.object.images.attached?
       ul do
         f.object.images.each do |img|
           li do
             span image_tag(img, height: '100')
-            span link_to "delete", delete_product_image_admin_product_path(img.id), method: :delete,data: { confirm: 'Are you sure?' }
+            span link_to "delete", delete_product_image_admin_item_path(img.id), method: :delete,data: { confirm: 'Are you sure?' }
           end  
          end
       end   
     end
-    f.submit
+    f.submit value: params[:action] == 'edit' ? 'Update Item' : 'Create Item',
+             data: { disable_with: params[:action] == 'edit' ? 'Update Item' : 'Create Item' }
   end
 
   show do
@@ -89,7 +95,7 @@ ActiveAdmin.register Product do
       end
 
       panel "Projects" do
-        table_for product.projects do
+        table_for item.projects do
           column "Name" do |project|
             link_to project.name, admin_project_path(project)
           end
@@ -97,14 +103,21 @@ ActiveAdmin.register Product do
         end
       end
 
-      panel "Buyers" do
-        table_for product.buyers do
-          column :name
-          column :status
+      panel "Buyer" do
+        table_for item.buyers do
+          column "Name" do |buyer|
+            link_to buyer.name, admin_buyer_path(buyer)
+          end
           column :phone
           column :contact_date
         end
       end
+    end
+  end
+
+  controller do
+    def scoped_collection
+      Product.available_products
     end
   end
 end

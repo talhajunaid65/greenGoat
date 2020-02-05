@@ -73,7 +73,7 @@ ActiveAdmin.register Project, as: 'Project' do
         a.input :title
         a.input :description
         a.input :price
-        a.input :product_ids, as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]}
+        a.input :product_ids, label: 'Item Ids', as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]}
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
         a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
@@ -142,7 +142,14 @@ ActiveAdmin.register Project, as: 'Project' do
       panel "Items" do
         table_for project.products do
           column :title
-          column :link do |p| link_to "View", admin_product_path(p) end
+          column :link do |p| link_to "View", admin_item_path(p) end
+          column "Buyer" do |product|
+            if product.buyers.blank?
+              link_to "Add Buyer",  new_admin_item_buyer_path(product)
+            else
+              link_to "View Buyers",  admin_item_buyers_path(product)
+            end
+          end
         end
       end
 
@@ -150,7 +157,9 @@ ActiveAdmin.register Project, as: 'Project' do
         table_for project.group_items do
           column :title
           column :price
-          column :products do |p| Product.where(id: project.product_ids).pluck(:title) end
+          column "Items" do |p|
+            Product.where(id: project.product_ids).pluck(:title)
+          end
           column :sold
         end
       end

@@ -24,7 +24,8 @@ class Product < ApplicationRecord
 
   validate :project_products_presence
 
-  accepts_nested_attributes_for :buyers, allow_destroy: true
+  scope :available_products, -> { where.not(status: 'sold') }
+
   accepts_nested_attributes_for :project_products, allow_destroy: true
 
   def project_products_presence
