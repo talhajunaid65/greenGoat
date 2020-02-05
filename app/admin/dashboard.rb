@@ -23,8 +23,30 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        panel "Info" do
-          para "Welcome to ActiveAdmin."
+        if current_admin_user.pm?
+          panel "Upcoming Vists" do
+            table do
+              thead do
+                tr do
+                  th 'Buyer Name'
+                  th 'Action'
+                end
+              end
+
+              tbody do
+                Buyer.visits_due.each do |buyer|
+                  tr do
+                    td buyer
+                    td link_to 'Change Status', edit_admin_buyer_path(buyer)
+                  end
+                end
+              end
+            end
+          end
+        else
+          panel "Info" do
+            para "Welcome Back."
+          end
         end
       end
     end

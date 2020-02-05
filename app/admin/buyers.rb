@@ -3,7 +3,7 @@ ActiveAdmin.register Buyer do
 
   form do |f|
     f.inputs do
-      f.input :product, label: 'Item', as: :select, collection: Product.available_products, selected: params[:item_id]
+      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
       f.input :name
       f.input :phone
       f.input :product_status, label: 'Status', as: :select, collection: Product.statuses.map {|a| [a[0].titleize, a[0]]}

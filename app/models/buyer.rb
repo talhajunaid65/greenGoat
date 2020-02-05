@@ -13,5 +13,11 @@ class Buyer < ApplicationRecord
 
   validates :product_id, :name, presence: true
 
-  delegate :status, to: :product, prefix: true
+  delegate :status, to: :product, prefix: true, allow_nil: true
+
+  scope :visits_due, -> { where(visit_date: Date.today) }
+
+  def to_s
+    name
+  end
 end
