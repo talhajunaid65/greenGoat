@@ -23,13 +23,14 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
-        if current_admin_user.pm?
+        if current_admin_user
           panel "Upcoming Vists" do
             table do
               thead do
                 tr do
                   th 'Buyer Name'
-                  th 'Action'
+                  th 'Update Buyer'
+                  th 'Item Status'
                 end
               end
 
@@ -37,7 +38,8 @@ ActiveAdmin.register_page "Dashboard" do
                 Buyer.visits_due.each do |buyer|
                   tr do
                     td buyer
-                    td link_to 'Change Status', edit_admin_buyer_path(buyer)
+                    td link_to "Change buyer status & info", edit_admin_buyer_path(buyer)
+                    td link_to 'Change item status', new_admin_item_product_status_path(item_id: buyer.product.id, product_id: buyer.product.id)
                   end
                 end
               end
