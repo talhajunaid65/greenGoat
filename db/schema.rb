@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_01_121308) do
+ActiveRecord::Schema.define(version: 2020_02_05_113332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,18 @@ ActiveRecord::Schema.define(version: 2020_02_01_121308) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "product_statuses", force: :cascade do |t|
+    t.bigint "product_id"
+    t.string "old_status"
+    t.integer "new_status"
+    t.string "change_reason"
+    t.bigint "admin_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_product_statuses_on_admin_user_id"
+    t.index ["product_id"], name: "index_product_statuses_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -288,6 +300,8 @@ ActiveRecord::Schema.define(version: 2020_02_01_121308) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buyers", "products"
   add_foreign_key "notes", "tasks", on_delete: :cascade
+  add_foreign_key "product_statuses", "admin_users"
+  add_foreign_key "product_statuses", "products"
   add_foreign_key "products", "categories"
   add_foreign_key "project_products", "products"
   add_foreign_key "project_products", "projects"

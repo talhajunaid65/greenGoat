@@ -7,6 +7,7 @@ class Product < ApplicationRecord
   has_many :buyers, dependent: :destroy
   has_many :project_products, dependent: :destroy
   has_many :projects, through: :project_products
+  has_many :product_statuses, dependent: :destroy
 
   enum status: {
     'available' => 0,
@@ -24,11 +25,15 @@ class Product < ApplicationRecord
 
   validate :project_products_presence
 
-  scope :available_products, -> { where.not(status: 'sold') }
+  scope :available_products, -> { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
 
   accepts_nested_attributes_for :project_products, allow_destroy: true
 
   def project_products_presence
     errors.add(:missing_product_projects, "Must have at least one Project assigned") if project_products.blank?
+  end
+
+  def product_status
+    product_statuses.last.new_status
   end
 end

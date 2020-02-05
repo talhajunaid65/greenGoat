@@ -1,5 +1,4 @@
 ActiveAdmin.register Project, as: 'Prospect' do
-
   index do
     selectable_column
     column :name, label: 'Project Name'

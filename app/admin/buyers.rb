@@ -6,7 +6,7 @@ ActiveAdmin.register Buyer do
       f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
       f.input :name
       f.input :phone
-      f.input :product_status, label: 'Status', as: :select, collection: Product.statuses.map {|a| [a[0].titleize, a[0]]}
+      f.input :status
       f.input :contact_date
       f.input :visit_date
       f.input :sale_source
@@ -30,9 +30,7 @@ ActiveAdmin.register Buyer do
       row :product
       row :name
       row :phone
-      row "Status" do |buyer|
-        buyer.product_status.titleize
-      end
+      row :status
       row :contact_date
       row :visit_date
       row :sale_source
@@ -52,15 +50,6 @@ ActiveAdmin.register Buyer do
 
 
   controller do
-    def update
-      if resource.update(permitted_params[:buyer])
-        resource.product.update_attributes(status: params[:buyer][:product_status]) if params[:buyer][:product_status].present?
-        redirect_to admin_buyer_path(resource)
-      else
-        render :edit
-      end
-    end
-
     def scoped_collection
       params[:item_id].present? ? Buyer.where(product_id: params[:item_id]) : Buyer.all
     end

@@ -13,14 +13,14 @@ ActiveAdmin.register Product, as: 'Item' do
   index do
     column :title
     column :description
-    column :status
+    column :product_status
     column :category
     column :sub_category
     column :appraised_value
     column :price
     column :uom
     actions do |item|
-      link_to 'Buyers', admin_item_buyers_path(item), class: 'member_link'
+      link_to 'Change Status', new_admin_item_product_status_path(item_id: item.id, product_id: item.id), class: 'member_link'
     end
   end
 
@@ -31,7 +31,6 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :sub_category_id, label: 'Sub Category', as: :select2, collection: Category.sub_categories
       f.input :title
       f.input :description
-      f.input :status
       f.input :payment_status
       f.input :room_id
       f.input :need_uninstallation
@@ -62,10 +61,9 @@ ActiveAdmin.register Product, as: 'Item' do
     end
     f.inputs do
       f.object.project_products.build if f.object.project_products.blank?
-      f.has_many :project_products, heading: 'Project', new_record: 'Add to project' do |p|
+      f.has_many :project_products, heading: 'Project', new_record: false do |p|
         p.input :project_id, as: :select, collection: Project.contract_projects
         p.input :product_id, as: :hidden, input_html: { value: f.object.id }
-        p.input :_destroy, as: :boolean, required: false, label: 'Remove product form this project'
       end
     end
     if f.object.images.attached?
@@ -83,13 +81,58 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   show do
-    attributes_table(*resource.attributes.keys) do
+    attributes_table do
+      row :category
+      row :sub_category_id
+      row :title
+      row :description
+      row :payment_status
+      row 'Status' do |item|
+        item.product_status
+      end
+      row :room_id
+      row :need_uninstallation
+      row :address
+      row :city
+      row :state
+      row :zipcode
+      row :appraised_value
+      row :price
+      row :count
+      row :uom
+      row :width
+      row :height
+      row :depth
+      row :wood
+      row :ceramic
+      row :glass
+      row :metal
+      row :stone_plastic
+      row :other
+      row :make
+      row :model
+      row :serial
+      row :sale_date
+      row :pickup_date
+      row :uninstallation_date
       row :images do |ad|
         ul do
           ad.images.each do |img|
             li do 
               image_tag url_for(img), height: '100'
             end
+          end
+        end
+      end
+      panel 'Changed Status' do
+        table_for item.product_statuses do
+          column :new_status
+          column 'Changed By' do |status|
+            link_to status.admin_user, admin_admin_user_path(status.admin_user)
+          end
+          column :change_reason
+          column "Changed at" do |status|
+            status.created_at
           end
         end
       end
@@ -110,6 +153,9 @@ ActiveAdmin.register Product, as: 'Item' do
           end
           column :phone
           column :contact_date
+          column do |buyer|
+            link_to "Add Buyer", new_admin_item_buyer_path(item)
+          end
         end
       end
     end
@@ -118,6 +164,12 @@ ActiveAdmin.register Product, as: 'Item' do
   controller do
     def scoped_collection
       Product.available_products
+    end
+
+    def create
+      create! do |a|
+        resource.product_statuses.create(new_status: 0, admin_user_id: current_admin_user.id) unless resource.errors.any?
+      end 
     end
   end
 end
