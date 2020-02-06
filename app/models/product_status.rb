@@ -11,7 +11,8 @@ class ProductStatus < ApplicationRecord
     'took_deposit' => 5,
     'sold' => 6,
     'uninstalled / ready for pickup' => 7,
-    'returned / broken' => 8
+    'returned / broken' => 8,
+    'moved_to_project' => 9
   }.freeze
 
   enum new_status: STATUSES

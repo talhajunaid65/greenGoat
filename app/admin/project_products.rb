@@ -17,7 +17,12 @@ ActiveAdmin.register ProjectProduct, as: 'ItemLocation' do
   controller do
     def create
       create! do |format|
-        format.html { redirect_to admin_project_path(resource.project_id) }
+        if resource.save
+          ProductStatus.create!(new_statuses: 9, admin_user_id: current_admin_user.id)
+          format.html { redirect_to admin_project_path(resource.project_id) }
+        else
+          format.html { render :new }
+        end
       end
     end
   end
