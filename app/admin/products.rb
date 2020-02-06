@@ -72,9 +72,9 @@ ActiveAdmin.register Product, as: 'Item' do
           li do
             span image_tag(img, height: '100')
             span link_to "delete", delete_product_image_admin_item_path(img.id), method: :delete,data: { confirm: 'Are you sure?' }
-          end  
+          end
          end
-      end   
+      end
     end
     f.submit value: params[:action] == 'edit' ? 'Update Item' : 'Create Item',
              data: { disable_with: params[:action] == 'edit' ? 'Update Item' : 'Create Item' }
@@ -118,7 +118,7 @@ ActiveAdmin.register Product, as: 'Item' do
       row :images do |ad|
         ul do
           ad.images.each do |img|
-            li do 
+            li do
               image_tag url_for(img), height: '100'
             end
           end
@@ -169,7 +169,7 @@ ActiveAdmin.register Product, as: 'Item' do
     def create
       create! do |a|
         resource.product_statuses.create(new_status: 0, admin_user_id: current_admin_user.id) unless resource.errors.any?
-      end 
+      end
     end
   end
 end

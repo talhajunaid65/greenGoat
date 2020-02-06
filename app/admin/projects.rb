@@ -50,7 +50,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :picture, as: :file
       f.input :is_hot
     end
-    f.inputs do 
+    f.inputs do
       f.has_many :tasks, heading: 'Tasks' do |a|
         a.inputs do
           a.input :job_number
@@ -150,6 +150,10 @@ ActiveAdmin.register Project, as: 'Project' do
               link_to "View Buyers",  admin_item_buyers_path(product)
             end
           end
+
+          column "Change Location" do |item|
+            link_to 'Change', new_admin_item_location_path(item_id: item.id)
+          end
         end
       end
 
@@ -165,7 +169,7 @@ ActiveAdmin.register Project, as: 'Project' do
       end
     end
   end
-  
+
   controller do
     def scoped_collection
       return Project.contract_projects if current_admin_user.admin?
