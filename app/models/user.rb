@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 
   after_initialize :set_default_role, :if => :new_record?
 
+  has_many :projects
+
   has_one_attached :image
   has_one :wishlist
 

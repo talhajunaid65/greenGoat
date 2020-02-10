@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   belongs_to :contractor, class_name: 'AdminUser', foreign_key: 'contractor_id'
   belongs_to :architect, class_name: 'AdminUser', foreign_key: 'architect_id'
   belongs_to :zillow_location
+  belongs_to :user
 
   has_many :tasks
   has_many :group_items
