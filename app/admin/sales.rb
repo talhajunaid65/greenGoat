@@ -13,7 +13,6 @@ ActiveAdmin.register Sale do
       f.input :sale_price
       f.input :other_source
       f.input :payment_method
-      f.input :pickup_status
       f.input :need_delivery
       f.input :delivery_address
       f.input :city
@@ -21,6 +20,7 @@ ActiveAdmin.register Sale do
       f.input :zipcode
       f.input :delivery_cost
       f.input :delivery_date
+      f.input :pickup_status
     end
     f.actions
   end
