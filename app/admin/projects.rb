@@ -8,10 +8,12 @@ ActiveAdmin.register Project, as: 'Project' do
     column :start_date
     column :tracking
     column :year_built
-    column :val_sf
     column :estimated_value
     column :estimated_time
     column :status
+    column :client do |project|
+      link_to project.user, admin_client_path(project.user) if project.user
+    end
     column :'pm' do |project|
       link_to project.pm, admin_admin_user_path(project.pm) if project.pm
     end

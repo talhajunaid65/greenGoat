@@ -1,4 +1,4 @@
-ActiveAdmin.register User do
+ActiveAdmin.register User, as: 'Client' do
  permit_params :email, :password, :password_confirmation, :firstname, :lastname,
          :phone, :phone_type, :address1, :address2, :city, :state, :zip
 
@@ -23,11 +23,11 @@ ActiveAdmin.register User do
   show do
     attributes_table(*resource.attributes.keys) do
       row :image do |ad|
-        if user.image.attached?
+        if client.image.attached?
           image_tag url_for(ad.image), height: '60'
-        end  
+        end
       end
     end
-  end  
+  end
 
 end
