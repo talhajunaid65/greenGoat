@@ -25,7 +25,8 @@ class Product < ApplicationRecord
 
   validate :project_products_presence
 
-  scope :available_products, -> { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
+  scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
+  scope :need_uninstallation, -> { includes(:product_statuses).where(need_uninstallation: true) }
 
   accepts_nested_attributes_for :project_products, allow_destroy: true
 
