@@ -18,8 +18,31 @@ ActiveAdmin.register Project, as: 'Prospect' do
     end
   end
 
+  action_item :schedule_tour, only: [:show] do
+    link_to "Schedule tour", schedule_tour_admin_prospect_path(resource)
+  end
+
+  member_action :schedule_tour do
+    render 'admin/prospects/tour_form'
+  end
+
+  member_action :add_schedule, method: :put do
+    visit_date = params[:project][:visit_date]
+
+    if visit_date.present?
+      resource.update(visit_date: visit_date)
+      ProjectMailer.scheduled_tour_user_email(resource).deliver_now
+      ProjectMailer.scheduled_tour_admin_email(user: current_admin_user, prospect: resource).deliver_now
+      redirect_to admin_prospect_path(resource), notice: 'Tour is scheduled for prospect.'
+    else
+      resource.errors.add(:visit_date, "can't be blank")
+      render 'admin/prospects/tour_form'
+    end
+  end
+
   form do |f|
     f.inputs do
+      f.input :user
       f.input :name, label: 'Project Name'
       f.input :type_of_project
       f.input :address
