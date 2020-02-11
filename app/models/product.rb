@@ -37,4 +37,8 @@ class Product < ApplicationRecord
   def product_status
     product_statuses.last.new_status
   end
+
+  def to_s
+    title
+  end
 end

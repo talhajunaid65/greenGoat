@@ -1,0 +1,29 @@
+<table>
+  <thead>
+    <th>Buyer Name</th>
+    <th>Item</th>
+    <th>Sale Source</th>
+    <th>Sale Price</th>
+    <th>Payment Method</th>
+    <th>Pickup Status</th>
+    <th>Delivery Date</th>
+    <th>Actions</th>
+  </thead>
+
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td><%= sale.name %></td>
+        <td><%= sale.product %></td>
+        <td><%= sale.sale_source %></td>
+        <td><%= sale.sale_price %></td>
+        <td><%= sale.payment_method %></td>
+        <td><%= sale.pickup_status %></td>
+        <td><%= sale.delivery_date.strftime('%d-%m-%Y') %></td>
+        <td><%= link_to "view", admin_sale_path(sale) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Go Back", admin_reports_path %>
