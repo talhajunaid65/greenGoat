@@ -24,6 +24,7 @@ class Project < ApplicationRecord
   validates :type_of_project, :status, presence: true
 
   scope :contract_projects, -> { where(status: 'contract') }
+
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
   scope :contractor_projects, -> (contractor_id) { where(contractor_id: contractor_id) }
@@ -39,5 +40,13 @@ class Project < ApplicationRecord
 
   def update_tasks_start_date
     tasks.update_all(start_date: contract_date)
+  end
+
+  def self.approaching_demo
+    contract_projects.select{ |project| seven_days_range_before_date(project.demo_date).include?(project.demo_date) if project.demo_date.present? }
+  end
+
+  def self.seven_days_range_before_date(date)
+    (date - 1.week)..date
   end
 end

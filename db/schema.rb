@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_195633) do
+ActiveRecord::Schema.define(version: 2020_02_11_204408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_195633) do
     t.bigint "zillow_location_id"
     t.bigint "user_id"
     t.datetime "visit_date"
+    t.datetime "demo_date"
     t.index ["user_id"], name: "index_projects_on_user_id"
     t.index ["zillow_location_id"], name: "index_projects_on_zillow_location_id"
   end

@@ -12,4 +12,9 @@ ActiveAdmin.register_page "Reports" do
     @sales = Sale.waiting_delivery
     render 'admin/sales/waiting_delivery'
   end
+
+  page_action :projects_approaching_demo, method: :get do
+    @projects = Project.approaching_demo
+    render 'admin/projects/approaching_demo'
+  end
 end
