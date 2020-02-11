@@ -1,4 +1,4 @@
-class Buyer < ApplicationRecord
+class Sale < ApplicationRecord
   belongs_to :product
 
   enum payment_method: %i[cash check credit_card]

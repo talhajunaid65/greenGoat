@@ -145,11 +145,11 @@ ActiveAdmin.register Project, as: 'Project' do
         table_for project.products do
           column :title
           column :link do |p| link_to "View", admin_item_path(p) end
-          column "Buyer" do |product|
-            if product.buyers.blank?
-              link_to "Add Buyer",  new_admin_item_buyer_path(product)
+          column "Sale" do |product|
+            if product.sales.blank?
+              link_to "Add Sale",  new_admin_item_sale_path(product)
             else
-              link_to "View Buyers",  admin_item_buyers_path(product)
+              link_to "View sales",  admin_item_sales_path(product)
             end
           end
 

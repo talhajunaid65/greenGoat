@@ -35,11 +35,11 @@ ActiveAdmin.register_page "Dashboard" do
               end
 
               tbody do
-                Buyer.visits_due.each do |buyer|
+                Sale.visits_due.each do |sale|
                   tr do
-                    td buyer
-                    td link_to "Change buyer status & info", edit_admin_buyer_path(buyer)
-                    td link_to 'Change item status', new_admin_item_product_status_path(item_id: buyer.product.id, product_id: buyer.product.id)
+                    td sale
+                    td link_to "Change buyer status & info", edit_admin_sale_path(sale)
+                    td link_to 'Change item status', new_admin_item_product_status_path(item_id: sale.product.id, product_id: sale.product.id)
                   end
                 end
               end

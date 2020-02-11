@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_10_184033) do
+ActiveRecord::Schema.define(version: 2020_02_11_195633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,30 +63,6 @@ ActiveRecord::Schema.define(version: 2020_02_10_184033) do
     t.string "last_name"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
-  end
-
-  create_table "buyers", force: :cascade do |t|
-    t.string "name"
-    t.string "status"
-    t.string "phone"
-    t.datetime "contact_date"
-    t.bigint "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "visit_date"
-    t.integer "payment_method"
-    t.integer "sale_source"
-    t.string "other_source"
-    t.integer "pickup_status"
-    t.boolean "need_delivery"
-    t.string "delivery_address"
-    t.string "city"
-    t.string "state"
-    t.string "zipcode"
-    t.float "delivery_cost"
-    t.datetime "delivery_date"
-    t.float "sale_price"
-    t.index ["product_id"], name: "index_buyers_on_product_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -224,6 +200,30 @@ ActiveRecord::Schema.define(version: 2020_02_10_184033) do
     t.index ["zillow_location_id"], name: "index_projects_on_zillow_location_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.string "name"
+    t.string "status"
+    t.string "phone"
+    t.datetime "contact_date"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "visit_date"
+    t.integer "payment_method"
+    t.integer "sale_source"
+    t.string "other_source"
+    t.integer "pickup_status"
+    t.boolean "need_delivery"
+    t.string "delivery_address"
+    t.string "city"
+    t.string "state"
+    t.string "zipcode"
+    t.float "delivery_cost"
+    t.datetime "delivery_date"
+    t.float "sale_price"
+    t.index ["product_id"], name: "index_sales_on_product_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.integer "job_number"
     t.boolean "closed"
@@ -301,7 +301,6 @@ ActiveRecord::Schema.define(version: 2020_02_10_184033) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "buyers", "products"
   add_foreign_key "notes", "tasks", on_delete: :cascade
   add_foreign_key "product_statuses", "admin_users"
   add_foreign_key "product_statuses", "products"
@@ -310,4 +309,5 @@ ActiveRecord::Schema.define(version: 2020_02_10_184033) do
   add_foreign_key "project_products", "projects"
   add_foreign_key "projects", "users", on_delete: :cascade
   add_foreign_key "projects", "zillow_locations"
+  add_foreign_key "sales", "products"
 end

@@ -1,4 +1,4 @@
-ActiveAdmin.register Buyer do
+ActiveAdmin.register Sale do
   belongs_to :product, optional: true
 
   form do |f|
@@ -51,7 +51,7 @@ ActiveAdmin.register Buyer do
 
   controller do
     def scoped_collection
-      params[:item_id].present? ? Buyer.where(product_id: params[:item_id]) : Buyer.all
+      params[:item_id].present? ? Sale.where(product_id: params[:item_id]) : Sale.all
     end
   end
 

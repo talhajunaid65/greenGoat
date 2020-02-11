@@ -146,15 +146,15 @@ ActiveAdmin.register Product, as: 'Item' do
         end
       end
 
-      panel "Buyer" do
-        table_for item.buyers do
-          column "Name" do |buyer|
-            link_to buyer.name, admin_buyer_path(buyer)
+      panel "Sales" do
+        table_for item.sales do
+          column "Buyer Name" do |sale|
+            link_to sale, admin_sale_path(sale)
           end
           column :phone
           column :contact_date
-          column do |buyer|
-            link_to "Add Buyer", new_admin_item_buyer_path(item)
+          column do |sale|
+            link_to "Add Sale", new_admin_item_sale_path(item)
           end
         end
       end
