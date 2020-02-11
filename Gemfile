@@ -33,6 +33,7 @@ gem 'activeadmin-select2', github: 'mfairburn/activeadmin-select2'
 gem 'active_model_serializers'
 gem 'coffee-rails'
 gem 'devise_token_auth'
+gem 'formtastic', '~> 3.0'
 gem 'geokit'
 gem 'geocoder'
 gem 'sidekiq'
@@ -55,6 +56,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "letter_opener"
 end
 
 

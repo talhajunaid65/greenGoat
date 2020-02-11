@@ -68,6 +68,8 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     arbre (1.2.1)
       activesupport (>= 3.0.0)
     arctic_admin (3.0.0)
@@ -152,6 +154,10 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -188,6 +194,7 @@ GEM
     pg (1.2.2)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
+    public_suffix (4.0.3)
     puma (3.12.2)
     rack (2.1.1)
     rack-protection (2.0.8.1)
@@ -329,9 +336,11 @@ DEPENDENCIES
   cancan
   coffee-rails
   devise_token_auth
+  formtastic (~> 3.0)
   geocoder
   geokit
   jquery-rails
+  letter_opener
   listen (>= 3.0.5, < 3.2)
   mailcatcher
   pg (>= 0.18, < 2.0)
