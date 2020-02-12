@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   has_one :wishlist
 
   def set_default_role
-    self.role ||= :user
+    self.role ||= :buyer
   end
 
   def to_s
