@@ -1,6 +1,7 @@
 ActiveAdmin.register User, as: 'Client' do
- permit_params :email, :password, :password_confirmation, :firstname, :lastname,
-         :phone, :phone_type, :address1, :address2, :city, :state, :zip
+  permit_params :client_code, :firstname, :lastname, :phone, :phone_type, :address1, :address2, :city, :state, :zip
+
+  actions :all, except: [:new, :create]
 
   index do
     selectable_column
@@ -16,8 +17,23 @@ ActiveAdmin.register User, as: 'Client' do
   filter :created_at
 
   form do |f|
-    f.inputs :except => [:tokens]
-    f.actions
+    f.inputs do
+      f.input :client_code
+      f.input :firstname
+      f.input :lastname
+      f.input :email
+      f.input :phone
+      f.input :phone_type
+      f.input :address1
+      f.input :address2
+      f.input :city
+      f.input :state
+      f.input :zip
+    end
+    f.actions do
+      f.action :submit, value: 'Update Client', data: { disable_with: 'Update Client' }
+      f.action :cancel, label: 'Cancel'
+    end
   end
 
   show do
