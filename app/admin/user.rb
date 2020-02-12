@@ -31,7 +31,7 @@ ActiveAdmin.register User, as: 'Client' do
       f.input :zip
     end
     f.actions do
-      f.action :submit, value: 'Update Client', data: { disable_with: 'Update Client' }
+      f.action :submit, button_html: { disable_with: 'Updating Client...', value:  'Update Client' }
       f.action :cancel, label: 'Cancel'
     end
   end
