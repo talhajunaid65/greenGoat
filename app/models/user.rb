@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   after_initialize :set_default_role, :if => :new_record?
 
   has_many :projects
+  has_many :sales
 
   has_one_attached :image
   has_one :wishlist
@@ -25,6 +26,6 @@ class User < ActiveRecord::Base
   end
 
   def to_s
-    [firstname, lastname].join(' ')
+    "#{firstname} #{lastname} - #{client_code}"
   end
 end

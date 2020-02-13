@@ -17,4 +17,5 @@ ActiveAdmin.register_page "Reports" do
     @projects = Project.approaching_demo
     render 'admin/projects/approaching_demo'
   end
+
 end

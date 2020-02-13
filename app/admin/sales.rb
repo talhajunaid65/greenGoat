@@ -1,10 +1,35 @@
 ActiveAdmin.register Sale do
   belongs_to :product, optional: true
 
+  index do
+    selectable_column
+    column :product
+    column 'Client' do |sale|
+      link_to sale.user, admin_client_path(sale.user) if sale.user.present?
+    end
+    column :phone
+    column :status
+    column :contact_date
+    column :visit_date
+    column :sale_source
+    column :sale_price
+    column :other_source
+    column :payment_method
+    column :need_delivery
+    column :delivery_address
+    column :city
+    column :state
+    column :zipcode
+    column :delivery_cost
+    column :delivery_date
+    column :pickup_status
+    actions
+  end
+
   form do |f|
     f.inputs do
       f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
-      f.input :name
+      f.input :user, label: 'Client'
       f.input :phone
       f.input :status
       f.input :contact_date
@@ -28,7 +53,9 @@ ActiveAdmin.register Sale do
   show do
     attributes_table do
       row :product
-      row :name
+      row 'Client' do |sale|
+        link_to sale.user, admin_client_path(sale.user) if sale.user
+      end
       row :phone
       row :status
       row :contact_date
@@ -55,6 +82,6 @@ ActiveAdmin.register Sale do
     end
   end
 
-  permit_params :name, :status, :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status,
-                :need_delivery, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, :sale_price, :payment_method
+  permit_params :status, :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status,
+                :need_delivery, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, :sale_price, :payment_method, :user_id
 end

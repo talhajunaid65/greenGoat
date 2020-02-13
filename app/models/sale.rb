@@ -1,5 +1,6 @@
 class Sale < ApplicationRecord
   belongs_to :product
+  belongs_to :user
 
   enum payment_method: %i[cash check credit_card]
   enum sale_source: {
@@ -11,7 +12,7 @@ class Sale < ApplicationRecord
   }
   enum pickup_status: %i[pending delivered]
 
-  validates :product_id, :name, presence: true
+  validates :product_id, :user_id, presence: true
 
   delegate :status, to: :product, prefix: true, allow_nil: true
 
@@ -21,6 +22,6 @@ class Sale < ApplicationRecord
   validates :pickup_status, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, presence: true, if: :need_delivery?
 
   def to_s
-    name
+    user
   end
 end

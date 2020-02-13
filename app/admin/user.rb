@@ -7,6 +7,7 @@ ActiveAdmin.register User, as: 'Client' do
     selectable_column
     id_column
     column :email
+    column :client_code
     column :sign_in_count
     column :created_at
     actions
@@ -31,7 +32,7 @@ ActiveAdmin.register User, as: 'Client' do
       f.input :zip
     end
     f.actions do
-      f.action :submit, button_html: { disable_with: 'Updating Client...', value:  'Update Client' }
+      f.action :submit
       f.action :cancel, label: 'Cancel'
     end
   end
