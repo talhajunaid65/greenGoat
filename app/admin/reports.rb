@@ -18,4 +18,8 @@ ActiveAdmin.register_page "Reports" do
     render 'admin/projects/approaching_demo'
   end
 
+  page_action :sales_search do
+    @sales = params[:q].present? ? Sale.search(params[:q]) : []
+    render 'admin/sales/search'
+  end
 end

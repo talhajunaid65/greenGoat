@@ -1,0 +1,41 @@
+<%= form_tag admin_reports_sales_search_path, method: :get do |f| %>
+  <div class="sale_date">
+    <h5>Filters</h5>
+    <label>From</label>
+    <%= text_field_tag 'q[from]', params.dig(:q, :from), id: 'date_from' %>
+
+    <label>To</label>
+    <%= text_field_tag 'q[to]', params.dig(:q, :to), id: 'date_to' %>
+  </div>
+  <br>
+
+  <label>zipcode</label>
+  <%= text_field_tag 'q[zipcode]', params.dig(:q, :zipcode) %>
+  <br>
+
+  <label>Other Source</label>
+  <%= text_field_tag 'q[other_source]', params.dig(:q, :other_source) %>
+  <br>
+
+  <label>Sale Source</label>
+  <%= select_tag 'q[sale_source]', options_for_select(Sale.sale_sources, params.dig(:q, :sale_source)), include_blank: true %>
+  <br/>
+  <br>
+
+  <label>Client code</label>
+  <%= select_tag 'q[user_id]', options_for_select(User.all.map{|user| [user.to_s, user.id]}, params.dig(:q, :user_id)), include_blank: true %>
+  <br>
+  <br>
+
+
+  <label>PM User</label>
+  <%= select_tag 'q[pm_id]', options_for_select(AdminUser.pms.map { |pm| [pm.to_s, pm.id] }, params.dig(:q, :pm_id)), include_blank: true %>
+  <br>
+  <br>
+
+  <%= submit_tag 'Search' %>
+  <br>
+  <br>
+
+  <%= link_to 'Clear filters', admin_reports_sales_search_path if params[:q].present? %>
+<% end %>

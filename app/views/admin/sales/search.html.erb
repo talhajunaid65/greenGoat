@@ -1,0 +1,34 @@
+<%= render partial: 'admin/sales/filters_form' %>
+
+<br>
+<h1>Sales</h1>
+
+<table>
+  <thead>
+    <th>Product</th>
+    <th>Client</th>
+    <th>Sale Price</th>
+    <th>Sale Source</th>
+    <th>Created by PM</th>
+    <th>Delivery Status</th>
+    <th>Need Delivery</th>
+    <th>Delivery Date</th>
+    <th>Created At</th>
+  </thead>
+
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td><%= link_to sale.product, admin_item_path(id: sale.product.id, product_id: sale.product.id) %></td>
+        <td><%= link_to sale.user, admin_client_path(sale.user) %></td>
+        <td><%= sale.sale_price %></td>
+        <td><%= sale.sale_source %></td>
+        <td><%= link_to sale.pm, admin_admin_user_path(sale.pm) if sale.pm %></td>
+        <td><%= sale.pickup_status %></td>
+        <td><%= sale.need_delivery %></td>
+        <td><%= sale.delivery_date&.strftime('%d-%m-%Y') %></td>
+        <td><%= sale.created_at.strftime('%d-%m-%Y') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

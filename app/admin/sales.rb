@@ -46,6 +46,7 @@ ActiveAdmin.register Sale do
       f.input :delivery_cost
       f.input :delivery_date
       f.input :pickup_status
+      f.input :pm_id, as: :hidden, input_html: { value: f.object.pm ? f.object.pm_id : current_admin_user.id } if current_admin_user.pm?
     end
     f.actions
   end
@@ -59,6 +60,9 @@ ActiveAdmin.register Sale do
       row :phone
       row :status
       row :contact_date
+      row 'Created By' do |sale|
+        link_to sale.pm, admin_admin_user_path(sale.pm) if sale.pm
+      end
       row :visit_date
       row :sale_source
       row :sale_price
@@ -82,6 +86,6 @@ ActiveAdmin.register Sale do
     end
   end
 
-  permit_params :status, :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status,
+  permit_params :status, :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status, :pm_id,
                 :need_delivery, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, :sale_price, :payment_method, :user_id
 end
