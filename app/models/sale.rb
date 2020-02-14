@@ -33,15 +33,15 @@ class Sale < ApplicationRecord
   end
 
   def self.search(params)
-    @sales = all.includes(:product, :user)
-    @sales = @sales.where('DATE(created_at) >= ?', params[:from]) unless params[:from].blank?
-    @sales = @sales.where('DATE(created_at) <= ?', params[:to]) unless params[:to].blank?
-    @sales = @sales.matched_zipcode(params[:zipcode]) unless params[:zipcode].blank?
-    @sales = @sales.user_sales(params[:user_id]) unless params[:user_id].blank?
-    @sales = @sales.by_sale_source(params[:sale_source]) unless params[:sale_source].blank?
-    @sales = @sales.by_other_source(params[:other_source]) unless params[:other_source].blank?
-    @sales = @sales.by_pm(params[:pm_id]) unless params[:pm_id].blank?
+    sales = all.includes(:product, :user)
+    sales = sales.where('DATE(created_at) >= ?', params[:from]) unless params[:from].blank?
+    sales = sales.where('DATE(created_at) <= ?', params[:to]) unless params[:to].blank?
+    sales = sales.matched_zipcode(params[:zipcode]) unless params[:zipcode].blank?
+    sales = sales.user_sales(params[:user_id]) unless params[:user_id].blank?
+    sales = sales.by_sale_source(params[:sale_source]) unless params[:sale_source].blank?
+    sales = sales.by_other_source(params[:other_source]) unless params[:other_source].blank?
+    sales = sales.by_pm(params[:pm_id]) unless params[:pm_id].blank?
 
-    @sales
+    sales
   end
 end
