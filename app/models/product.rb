@@ -18,7 +18,8 @@ class Product < ApplicationRecord
     'took_deposit' => 5,
     'sold' => 6,
     'uninstalled / ready for pickup' => 7,
-    'returned / broken' => 8
+    'picked up' => 8,
+    'returned / broken' => 9
   }
 
   enum payment_status: [:pending, :received]

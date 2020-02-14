@@ -21,7 +21,7 @@ class Project < ApplicationRecord
   enum type_of_project: [:gut, :full, :kitchen, :other]
   enum status: [:not_pursuing, :appraisal_notes, :proposal, :contract]
 
-  validates :type_of_project, :status, presence: true
+  validates :type_of_project, :status, :user_id, presence: true
 
   scope :contract_projects, -> { where(status: 'contract') }
 
