@@ -4,7 +4,7 @@ ActiveAdmin.register Sale do
   index do
     selectable_column
     column :product
-    column 'Client' do |sale|
+    column 'Buyer' do |sale|
       link_to sale.user, admin_client_path(sale.user) if sale.user.present?
     end
     column :phone
@@ -29,7 +29,7 @@ ActiveAdmin.register Sale do
   form do |f|
     f.inputs do
       f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
-      f.input :user, label: 'Client'
+      f.input :user, label: 'Buyer'
       f.input :phone
       f.input :status
       f.input :contact_date
@@ -54,7 +54,7 @@ ActiveAdmin.register Sale do
   show do
     attributes_table do
       row :product
-      row 'Client' do |sale|
+      row 'Buyer' do |sale|
         link_to sale.user, admin_client_path(sale.user) if sale.user
       end
       row :phone

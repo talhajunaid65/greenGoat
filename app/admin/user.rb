@@ -1,5 +1,5 @@
 ActiveAdmin.register User, as: 'Client' do
-  permit_params :client_code, :firstname, :lastname, :phone, :phone_type, :address1, :address2, :city, :state, :zip
+  permit_params :client_code, :firstname, :lastname, :phone, :phone_type, :address1, :address2, :city, :state, :zip, :role
 
   actions :all, except: [:new, :create]
 
@@ -30,6 +30,7 @@ ActiveAdmin.register User, as: 'Client' do
       f.input :city
       f.input :state
       f.input :zip
+      f.input :role
     end
     f.actions do
       f.action :submit
