@@ -21,11 +21,22 @@ class User < ActiveRecord::Base
   has_one_attached :image
   has_one :wishlist
 
+  before_create do |user|
+    user.auth_token = user.generate_client_code
+  end
+
   def set_default_role
     self.role ||= :buyer
   end
 
   def to_s
     "#{firstname} #{lastname} - #{client_code}"
+  end
+
+  def generate_client_code
+    loop do
+      client_code = SecureRandom.hex(3)
+      break client_code unless User.exists?(client_code: client_code)
+    end
   end
 end

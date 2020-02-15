@@ -15,11 +15,11 @@ ActiveAdmin.register User, as: 'Client' do
 
   filter :email
   filter :sign_in_count
+  filter :client_code_cont, as: :string, label: 'Client Code'
   filter :created_at
 
   form do |f|
     f.inputs do
-      f.input :client_code
       f.input :firstname
       f.input :lastname
       f.input :email
