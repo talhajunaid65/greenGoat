@@ -1,8 +1,15 @@
 ActiveAdmin.register Product, as: 'Item' do
-  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
-                :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
-                images: [], project_products_attributes: %i[id project_id product_id _destroy]
+
+  filter :title_cont, as: :string, label: 'Title'
+  filter :category
+  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status'
+  filter :need_uninstallation
+  filter :uninstallation_date
+  filter :asking_price_eq, label: 'Asking Price'
+  filter :sale_price_eq, label: 'Sale Price'
+  filter :model_cont, label: 'Model'
+  filter :serial_cont, label: 'Serial'
+  filter :make_cont, label: 'Make'
 
   member_action :delete_product_image, method: :delete do
     @pic = ActiveStorage::Attachment.find(params[:id])
@@ -197,4 +204,10 @@ ActiveAdmin.register Product, as: 'Item' do
       end
     end
   end
+
+  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
+                :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
+                images: [], project_products_attributes: %i[id project_id product_id _destroy]
+
 end
