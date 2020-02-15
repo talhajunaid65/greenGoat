@@ -1,8 +1,8 @@
 ActiveAdmin.register Product, as: 'Item' do
 
   filter :title_cont, as: :string, label: 'Title'
-  filter :category
-  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status'
+  filter :category, input_html: { class: 'select2-dropdown' }
+  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status', input_html: { class: 'select2-dropdown' }
   filter :need_uninstallation
   filter :uninstallation_date
   filter :asking_price_eq, label: 'Asking Price'

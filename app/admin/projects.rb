@@ -31,11 +31,12 @@ ActiveAdmin.register Project, as: 'Project' do
 
   form do |f|
     f.inputs do
-      f.input :pm, as: :select, collection: AdminUser.pms
-      f.input :appraiser, as: :select, collection: AdminUser.appraisers
-      f.input :contractor, as: :select, collection: AdminUser.contractors
-      f.input :architect, as: :select, collection: AdminUser.architects
-      f.input :zillow_location
+      f.input :user, input_html: { disabled: true }
+      f.input :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
+      f.input :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
+      f.input :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
+      f.input :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
+      f.input :zillow_location, input_html: { class: 'select2-dropdown' }
       f.input :contract_date, as: :date_picker
       f.input :access_info
       f.input :name, label: 'Project Name'
@@ -76,7 +77,7 @@ ActiveAdmin.register Project, as: 'Project' do
         a.input :title
         a.input :description
         a.input :price
-        a.input :product_ids, label: 'Item Ids', as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]}
+        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.all.map {|u| [u.title, u.id]}, input_html: { class: 'select2-dropdown', multiple: "true" }
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
         a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
@@ -164,8 +165,8 @@ ActiveAdmin.register Project, as: 'Project' do
         table_for project.group_items do
           column :title
           column :price
-          column "Items" do |p|
-            Product.where(id: project.product_ids).pluck(:title)
+          column "Items" do |group_item|
+            Product.where(id: group_item.product_ids).pluck(:title)
           end
           column :sold
         end
