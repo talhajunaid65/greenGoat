@@ -1,7 +1,7 @@
 ActiveAdmin.register Product, as: 'Item' do
   permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
                 :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other,
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
                 images: [], project_products_attributes: %i[id project_id product_id _destroy]
 
   member_action :delete_product_image, method: :delete do
@@ -25,41 +25,68 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   form do |f|
-    f.inputs do
-      li "* #{f.object.errors.messages[:missing_product_projects].to_sentence}", class: 'inline-errors' if f.object.errors&.messages[:missing_product_projects].present?
+    li "* #{f.object.errors.messages[:missing_product_projects].to_sentence}", class: 'inline-errors' if f.object.errors&.messages[:missing_product_projects].present?
+
+    f.inputs name: 'Basic' do
       f.input :category, label: 'Category', as: :select2, collection: Category.parent_categories
       f.input :sub_category_id, label: 'Sub Category', as: :select2, collection: Category.sub_categories
       f.input :title
       f.input :description
       f.input :payment_status
       f.input :room_id
-      f.input :need_uninstallation
-      f.input :address
-      f.input :city
-      f.input :state
-      f.input :zipcode
-      f.input :appraised_value
-      f.input :price
       f.input :count
       f.input :uom
       f.input :width
       f.input :height
       f.input :depth
-      f.input :wood
-      f.input :ceramic
-      f.input :glass
-      f.input :metal
-      f.input :stone_plastic
-      f.input :other
       f.input :make
       f.input :model
       f.input :serial
-      f.input :sale_date, as: :date_picker
-      f.input :pickup_date, as: :date_picker
+      f.input :need_uninstallation
       f.input :uninstallation_date, as: :date_picker
       f.input :images, as: :file, input_html: { multiple: true }
     end
-    f.inputs do
+    f.inputs name: 'Location' do
+      f.input :address
+      f.input :city
+      f.input :state
+      f.input :zipcode
+    end
+    f.inputs name: 'Price' do
+      f.input :appraised_value, label: 'Appraisal'
+      f.input :asking_price
+      f.input :adjusted_price
+      f.input :sale_price
+    end
+    f.inputs name: 'Weight Estimation 'do
+      f.input :weight, label: 'Weight (Kg)'
+      f.inputs do
+        f.input :wood, label: 'Wood (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.wood) }
+        li "Weight in kg: #{f.object.wood}", id: 'wood_weight_in_kg', class: 'weight-labels'
+      end
+      f.inputs do
+        f.input :ceramic, label: 'Ceramic (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.ceramic) }
+        li "Weight in kg: #{f.object.ceramic}", id: 'ceramic_weight_in_kg', class: 'weight-labels'
+      end
+      f.inputs do
+        f.input :glass, label: 'Glass (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.glass) }
+        li "Weight in kg: #{f.object.glass}", id: 'glass_weight_in_kg', class: 'weight-labels'
+      end
+      f.inputs do
+        f.input :metal, label: 'Metal (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.metal) }
+        li "Weight in kg: #{f.object.metal}", id: 'metal_weight_in_kg', class: 'weight-labels'
+      end
+      f.inputs do
+        f.input :stone_plastic, label: 'Stone Plastic (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.stone_plastic) }
+        li "Weight in kg: #{f.object.stone_plastic}", id: 'stone_plastic_weight_in_kg', class: 'weight-labels'
+      end
+      f.input :other, label: 'Other (Kg)', input_html: { readonly: true }
+    end
+    f.inputs name: '' do
+      f.input :sale_date, as: :date_picker
+      f.input :pickup_date, as: :date_picker
+    end
+    f.inputs name: '' do
       f.object.project_products.build if f.object.project_products.blank?
       f.has_many :project_products, heading: 'Project', new_record: false do |p|
         p.input :project_id, as: :select, collection: Project.contract_projects
