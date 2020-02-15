@@ -57,7 +57,9 @@ ActiveAdmin.register Project, as: 'Project' do
     f.inputs do
       f.has_many :tasks, heading: 'Tasks' do |a|
         a.inputs do
-          a.input :job_number
+          a.input :job_number, input_html: { value: a.object.job_number.blank? ? 'This will be created automatically' : a.object.job_number, readonly: true }
+          a.input :title
+          a.input :description
           a.input :estimated_time
           a.input :is_hot
           a.input :closed, label: "This task is Closed by <b>#{a.object.closed_by}</b>".html_safe, input_html: { disabled: true } if a.object.closed
@@ -183,7 +185,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :demo_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :job_number, :estimated_time,
+        tasks_attributes: [:id, :estimated_time, :title, :description,
                            :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end
