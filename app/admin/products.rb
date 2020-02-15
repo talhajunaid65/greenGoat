@@ -25,8 +25,6 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   form do |f|
-    li "* #{f.object.errors.messages[:missing_product_projects].to_sentence}", class: 'inline-errors' if f.object.errors&.messages[:missing_product_projects].present?
-
     f.inputs name: 'Basic' do
       f.input :category, label: 'Category', as: :select2, collection: Category.parent_categories
       f.input :sub_category_id, label: 'Sub Category', as: :select2, collection: Category.sub_categories
@@ -89,7 +87,7 @@ ActiveAdmin.register Product, as: 'Item' do
     f.inputs name: '' do
       f.object.project_products.build if f.object.project_products.blank?
       f.has_many :project_products, heading: 'Project', new_record: false do |p|
-        p.input :project_id, as: :select, collection: Project.contract_projects
+        p.input :project_id, as: :select, collection: Project.contract_projects, input_html: { disabled: !f.object.new_record? }
         p.input :product_id, as: :hidden, input_html: { value: f.object.id }
       end
     end
