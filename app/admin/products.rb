@@ -17,6 +17,14 @@ ActiveAdmin.register Product, as: 'Item' do
     redirect_back(fallback_location: edit_admin_item_path)
   end
 
+  collection_action :filter_sub_categories, method: :get do
+    @sub_categories = Category.where(parent_category_id: params[:category_id])
+
+   respond_to do |format|
+      format.js
+    end
+  end
+
   index do
     column :title
     column :description
@@ -33,20 +41,20 @@ ActiveAdmin.register Product, as: 'Item' do
 
   form do |f|
     f.inputs name: 'Basic' do
-      f.input :category, label: 'Category', as: :select2, collection: Category.parent_categories
-      f.input :sub_category_id, label: 'Sub Category', as: :select2, collection: Category.sub_categories
-      f.input :title
-      f.input :description
-      f.input :payment_status
-      f.input :room_id
-      f.input :count
-      f.input :uom
-      f.input :width
-      f.input :height
-      f.input :depth
+      f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
+      f.input :sub_category_id, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
       f.input :make
       f.input :model
       f.input :serial
+      f.input :title
+      f.input :description
+      f.input :count
+      f.input :width
+      f.input :height
+      f.input :depth
+      f.input :room_id
+      f.input :uom
+      f.input :payment_status
       f.input :need_uninstallation
       f.input :uninstallation_date, as: :date_picker
       f.input :images, as: :file, input_html: { multiple: true }
