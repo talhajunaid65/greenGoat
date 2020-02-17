@@ -1,6 +1,17 @@
 ActiveAdmin.register Project, as: 'Project' do
   actions :all, except: [:new, :create]
 
+  filter :user, input_html: { class: 'select2-dropdown' }, label: 'Weight by user'
+  filter :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
+  filter :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
+  filter :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
+  filter :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
+  filter :zillow_location, input_html: { class: 'select2-dropdown' }
+  filter :created_at, label: 'Weight by Year'
+  filter :contract_date
+  filter :visit_date
+  filter :demo_date
+
   index do
     selectable_column
     column :name
@@ -11,20 +22,29 @@ ActiveAdmin.register Project, as: 'Project' do
     column :estimated_value
     column :estimated_time
     column :status
-    column :client do |project|
-      link_to project.user, admin_client_path(project.user) if project.user
-    end
-    column :'pm' do |project|
-      link_to project.pm, admin_admin_user_path(project.pm) if project.pm
-    end
-    column :appraiser do |project|
-      link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
-    end
-    column :contractor do |project|
-      link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
-    end
-    column :architect do |project|
-      link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+    if params.dig(:q, :user_id_eq) || params.dig(:q, :created_at_gteq_datetime) || params.dig(:q, :created_at_lteq_datetime)
+      column :total_weight
+      column :total_ceramic
+      column :total_glass
+      column :total_stone_plastic
+      column :total_metal
+      column :total_other
+      column :client do |project|
+        link_to project.user, admin_client_path(project.user) if project.user
+      end
+    else
+      column :'pm' do |project|
+        link_to project.pm, admin_admin_user_path(project.pm) if project.pm
+      end
+      column :appraiser do |project|
+        link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
+      end
+      column :contractor do |project|
+        link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
+      end
+      column :architect do |project|
+        link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+      end
     end
     actions
   end
@@ -54,8 +74,8 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :picture, as: :file
       f.input :is_hot
     end
-    f.inputs do
-      f.has_many :tasks, heading: 'Tasks' do |a|
+    f.inputs name: 'Tasks' do
+      f.has_many :tasks, heading: false do |a|
         a.inputs do
           a.input :job_number, input_html: { value: a.object.job_number.blank? ? 'This will be created automatically' : a.object.job_number, readonly: true }
           a.input :title
@@ -74,8 +94,10 @@ ActiveAdmin.register Project, as: 'Project' do
           a.input :_destroy, as: :boolean, required: false, label: 'Delete task'
         end
       end
+    end
 
-      f.has_many :group_items, heading: 'Group Items' do |a|
+    f.inputs name: 'Group Items' do
+      f.has_many :group_items, heading: false do |a|
         a.input :title
         a.input :description
         a.input :price

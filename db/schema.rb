@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_15_144935) do
+ActiveRecord::Schema.define(version: 2020_02_17_151112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,7 +154,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_144935) do
     t.float "glass"
     t.float "metal"
     t.float "stone_plastic"
-    t.string "other"
     t.integer "payment_status"
     t.integer "sub_category_id"
     t.bigint "category_id"
@@ -162,6 +161,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_144935) do
     t.float "asking_price", default: 0.0
     t.float "adjusted_price", default: 0.0
     t.float "sale_price", default: 0.0
+    t.float "other", default: 0.0
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
