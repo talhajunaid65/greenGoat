@@ -8,11 +8,6 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  enum role: {
-    donor: 'donor',
-    buyer: 'buyer'
-  }
-
   after_initialize :set_default_role, :if => :new_record?
 
   has_many :projects
@@ -20,10 +15,6 @@ class User < ActiveRecord::Base
 
   has_one_attached :image
   has_one :wishlist
-
-  def set_default_role
-    self.role ||= :buyer
-  end
 
   def to_s
     "#{firstname} #{lastname} - #{client_code}"
