@@ -11,6 +11,9 @@ ActiveAdmin.register Product, as: 'Item' do
   filter :serial_cont, label: 'Serial'
   filter :make_cont, label: 'Make'
 
+  scope 'Items Waiting For Uninstallation', :wating_for_uninstallation
+  scope 'Show All Available', :available_products
+
   member_action :delete_product_image, method: :delete do
     @pic = ActiveStorage::Attachment.find(params[:id])
     @pic.purge_later
@@ -28,7 +31,7 @@ ActiveAdmin.register Product, as: 'Item' do
   index do
     column :title
     column :description
-    column :product_status
+    column 'Status', &:product_status
     column :category
     column :sub_category
     column :appraised_value

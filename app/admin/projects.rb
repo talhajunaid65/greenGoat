@@ -12,6 +12,9 @@ ActiveAdmin.register Project, as: 'Project' do
   filter :visit_date
   filter :demo_date
 
+  scope 'Projects Approaching Demo', :approaching_demo
+  scope('Show All') { |scope| scope.contract_projects }
+
   index do
     selectable_column
     column :name
@@ -21,6 +24,7 @@ ActiveAdmin.register Project, as: 'Project' do
     column :estimated_value
     column :estimated_time
     column :status
+    column :demo_date
       column :client do |project|
         link_to project.user, admin_client_path(project.user) if project.user
       end
@@ -144,6 +148,7 @@ ActiveAdmin.register Project, as: 'Project' do
       row :estimated_value
       row :status
       row :is_hot
+      row :demo_date
       panel "Tasks" do
         table_for project.tasks do
           column :job_number

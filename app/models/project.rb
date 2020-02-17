@@ -24,11 +24,11 @@ class Project < ApplicationRecord
   validates :type_of_project, :status, :user_id, presence: true
 
   scope :contract_projects, -> { includes(:user, :products).where(status: 'contract') }
-
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
   scope :contractor_projects, -> (contractor_id) { where(contractor_id: contractor_id) }
   scope :architect_projects, -> (architect_id) { where(architect_id: architect_id) }
+  scope :approaching_demo, -> { where(demo_date: 1.week.from_now.to_date) }
 
   def to_s
     "#{name} #{id}"
@@ -40,14 +40,6 @@ class Project < ApplicationRecord
 
   def update_tasks_start_date
     tasks.update_all(start_date: contract_date)
-  end
-
-  def self.approaching_demo
-    contract_projects.select{ |project| seven_days_range_before_date(project.demo_date).include?(project.demo_date) if project.demo_date.present? }
-  end
-
-  def self.seven_days_range_before_date(date)
-    (date - 1.week)..date
   end
 
   def total_weight
