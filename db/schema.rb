@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_15_060250) do
+ActiveRecord::Schema.define(version: 2020_02_17_151112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,7 +153,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_060250) do
     t.float "glass"
     t.float "metal"
     t.float "stone_plastic"
-    t.string "other"
     t.integer "payment_status"
     t.integer "sub_category_id"
     t.bigint "category_id"
@@ -161,6 +160,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_060250) do
     t.float "asking_price", default: 0.0
     t.float "adjusted_price", default: 0.0
     t.float "sale_price", default: 0.0
+    t.float "other", default: 0.0
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_060250) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.integer "job_number"
+    t.string "job_number"
     t.boolean "closed"
     t.string "estimated_time"
     t.datetime "start_date"
@@ -240,6 +240,8 @@ ActiveRecord::Schema.define(version: 2020_02_15_060250) do
     t.boolean "is_hot"
     t.integer "closed_by_id"
     t.date "closed_date"
+    t.string "title"
+    t.text "description"
     t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 

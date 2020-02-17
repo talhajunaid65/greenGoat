@@ -1,8 +1,8 @@
 ActiveAdmin.register Sale do
   belongs_to :product, optional: true
 
-  filter :product
-  filter :user, label: 'Client'
+  filter :product, input_html: { class: 'select2-dropdown' }
+  filter :user, label: 'Client', input_html: { class: 'select2-dropdown' }
   filter :pm
   filter :created_at, label: 'Date Range'
   filter :sale_source, as: :select, collection: proc { Sale.sale_sources }
@@ -12,7 +12,7 @@ ActiveAdmin.register Sale do
   index do
     selectable_column
     column :product
-    column 'Buyer' do |sale|
+    column 'Client' do |sale|
       link_to sale.user, admin_client_path(sale.user) if sale.user.present?
     end
     column :phone
@@ -36,10 +36,9 @@ ActiveAdmin.register Sale do
 
   form do |f|
     f.inputs do
-      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
-      f.input :user, label: 'Buyer'
+      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products, input_html: { class: 'select2-dropdown' }
+      f.input :user, label: 'Client', input_html: { class: 'select2-dropdown' }
       f.input :phone
-      f.input :status
       f.input :contact_date
       f.input :visit_date
       f.input :sale_source
@@ -62,7 +61,7 @@ ActiveAdmin.register Sale do
   show do
     attributes_table do
       row :product
-      row 'Buyer' do |sale|
+      row 'Client' do |sale|
         link_to sale.user, admin_client_path(sale.user) if sale.user
       end
       row :phone
@@ -94,6 +93,6 @@ ActiveAdmin.register Sale do
     end
   end
 
-  permit_params :status, :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status, :pm_id,
+  permit_params :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status, :pm_id,
                 :need_delivery, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, :sale_price, :payment_method, :user_id
 end

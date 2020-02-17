@@ -1,13 +1,28 @@
 ActiveAdmin.register Product, as: 'Item' do
-  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
-                :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
-                images: [], project_products_attributes: %i[id project_id product_id _destroy]
+
+  filter :title_cont, as: :string, label: 'Title'
+  filter :category, input_html: { class: 'select2-dropdown' }
+  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status', input_html: { class: 'select2-dropdown' }
+  filter :need_uninstallation
+  filter :uninstallation_date
+  filter :asking_price_eq, label: 'Asking Price'
+  filter :sale_price_eq, label: 'Sale Price'
+  filter :model_cont, label: 'Model'
+  filter :serial_cont, label: 'Serial'
+  filter :make_cont, label: 'Make'
 
   member_action :delete_product_image, method: :delete do
     @pic = ActiveStorage::Attachment.find(params[:id])
     @pic.purge_later
     redirect_back(fallback_location: edit_admin_item_path)
+  end
+
+  collection_action :filter_sub_categories, method: :get do
+    @sub_categories = Category.where(parent_category_id: params[:category_id])
+
+   respond_to do |format|
+      format.js
+    end
   end
 
   index do
@@ -25,23 +40,21 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   form do |f|
-    li "* #{f.object.errors.messages[:missing_product_projects].to_sentence}", class: 'inline-errors' if f.object.errors&.messages[:missing_product_projects].present?
-
     f.inputs name: 'Basic' do
-      f.input :category, label: 'Category', as: :select2, collection: Category.parent_categories
-      f.input :sub_category_id, label: 'Sub Category', as: :select2, collection: Category.sub_categories
-      f.input :title
-      f.input :description
-      f.input :payment_status
-      f.input :room_id
-      f.input :count
-      f.input :uom
-      f.input :width
-      f.input :height
-      f.input :depth
+      f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
+      f.input :sub_category_id, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
       f.input :make
       f.input :model
       f.input :serial
+      f.input :title
+      f.input :description
+      f.input :count
+      f.input :width
+      f.input :height
+      f.input :depth
+      f.input :room_id
+      f.input :uom
+      f.input :payment_status
       f.input :need_uninstallation
       f.input :uninstallation_date, as: :date_picker
       f.input :images, as: :file, input_html: { multiple: true }
@@ -89,7 +102,7 @@ ActiveAdmin.register Product, as: 'Item' do
     f.inputs name: '' do
       f.object.project_products.build if f.object.project_products.blank?
       f.has_many :project_products, heading: 'Project', new_record: false do |p|
-        p.input :project_id, as: :select, collection: Project.contract_projects
+        p.input :project_id, as: :select, collection: Project.contract_projects, input_html: { disabled: !f.object.new_record? }
         p.input :product_id, as: :hidden, input_html: { value: f.object.id }
       end
     end
@@ -199,4 +212,10 @@ ActiveAdmin.register Product, as: 'Item' do
       end
     end
   end
+
+  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
+                :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
+                images: [], project_products_attributes: %i[id project_id product_id _destroy]
+
 end

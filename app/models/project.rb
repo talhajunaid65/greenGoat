@@ -23,7 +23,7 @@ class Project < ApplicationRecord
 
   validates :type_of_project, :status, :user_id, presence: true
 
-  scope :contract_projects, -> { where(status: 'contract') }
+  scope :contract_projects, -> { includes(:user, :products).where(status: 'contract') }
 
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
@@ -48,5 +48,33 @@ class Project < ApplicationRecord
 
   def self.seven_days_range_before_date(date)
     (date - 1.week)..date
+  end
+
+  def total_weight
+    products.sum(:weight)
+  end
+
+  def total_wood
+    products.sum(:wood)
+  end
+
+  def total_ceramic
+    products.sum(:ceramic)
+  end
+
+  def total_glass
+    products.sum(:glass)
+  end
+
+  def total_stone_plastic
+    products.sum(:stone_plastic)
+  end
+
+  def total_metal
+    products.sum(:metal)
+  end
+
+  def total_other
+    products.sum(:other)
   end
 end

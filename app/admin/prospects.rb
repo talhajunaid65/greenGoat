@@ -42,7 +42,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
   form do |f|
     f.inputs do
-      f.input :user
+      f.input :user, input_html: { disabled: !f.object.new_record?, class: 'select2-dropdown' }
       f.input :name, label: 'Project Name'
       f.input :type_of_project
       f.input :address

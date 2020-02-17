@@ -1,5 +1,6 @@
 $(document).ready(function(){
   weightCalculation();
+  filtersubCategoryUsingCategory();
 
   function weightCalculation(){
     var totalWeight = parseFloat($('#product_weight').val())
@@ -35,5 +36,16 @@ $(document).ready(function(){
       labelEle.text(`Weight in kg: ${calcualtedWeight}`);
       otherEle.val(parseFloat(otherEle.val()) - calcualtedWeight)
     }
+  }
+
+  function filtersubCategoryUsingCategory(){
+    $('#product_category_id').change(function(){
+      debugger
+      categoryId = $(this).val();
+      $.ajax({
+        url: `/admin/items/filter_sub_categories?category_id=${categoryId}`,
+        method: 'GET'
+      })
+    })
   }
 });

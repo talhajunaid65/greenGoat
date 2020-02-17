@@ -1,6 +1,17 @@
 ActiveAdmin.register Project, as: 'Project' do
   actions :all, except: [:new, :create]
 
+  filter :user, input_html: { class: 'select2-dropdown' }, label: 'Weight by user'
+  filter :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
+  filter :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
+  filter :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
+  filter :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
+  filter :zillow_location, input_html: { class: 'select2-dropdown' }
+  filter :created_at, label: 'Weight by Year'
+  filter :contract_date
+  filter :visit_date
+  filter :demo_date
+
   index do
     selectable_column
     column :name
@@ -11,31 +22,41 @@ ActiveAdmin.register Project, as: 'Project' do
     column :estimated_value
     column :estimated_time
     column :status
-    column :client do |project|
-      link_to project.user, admin_client_path(project.user) if project.user
-    end
-    column :'pm' do |project|
-      link_to project.pm, admin_admin_user_path(project.pm) if project.pm
-    end
-    column :appraiser do |project|
-      link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
-    end
-    column :contractor do |project|
-      link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
-    end
-    column :architect do |project|
-      link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+    if params.dig(:q, :user_id_eq) || params.dig(:q, :created_at_gteq_datetime) || params.dig(:q, :created_at_lteq_datetime)
+      column :total_weight
+      column :total_ceramic
+      column :total_glass
+      column :total_stone_plastic
+      column :total_metal
+      column :total_other
+      column :client do |project|
+        link_to project.user, admin_client_path(project.user) if project.user
+      end
+    else
+      column :'pm' do |project|
+        link_to project.pm, admin_admin_user_path(project.pm) if project.pm
+      end
+      column :appraiser do |project|
+        link_to project.appraiser, admin_admin_user_path(project.appraiser) if project.appraiser
+      end
+      column :contractor do |project|
+        link_to project.contractor, admin_admin_user_path(project.contractor) if project.contractor
+      end
+      column :architect do |project|
+        link_to project.architect, admin_admin_user_path(project.architect) if project.architect
+      end
     end
     actions
   end
 
   form do |f|
     f.inputs do
-      f.input :pm, as: :select, collection: AdminUser.pms
-      f.input :appraiser, as: :select, collection: AdminUser.appraisers
-      f.input :contractor, as: :select, collection: AdminUser.contractors
-      f.input :architect, as: :select, collection: AdminUser.architects
-      f.input :zillow_location
+      f.input :user, input_html: { disabled: true }
+      f.input :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
+      f.input :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
+      f.input :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
+      f.input :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
+      f.input :zillow_location, input_html: { class: 'select2-dropdown' }
       f.input :contract_date, as: :date_picker
       f.input :access_info
       f.input :name, label: 'Project Name'
@@ -53,10 +74,12 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :picture, as: :file
       f.input :is_hot
     end
-    f.inputs do
-      f.has_many :tasks, heading: 'Tasks' do |a|
+    f.inputs name: 'Tasks' do
+      f.has_many :tasks, heading: false do |a|
         a.inputs do
-          a.input :job_number
+          a.input :job_number, input_html: { value: a.object.job_number.blank? ? 'This will be created automatically' : a.object.job_number, readonly: true }
+          a.input :title
+          a.input :description
           a.input :estimated_time
           a.input :is_hot
           a.input :closed, label: "This task is Closed by <b>#{a.object.closed_by}</b>".html_safe, input_html: { disabled: true } if a.object.closed
@@ -71,12 +94,14 @@ ActiveAdmin.register Project, as: 'Project' do
           a.input :_destroy, as: :boolean, required: false, label: 'Delete task'
         end
       end
+    end
 
-      f.has_many :group_items, heading: 'Group Items' do |a|
+    f.inputs name: 'Group Items' do
+      f.has_many :group_items, heading: false do |a|
         a.input :title
         a.input :description
         a.input :price
-        a.input :product_ids, label: 'Item Ids', as: :select2_multiple, collection: project.products.all.map {|u| [u.title, u.id]}
+        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.all.map {|u| [u.title, u.id]}, input_html: { class: 'select2-dropdown', multiple: "true" }
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
         a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
@@ -164,8 +189,8 @@ ActiveAdmin.register Project, as: 'Project' do
         table_for project.group_items do
           column :title
           column :price
-          column "Items" do |p|
-            Product.where(id: project.product_ids).pluck(:title)
+          column "Items" do |group_item|
+            Product.where(id: group_item.product_ids).pluck(:title)
           end
           column :sold
         end
@@ -182,7 +207,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :demo_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :job_number, :estimated_time,
+        tasks_attributes: [:id, :estimated_time, :title, :description,
                            :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end

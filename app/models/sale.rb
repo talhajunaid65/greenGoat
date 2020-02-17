@@ -19,7 +19,6 @@ class Sale < ApplicationRecord
 
   scope :visits_due, -> { where(visit_date: Date.today) }
   scope :waiting_delivery, -> { where(pickup_status: 'pending') }
-  scope :delivered, -> { where(pickup_status: 'pending') }
 
   validates :pickup_status, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, presence: true, if: :need_delivery?
 
