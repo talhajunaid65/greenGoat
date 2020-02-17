@@ -54,27 +54,7 @@ class Project < ApplicationRecord
     products.sum(:weight)
   end
 
-  def total_wood
-    products.sum(:wood)
-  end
-
-  def total_ceramic
-    products.sum(:ceramic)
-  end
-
-  def total_glass
-    products.sum(:glass)
-  end
-
-  def total_stone_plastic
-    products.sum(:stone_plastic)
-  end
-
-  def total_metal
-    products.sum(:metal)
-  end
-
-  def total_other
-    products.sum(:other)
+  def sum_of_material_type(type)
+    products.sum(type)
   end
 end

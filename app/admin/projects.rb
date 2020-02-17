@@ -17,20 +17,19 @@ ActiveAdmin.register Project, as: 'Project' do
     column :name
     column :type_of_project
     column :start_date
-    column :tracking
     column :year_built
     column :estimated_value
     column :estimated_time
     column :status
-    if params.dig(:q, :user_id_eq) || params.dig(:q, :created_at_gteq_datetime) || params.dig(:q, :created_at_lteq_datetime)
-      column :total_weight
-      column :total_ceramic
-      column :total_glass
-      column :total_stone_plastic
-      column :total_metal
-      column :total_other
       column :client do |project|
         link_to project.user, admin_client_path(project.user) if project.user
+      end
+    if params.dig(:q, :user_id_eq) || params.dig(:q, :created_at_gteq_datetime) || params.dig(:q, :created_at_lteq_datetime)
+      column :total_weight
+      %w[wood glass metal stone_plastic other].each do |key|
+        column "Total #{key.titleize}" do |project|
+          project.sum_of_material_type(key)
+        end
       end
     else
       column :'pm' do |project|
