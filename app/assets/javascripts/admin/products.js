@@ -10,28 +10,8 @@ $(document).ready(function(){
       totalWeight = parseFloat($(this).val());
     });
 
-    $('#product_wood').change(function(){
-      labelEle = $('#wood_weight_in_kg')
-      calculateAndSetWeight($(this), labelEle);
-    })
-
-    $('#product_ceramic').change(function(){
-      labelEle = $('#ceramic_weight_in_kg')
-      calculateAndSetWeight($(this), labelEle);
-    })
-
-    $('#product_glass').change(function(){
-      labelEle = $('#glass_weight_in_kg')
-      calculateAndSetWeight($(this), labelEle);
-    })
-
-    $('#product_metal').change(function(){
-      labelEle = $('#metal_weight_in_kg')
-      calculateAndSetWeight($(this), labelEle);
-    })
-
-    $('#product_stone_plastic').change(function(){
-      labelEle = $('#stone_plastic_weight_in_kg')
+    $('#product_wood, #product_ceramic, #product_glass, #product_metal, #product_stone_plastic').change(function(){
+      labelEle = $(`#${$(this).data('type')}_weight_in_kg`)
       calculateAndSetWeight($(this), labelEle);
     })
 
