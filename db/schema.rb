@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_192238) do
+ActiveRecord::Schema.define(version: 2020_02_15_060250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,7 +130,6 @@ ActiveRecord::Schema.define(version: 2020_02_13_192238) do
     t.string "room_id"
     t.boolean "need_uninstallation"
     t.float "appraised_value"
-    t.float "price"
     t.string "description"
     t.integer "status"
     t.integer "count"
@@ -159,6 +158,10 @@ ActiveRecord::Schema.define(version: 2020_02_13_192238) do
     t.integer "payment_status"
     t.integer "sub_category_id"
     t.bigint "category_id"
+    t.float "weight", default: 0.0
+    t.float "asking_price", default: 0.0
+    t.float "adjusted_price", default: 0.0
+    t.float "sale_price", default: 0.0
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 

@@ -3,6 +3,7 @@
 
 //= require pickadate/picker
 //= require pickadate/picker.date
+//= require admin/products
 
 $(document).ready(function(){
   $("#date_from, #date_to").pickadate();

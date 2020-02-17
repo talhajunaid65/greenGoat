@@ -1,6 +1,14 @@
 ActiveAdmin.register Sale do
   belongs_to :product, optional: true
 
+  filter :product
+  filter :user, label: 'Client'
+  filter :pm
+  filter :created_at, label: 'Date Range'
+  filter :sale_source, as: :select, collection: proc { Sale.sale_sources }
+  filter :other_source_cont, as: :string, label: 'Other Source'
+  filter :pickup_status, as: :select, collection: proc { Sale.pickup_statuses }
+
   index do
     selectable_column
     column :product
