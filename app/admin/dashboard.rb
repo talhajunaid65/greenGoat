@@ -4,7 +4,7 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc { I18n.t("active_admin.dashboard") } do
     columns do
       column do
-        panel "Recent Projects" do
+        panel "Latest 5 Projects" do
           Project.includes(:tasks).contract_projects.last(5).each do |project|
             panel "Project name: #{project.name}" do
               head 'Project tasks'
