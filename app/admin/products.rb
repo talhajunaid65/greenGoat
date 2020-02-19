@@ -45,7 +45,7 @@ ActiveAdmin.register Product, as: 'Item' do
   form do |f|
     f.inputs name: 'Basic' do
       f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
-      f.input :sub_category_id, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
+      f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
       f.input :make
       f.input :model
       f.input :serial
@@ -103,10 +103,8 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :pickup_date, as: :date_picker
     end
     f.inputs name: '' do
-      f.object.project_products.build if f.object.project_products.blank?
-      f.has_many :project_products, heading: 'Project', new_record: false do |p|
-        p.input :project_id, as: :select, collection: Project.contract_projects, input_html: { disabled: !f.object.new_record? }
-        p.input :product_id, as: :hidden, input_html: { value: f.object.id }
+      f.has_many :project_products, heading: 'Project', new_record: false,  allow_destroy: false do |p|
+        p.input :project, as: :select, collection: Project.contract_projects, input_html: { disabled: !f.object.new_record? }
       end
     end
     if f.object.images.attached?
@@ -216,9 +214,8 @@ ActiveAdmin.register Product, as: 'Item' do
     end
   end
 
-  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description,
-                :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight,
+  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description, :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight, :asking_price, :adjusted_price, :sale_price,
                 images: [], project_products_attributes: %i[id project_id product_id _destroy]
 
 end

@@ -32,7 +32,7 @@ class Product < ApplicationRecord
   scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
   scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
 
-  accepts_nested_attributes_for :project_products, allow_destroy: true
+  accepts_nested_attributes_for :project_products
 
   def project_products_presence
     errors.add(:missing_product_projects, "Must have at least one Project assigned") if project_products.blank?

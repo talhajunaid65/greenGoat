@@ -34,13 +34,12 @@ $(document).ready(function(){
 
       calcualtedWeight = (totalWeight * (percentage / 100)).toFixed(2);
       labelEle.text(`Weight in kg: ${calcualtedWeight}`);
-      otherEle.val(parseFloat(otherEle.val()) - calcualtedWeight)
+      otherEle.val(parseFloat(otherEle.val()).toFixed(2) - calcualtedWeight)
     }
   }
 
   function filtersubCategoryUsingCategory(){
     $('#product_category_id').change(function(){
-      debugger
       categoryId = $(this).val();
       $.ajax({
         url: `/admin/items/filter_sub_categories?category_id=${categoryId}`,
