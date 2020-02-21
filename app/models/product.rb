@@ -24,19 +24,14 @@ class Product < ApplicationRecord
 
   enum payment_status: [:pending, :received]
 
-  validate :project_products_presence
+  validates_presence_of :category_id, :title
+  validates :sale_price, numericality: { other_than: 0.0 }
   validates_presence_of :weight, if: :material_types_present?
 
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
   scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
   scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
-
-  accepts_nested_attributes_for :project_products, allow_destroy: true
-
-  def project_products_presence
-    errors.add(:missing_product_projects, "Must have at least one Project assigned") if project_products.blank?
-  end
 
   def product_status
     product_statuses.last.new_status
