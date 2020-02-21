@@ -44,6 +44,8 @@ ActiveAdmin.register Product, as: 'Item' do
 
   form do |f|
     f.inputs name: 'Basic' do
+      f.input :project_ids, as: :select, collection: Project.contract_projects, selected: params.dig(:product, :project_ids),
+              input_html: { disabled: !f.object.new_record?, required: true }, label: 'Project'
       f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
       f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
       f.input :make
@@ -101,11 +103,6 @@ ActiveAdmin.register Product, as: 'Item' do
     f.inputs name: '' do
       f.input :sale_date, as: :date_picker
       f.input :pickup_date, as: :date_picker
-    end
-    f.inputs name: '' do
-      f.has_many :project_products, heading: 'Project', new_record: false,  allow_destroy: false do |p|
-        p.input :project, as: :select, collection: Project.contract_projects, input_html: { disabled: !f.object.new_record? }
-      end
     end
     if f.object.images.attached?
       ul do
@@ -208,14 +205,22 @@ ActiveAdmin.register Product, as: 'Item' do
     end
 
     def create
-      create! do |a|
-        resource.product_statuses.create(new_status: 0, admin_user_id: current_admin_user.id) unless resource.errors.any?
+      @resource = Product.new(permitted_params[:product])
+      project_id = params.dig(:product, :project_ids)
+      @resource.errors.add(:project_ids, "can't be blank") if project_id.blank?
+
+      if @resource.errors.blank? && @resource.save
+        @resource.project_products.find_or_create_by(project_id: project_id)
+        @resource.product_statuses.create(new_status: 0, admin_user_id: current_admin_user.id)
+        redirect_to admin_item_path(id: @resource.id, product_id: @resource.id)
+      else
+        render :new
       end
     end
   end
 
   permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description, :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :project_id, :other, :weight, :asking_price, :adjusted_price, :sale_price,
-                images: [], project_products_attributes: %i[id project_id product_id _destroy]
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :other, :weight, :asking_price, :adjusted_price, :sale_price,
+                images: []
 
 end
