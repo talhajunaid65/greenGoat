@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :projects
   has_many :sales
+  has_many :activities, dependent: :destroy
 
   has_one_attached :image
   has_one :wishlist
