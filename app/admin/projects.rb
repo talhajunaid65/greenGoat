@@ -85,6 +85,7 @@ ActiveAdmin.register Project, as: 'Project' do
           a.input :description
           a.input :estimated_time
           a.input :is_hot
+          a.input :start_date, input_html: { value: f.object.start_date }, as: :hidden
           a.input :closed, label: "This task is Closed by <b>#{a.object.closed_by}</b>".html_safe, input_html: { disabled: true } if a.object.closed
 
           a.has_many :notes, heading: 'Notes' do |n|
@@ -211,7 +212,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
         :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :demo_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :estimated_time, :title, :description,
+        tasks_attributes: [:id, :estimated_time, :title, :description, :start_date,
                            :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
         group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end

@@ -23,6 +23,8 @@ class Project < ApplicationRecord
 
   validates :type_of_project, :status, :user_id, presence: true
 
+  after_save :create_activity, if: :status_previously_changed?
+
   scope :contract_projects, -> { includes(:user, :products).where(status: 'contract') }
   scope :pm_projects, -> (pm_id) { where(pm_id: pm_id) }
   scope :appraiser_projects, -> (appraiser_id) { where(appraiser_id: appraiser_id) }
@@ -48,5 +50,11 @@ class Project < ApplicationRecord
 
   def sum_of_material_type(type)
     products.sum(type)
+  end
+
+  private
+
+  def create_activity
+    Activity.find_or_create_by(project: self, user: self.user, activity_type: 'project_status_changed')
   end
 end

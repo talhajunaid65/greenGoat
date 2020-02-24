@@ -53,7 +53,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
       f.input :year_built
       f.input :val_sf
       f.input :estimated_value
-      f.input :status
+      f.input :status, as: :select, collection: Project.statuses.except(:contract).map{|k, _v| [k, k]}, selected: params.dig(:project, :status) || 'proposal'
       f.input :picture, as: :file
       f.input :is_hot
     end

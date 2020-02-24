@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
 	get '/myprofile', to: 'user_profile#show'
 
-	get '/myactivity', to: 'projects#my_activity'
+	get '/myactivity', to: 'activities#index'
 
 	namespace :api, constraints: { format: 'json' } do
         mount_devise_token_auth_for 'User', at: 'auth', controllers: {
