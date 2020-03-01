@@ -1,11 +1,7 @@
 class UserProfileController < ApiController
-    before_action :authenticate_user!
+  before_action :authenticate_user!
 
-    def show
-      user_profile = current_user
-
-      render json: user_profile, serializer: UserProfileSerializer
-    end
-
-    
+  def show
+    render json: current_user, serializer: UserProfileSerializer
   end
+end

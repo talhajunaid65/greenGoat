@@ -1,32 +1,15 @@
 class WishlistsController < ApiController
   before_action :authenticate_user!
+  before_action :set_user_by_email, except: [:index]
 
   def index
-    wishlist = current_user.wishlist
-    if wishlist.present?
-      product_ids = wishlist.product_ids
-
-      products = Product.where(id: product_ids)
-
-      render json: wishlist, status: :ok
-    else
-      wishlist = Wishlist.create(user_id: current_user.id, product_ids: [])
-      render json: wishlist, status: :ok
-    end
+    wishlist = current_user.wishlist || curretn_user.create_wishlist
+    render json: wishlist, status: :ok
   end
 
   def add_to_wishlist
-    user = User.find_by(email: params[:user_id])
-
-    if user.wishlist.present?
-      wishlist = user.wishlist
-    else
-      wishlist = Wishlist.create(user_id: user.id, product_ids: [])
-    end
-
-    id = params[:product_id]
-
-    wishlist.product_ids |= [id]
+    wishlist = @user.wishlist || @user.create_wishlist
+    wishlist.product_ids |= [params[:product_id]]
     wishlist.product_ids = wishlist.product_ids.uniq
     wishlist.save
 
@@ -35,17 +18,17 @@ class WishlistsController < ApiController
 
 
   def remove_from_wishlist
-    user = User.find_by(email: params[:user_id])
-
-    wishlist = user.wishlist
-
-    id = params[:product_id]
-    updated_products = wishlist.product_ids - [id.to_s]
-
+    wishlist = @user.wishlist
+    updated_products = wishlist.product_ids - [params[:product_id].to_s]
     wishlist.product_ids = updated_products
     wishlist.save
 
     render json: wishlist, status: :ok
   end
 
+  private
+
+  def set_user_by_email
+    user = User.find_by(email: params[:user_id])
+  end
 end

@@ -47,6 +47,10 @@ class Product < ApplicationRecord
     ((material_weight / weight) * 100).round(2)
   end
 
+  def sold!
+    product_statuses.create(new_status: 6)
+  end
+
   private
 
   def material_types_present?
