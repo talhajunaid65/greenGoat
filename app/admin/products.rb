@@ -35,7 +35,7 @@ ActiveAdmin.register Product, as: 'Item' do
     column :category
     column :sub_category
     column :appraised_value
-    column :price
+    column :price, &:sale_price
     column :uom
     actions do |item|
       link_to 'Change Status', new_admin_item_product_status_path(item_id: item.id, product_id: item.id), class: 'member_link'
