@@ -23,7 +23,7 @@ ActiveAdmin.register Product, as: 'Item' do
   collection_action :filter_sub_categories, method: :get do
     @sub_categories = Category.where(parent_category_id: params[:category_id])
 
-   respond_to do |format|
+    respond_to do |format|
       format.js
     end
   end
@@ -44,8 +44,8 @@ ActiveAdmin.register Product, as: 'Item' do
 
   form do |f|
     f.inputs name: 'Basic' do
-      f.input :project_ids, as: :select, collection: Project.contract_projects, selected: params.dig(:product, :project_ids),
-              input_html: { disabled: !f.object.new_record?, required: true }, label: 'Project'
+      f.input :project_ids, as: :select, collection: Project.contract_projects, selected: f.object.projects.last&.id || params.dig(:product, :project_ids),
+              input_html: { disabled: !f.object.new_record?, required: true, class: 'select2-dropdown' }, label: 'Project'
       f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
       f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
       f.input :make
@@ -54,9 +54,9 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :title
       f.input :description
       f.input :count
-      f.input :width
-      f.input :height
-      f.input :depth
+      f.input :width, label: 'Width (inches)'
+      f.input :height, label: 'Height (inches)'
+      f.input :depth, label: 'Depth (inches)'
       f.input :room_id
       f.input :uom
       f.input :payment_status
@@ -77,28 +77,28 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :sale_price
     end
     f.inputs name: 'Weight Estimation 'do
-      f.input :weight, label: 'Weight (Kg)'
+      f.input :weight, label: 'Weight (Pounds)'
       f.inputs do
         f.input :wood, label: 'Wood (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.wood), data: { type: 'wood' } }
-        li "Weight in kg: #{f.object.wood}", id: 'wood_weight_in_kg', class: 'weight-labels'
+        li "Weight in pounds: #{f.object.wood}", id: 'wood_weight_in_pounds', class: 'weight-labels'
       end
       f.inputs do
         f.input :ceramic, label: 'Ceramic (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.ceramic), data: { type: 'ceramic' } }
-        li "Weight in kg: #{f.object.ceramic}", id: 'ceramic_weight_in_kg', class: 'weight-labels'
+        li "Weight in pounds: #{f.object.ceramic}", id: 'ceramic_weight_in_pounds', class: 'weight-labels'
       end
       f.inputs do
         f.input :glass, label: 'Glass (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.glass), data: { type: 'glass' } }
-        li "Weight in kg: #{f.object.glass}", id: 'glass_weight_in_kg', class: 'weight-labels'
+        li "Weight in pounds: #{f.object.glass}", id: 'glass_weight_in_pounds', class: 'weight-labels'
       end
       f.inputs do
         f.input :metal, label: 'Metal (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.metal), data: { type: 'metal' } }
-        li "Weight in kg: #{f.object.metal}", id: 'metal_weight_in_kg', class: 'weight-labels'
+        li "Weight in pounds: #{f.object.metal}", id: 'metal_weight_in_pounds', class: 'weight-labels'
       end
       f.inputs do
         f.input :stone_plastic, label: 'Stone Plastic (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.stone_plastic), data: { type: 'stone_plastic' } }
-        li "Weight in kg: #{f.object.stone_plastic}", id: 'stone_plastic_weight_in_kg', class: 'weight-labels'
+        li "Weight in pounds: #{f.object.stone_plastic}", id: 'stone_plastic_weight_in_pounds', class: 'weight-labels'
       end
-      f.input :other, label: 'Other (Kg)', input_html: { readonly: true }
+      f.input :other, label: 'Other (Pounds)', input_html: { readonly: true }
     end
     f.inputs name: '' do
       f.input :sale_date, as: :date_picker

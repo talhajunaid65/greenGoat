@@ -1,6 +1,7 @@
 $(document).ready(function(){
   weightCalculation();
   filtersubCategoryUsingCategory();
+  getProjectAddress();
 
   function weightCalculation(){
     var totalWeight = parseFloat($('#product_weight').val())
@@ -12,7 +13,7 @@ $(document).ready(function(){
     });
 
     $('#product_wood, #product_ceramic, #product_glass, #product_metal, #product_stone_plastic').change(function(){
-      labelEle = $(`#${$(this).data('type')}_weight_in_kg`)
+      labelEle = $(`#${$(this).data('type')}_weight_in_pounds`)
       calculateAndSetWeight($(this), labelEle);
     })
 
@@ -28,12 +29,12 @@ $(document).ready(function(){
         addedValue = parseFloat(labelEle.text().split(': ')[1])
         if (isNaN(addedValue)) { return; }
         otherEle.val(parseFloat(otherEle.val()) + addedValue)
-        labelEle.text(`Weight in kg:`);
+        labelEle.text(`Weight in pounds:`);
         return;
       }
 
       calcualtedWeight = (totalWeight * (percentage / 100)).toFixed(2);
-      labelEle.text(`Weight in kg: ${calcualtedWeight}`);
+      labelEle.text(`Weight in pounds: ${calcualtedWeight}`);
       otherEle.val(parseFloat(otherEle.val()).toFixed(2) - calcualtedWeight)
     }
   }
@@ -43,6 +44,16 @@ $(document).ready(function(){
       categoryId = $(this).val();
       $.ajax({
         url: `/admin/items/filter_sub_categories?category_id=${categoryId}`,
+        method: 'GET'
+      })
+    })
+  }
+
+  function getProjectAddress(){
+    $('#product_project_ids').change(function(){
+      projectId = $(this).val();
+      $.ajax({
+        url: `/admin/projects/${projectId}/project_address`,
         method: 'GET'
       })
     })

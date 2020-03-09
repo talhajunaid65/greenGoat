@@ -16,6 +16,15 @@ ActiveAdmin.register Project, as: 'Project' do
   scope('Show All') { |scope| scope.contract_projects }
   scope('Completed Projects') { |scope| scope.complete }
 
+
+  member_action :project_address, method: :get do
+    @project = Project.find(params[:id])
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   index do
     selectable_column
     column :name
