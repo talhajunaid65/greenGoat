@@ -32,6 +32,9 @@ class Product < ApplicationRecord
 
   scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
   scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
+  scope :search_by_category, -> (category_id) { where(category_id: category_id) }
+  scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
+  scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
 
   def product_status
     product_statuses.last.new_status
@@ -49,6 +52,16 @@ class Product < ApplicationRecord
 
   def sold!
     product_statuses.create(new_status: 6)
+  end
+
+  def self.search_available_products(q)
+    products = available_products
+    return products if q.blank?
+
+    products = products.search_by_category(q[:category_id]) if q[:category_id].present?
+    products = products.search_by_title(q[:title]) if q[:title].present?
+    products = products.in_price_range(q[:min_price], q[:max_price]) if q[:min_price] || q[:max_price]
+    products
   end
 
   private

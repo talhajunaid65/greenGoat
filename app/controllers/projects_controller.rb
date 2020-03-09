@@ -145,7 +145,7 @@ class ProjectsController < ApiController
       msg_return = "We could not find any house for the information provided above. Thank you"
     end
 
-    render json: { message: msg_return}, status: :ok
+    render json: { message: msg_return }, status: :ok
   end
 
   def contact_us

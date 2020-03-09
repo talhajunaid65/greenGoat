@@ -2,7 +2,7 @@ class ProductsController < ApiController
   before_action :authenticate_user!
 
   def index
-    products = Product.available_products
+    products = Product.search_available_products(params[:q])
 
     render json: products, status: :ok
   end

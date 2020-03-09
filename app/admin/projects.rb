@@ -14,6 +14,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
   scope 'Projects Approaching Demo', :approaching_demo
   scope('Show All') { |scope| scope.contract_projects }
+  scope('Completed Projects') { |scope| scope.complete }
 
   index do
     selectable_column

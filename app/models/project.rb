@@ -19,7 +19,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :group_items, allow_destroy: true
 
   enum type_of_project: [:gut, :full, :kitchen, :other]
-  enum status: [:not_pursuing, :appraisal_notes, :proposal, :contract]
+  enum status: [:not_pursuing, :appraisal_notes, :proposal, :contract, :complete]
 
   validates :type_of_project, :status, :user_id, presence: true
 
