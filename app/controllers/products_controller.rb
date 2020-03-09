@@ -12,4 +12,10 @@ class ProductsController < ApiController
 
     render json: product, status: :ok
   end
+
+  def categories
+    categories = Category.parent_categories.map{ |category| { id: category.id, name: category.name } }
+
+    render json: { categories: categories }, status: :ok
+  end
 end

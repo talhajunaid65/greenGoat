@@ -10,15 +10,18 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   mount_devise_token_auth_for 'User', at: 'auth'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-	resources :projects
-	resources :products
-	post '/projects/zillow-flow', to: 'projects#zillow_flow'
+  resources :projects
+  resources :products, only: [:index, :show] do
+    get :categories, on: :collection
+  end
 
-	get '/myprofile', to: 'user_profile#show'
+  post '/projects/zillow-flow', to: 'projects#zillow_flow'
 
-	get '/myactivity', to: 'activities#index'
+  get '/myprofile', to: 'user_profile#show'
 
-	namespace :api, constraints: { format: 'json' } do
+  get '/myactivity', to: 'activities#index'
+
+  namespace :api, constraints: { format: 'json' } do
         mount_devise_token_auth_for 'User', at: 'auth', controllers: {
           registrations:  'users/registrations'
         }
