@@ -75,7 +75,7 @@ Rails.application.configure do
     port:                 587,
     domain:               'greengoat.com',
     user_name:            'tech@greengoat.org',
-    password:             'greenGoat123',
+    password:             'ShajeeGoat',
     authentication:       :login,
     enable_starttls_auto: true
   }
