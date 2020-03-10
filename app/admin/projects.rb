@@ -32,6 +32,7 @@ ActiveAdmin.register Project, as: 'Project' do
     column :start_date
     column :year_built
     column :estimated_value
+    column :sqft
     column :estimated_time
     column :status
     column :demo_date
@@ -81,6 +82,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :start_date, as: :date_picker
       f.input :demo_date, as: :date_picker
       f.input :year_built
+      f.input :sqft
       f.input :val_sf
       f.input :estimated_value
       f.input :status
@@ -155,6 +157,7 @@ ActiveAdmin.register Project, as: 'Project' do
       row :zip
       row :start_date
       row :year_built
+      row :sqft
       row :val_sf
       row :estimated_value
       row :status

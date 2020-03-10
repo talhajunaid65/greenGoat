@@ -1,11 +1,10 @@
 ActiveAdmin.register Project, as: 'Prospect' do
   index do
     selectable_column
-    column :name, label: 'Project Name'
     column :type_of_project
     column :start_date
     column :year_built
-    column :val_sf
+    column :sqft
     column :estimated_value
     column :estimated_time
     column :status
@@ -51,6 +50,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
       f.input :zip
       f.input :start_date, as: :date_picker
       f.input :year_built
+      f.input :sqft
       f.input :val_sf
       f.input :estimated_value
       f.input :status, as: :select, collection: Project.statuses.except(:contract).map{|k, _v| [k, k]}, selected: params.dig(:project, :status) || 'proposal'

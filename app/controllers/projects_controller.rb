@@ -39,7 +39,7 @@ class ProjectsController < ApiController
   end
 
   def zillow_flow
-    project = Project.create(project_params.merge(status: 'proposal'))
+    project = Project.new(project_params.merge(status: 'proposal'))
     puts project.inspect
     old_projects = ZillowLocation.all
     closest_distance_project = ['', '']
@@ -55,6 +55,10 @@ class ProjectsController < ApiController
       year_built = xml_doc.at('yearBuilt').text
       sqfoot = xml_doc.at('finishedSqFt').text
 
+      project.estimated_value = zestimate
+      project.year_built = year_built
+      project.sqft = sqfoot
+      project.save
       #getting closest project from old projects
       if project.type_of_project == "gut" or project.type_of_project == "full"
         old_projects.each do |old_project|
