@@ -39,7 +39,7 @@ class ProjectsController < ApiController
   end
 
   def zillow_flow
-    project = Project.create(project_params)
+    project = Project.create(project_params.merge(status: 'proposal'))
     puts project.inspect
     old_projects = ZillowLocation.all
     closest_distance_project = ['', '']
