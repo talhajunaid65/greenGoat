@@ -34,7 +34,6 @@ class ProjectsController < ApiController
     project = Project.find(params[:id])
 
     render_errors('Could not delete project') && return unless project.destroy
-
     render json: project, status: :ok
   end
 
@@ -44,6 +43,9 @@ class ProjectsController < ApiController
     old_projects = ZillowLocation.all
     closest_distance_project = ['', '']
     msg_return = ''
+    miles = 5
+    miles2 = 2
+    year_dif = 10
 
     #getting location information from zilloq
     require "open-uri"
@@ -59,6 +61,11 @@ class ProjectsController < ApiController
       project.year_built = year_built
       project.sqft = sqfoot
       project.save
+      if project.estimated_value > 5000000
+        miles = miles * 1.3
+        miles2 = miles2 * 1.3
+        year_dif = year_dif * 1.3
+      end
       #getting closest project from old projects
       if project.type_of_project == "gut" or project.type_of_project == "full"
         old_projects.each do |old_project|
@@ -87,57 +94,57 @@ class ProjectsController < ApiController
         end
       else
         ProjectMailer.other_type_project(project.user, project).deliver_now
-        msg_return = "We don't have estimations for this project type yet. We will contact you soon! Thank's"
+        msg_return = "We can't provide any estimate right now. We will get back to you after further review."
       end
 
       unless project.type_of_project == "other"
         #calculating estimation
         closest_project = ZillowLocation.find(closest_distance_project[1])
 
-        if closest_distance_project[0] < 2
+        if closest_distance_project[0] < miles2
           if zestimate.to_i < 1000000
             ProjectMailer.less_estimate(project.user, project).deliver_now
             msg_return = "We will get back to you after further review of your application. Hang tight!!!"
           else
-            if (closest_project.year_built.to_i - year_built.to_i) <10
+            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
               final_estimation = sqfoot * closest_project.val_sf
-              msg = ''
+              msg = "Hoorrayyy!!! By donating this project you will be able to save approx. $#{final_estimation}. Amount may vary after on-site appraisal."
               ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-              msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal"
+              msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal."
             else
-              msg = 'Your house is within 2 miles of one of our old project, but it is a few years old, so we will contact you after review.'
+              msg = "Your house is within 2 miles of one of our old project, but it is a few years old, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary widely after appraisal."
               ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
-              msg_return = msg
+              msg_return = 'Your house is within 2 miles of one of our old project, but it is a few years old, Please Check Email!'
             end
           end
-        elsif closest_distance_project[0] <5
+        elsif closest_distance_project[0] < miles
           if zestimate.to_i < 1000000
             ProjectMailer.less_estimate(project.user, project).deliver_now
             msg_return = "We will get back to you after further review of your application. Hang tight!!!"
           else
-            if (closest_project.year_built.to_i - year_built.to_i) <10
+            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
               final_estimation = sqfoot * closest_project.val_sf
-              msg = 'We found similar project a bit out of your neighbourhood, so values may very widely.'
+              msg = 'We found similar project a bit out of your neighbourhood, so values may very. Check Email!'
               ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-              msg_return = msg
+              msg_return = "We have found an old project we did in your neighborhood, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary after appraisal."
             else
               msg = 'Your house is within 5 miles of one of our old project, but it is a few years old, so we will contact you after review.'
               ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
               msg_return = msg
             end
           end
-        elsif closest_distance_project[0] > 5
+        elsif closest_distance_project[0] > miles
           if zestimate.to_i < 1000000
             ProjectMailer.less_estimate(project.user, project).deliver_now
             msg_return = ''
           else
-            if (closest_project.year_built.to_i - year_built.to_i) <10
+            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
               final_estimation = sqfoot * closest_project.val_sf
-              msg = 'Your house is in a new neighbourhood for house, We would be happy to come check out your project free of charge.'
+              msg = 'Your house is in a new neighbourhood for us, We would be happy to come check out your project free of charge.'
               ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
               msg_return = msg
             else
-              msg = 'Your house is more than 5 miles far fromone of our old project, but that project is a few years old, so we will contact you after review.'
+              msg = 'Your house is more than 5 miles away from one of our past project, but that project is a few years old, We will contact you after further review.'
               ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
               msg_return = msg
             end
@@ -146,7 +153,7 @@ class ProjectsController < ApiController
       end
     else
       ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
-      msg_return = "We could not find any house for the information provided above. Thank you"
+      msg_return = "We could not find any information about the address you provided. Please check email for further information."
     end
 
     render json: { message: msg_return }, status: :ok
