@@ -61,93 +61,71 @@ class ProjectsController < ApiController
       project.year_built = year_built
       project.sqft = sqfoot
       project.save
+
       if project.estimated_value > 5000000
         miles = miles * 1.3
         miles2 = miles2 * 1.3
         year_dif = year_dif * 1.3
       end
-      #getting closest project from old projects
-      if project.type_of_project == "gut" or project.type_of_project == "full"
-        old_projects.each do |old_project|
-          if old_project.type_of_project == "gut" or project.type_of_project == "full"
-            old_data = URI.parse("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}").read
-            old_xml_doc = Nokogiri::XML(data)
-            old_project_coordinates = [old_xml_doc.at('latitude').text, old_xml_doc.at('longitude').text]
-            old_project_coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates unless old_project_coordinates
-            puts "#{old_project.address}, #{old_project.city} #{old_project.zip}"
-            distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
-            closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
-          end
-        end
 
-      elsif project.type_of_project == "kitchen"
-        old_projects.each do |old_project|
-          if old_project.type_of_project == "kitchen"
-            old_data = URI.parse("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}").read
-            old_xml_doc = Nokogiri::XML(data)
-            old_project_coordinates = [old_xml_doc.at('latitude').text, old_xml_doc.at('longitude').text]
-            old_project_coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates unless old_project_coordinates
-            puts "#{old_project.address}, #{old_project.city} #{old_project.zip}"
-            distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
-            closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
-          end
-        end
-      else
+      if project.other?
         ProjectMailer.other_type_project(project.user, project).deliver_now
         msg_return = "We can't provide any estimate right now. We will get back to you after further review."
+        return render json: { message: msg_return }, status: :ok
       end
 
-      unless project.type_of_project == "other"
-        #calculating estimation
-        closest_project = ZillowLocation.find(closest_distance_project[1])
+      #getting closest project from old projects
+      old_projects.each do |old_project|
+        next if project.other?
 
+        old_data = URI.parse("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}").read
+        old_xml_doc = Nokogiri::XML(data)
+        old_project_coordinates = [old_xml_doc.at('latitude').text, old_xml_doc.at('longitude').text]
+        old_project_coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates unless old_project_coordinates
+        puts "#{old_project.address}, #{old_project.city} #{old_project.zip}"
+        distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
+        closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
+      end
+
+        #calculating estimation
+      closest_project = ZillowLocation.find(closest_distance_project[1])
+
+      year_difference = closest_project.year_built.to_i - year_built.to_i
+      final_estimation = sqfoot * closest_project.val_sf
+
+      if zestimate.to_i < 1000000
+        ProjectMailer.less_estimate(project.user, project).deliver_now
+        msg_return = "We will get back to you after further review of your application. Hang tight!!!"
+      else
         if closest_distance_project[0] < miles2
-          if zestimate.to_i < 1000000
-            ProjectMailer.less_estimate(project.user, project).deliver_now
-            msg_return = "We will get back to you after further review of your application. Hang tight!!!"
+          if year_difference < year_dif
+            msg = "Hoorrayyy!!! By donating this project you will be able to save approx. $#{final_estimation}. Amount may vary after on-site appraisal."
+            ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
+            msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal."
           else
-            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
-              final_estimation = sqfoot * closest_project.val_sf
-              msg = "Hoorrayyy!!! By donating this project you will be able to save approx. $#{final_estimation}. Amount may vary after on-site appraisal."
-              ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-              msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal."
-            else
-              msg = "Your house is within 2 miles of one of our old project, but it is a few years old, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary widely after appraisal."
-              ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
-              msg_return = 'Your house is within 2 miles of one of our old project, but it is a few years old, Please Check Email!'
-            end
+            msg = "Your house is within 2 miles of one of our old project, but it is a few years old, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary widely after appraisal."
+            ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
+            msg_return = 'Your house is within 2 miles of one of our old project, but it is a few years old, Please Check Email!'
           end
         elsif closest_distance_project[0] < miles
-          if zestimate.to_i < 1000000
-            ProjectMailer.less_estimate(project.user, project).deliver_now
-            msg_return = "We will get back to you after further review of your application. Hang tight!!!"
+          if year_difference < year_dif
+            msg = 'We found similar project a bit out of your neighbourhood, so values may very. Check Email!'
+            ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
+            msg_return = "We have found an old project we did in your neighborhood, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary after appraisal."
           else
-            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
-              final_estimation = sqfoot * closest_project.val_sf
-              msg = 'We found similar project a bit out of your neighbourhood, so values may very. Check Email!'
-              ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-              msg_return = "We have found an old project we did in your neighborhood, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary after appraisal."
-            else
-              msg = 'Your house is within 5 miles of one of our old project, but it is a few years old, so we will contact you after review.'
-              ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
-              msg_return = msg
-            end
+            msg = 'Your house is within 5 miles of one of our old project, but it is a few years old, so we will contact you after review.'
+            ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
+            msg_return = msg
           end
         elsif closest_distance_project[0] > miles
-          if zestimate.to_i < 1000000
-            ProjectMailer.less_estimate(project.user, project).deliver_now
-            msg_return = ''
+          if year_difference < year_dif
+            msg = 'Your house is in a new neighbourhood for us, We would be happy to come check out your project free of charge.'
+            ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
+            msg_return = msg
           else
-            if (closest_project.year_built.to_i - year_built.to_i) < year_dif
-              final_estimation = sqfoot * closest_project.val_sf
-              msg = 'Your house is in a new neighbourhood for us, We would be happy to come check out your project free of charge.'
-              ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
-              msg_return = msg
-            else
-              msg = 'Your house is more than 5 miles away from one of our past project, but that project is a few years old, We will contact you after further review.'
-              ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
-              msg_return = msg
-            end
+            msg = 'Your house is more than 5 miles away from one of our past project, but that project is a few years old, We will contact you after further review.'
+            ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
+            msg_return = msg
           end
         end
       end

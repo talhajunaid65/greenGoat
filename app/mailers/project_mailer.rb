@@ -26,6 +26,7 @@ class ProjectMailer < ApplicationMailer
     @msg = msg
     emails_send = @@emails_send
     emails_send << @user.email
+
     mail(to: emails_send, subject: 'Donation estimation update')
   end
 
