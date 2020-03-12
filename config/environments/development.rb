@@ -73,7 +73,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:              'smtpout.secureserver.net',
     port:                 587,
-    domain:               'greengoat.com',
+    domain:               'greengoat.org',
     user_name:            'tech@greengoat.org',
     password:             'ShajeeGoat',
     authentication:       :login,
