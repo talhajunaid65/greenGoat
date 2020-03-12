@@ -64,7 +64,7 @@ Rails.application.configure do
   # config.action_mailer.preview_path = "#{Rails.root}/tmp/mailers/previews"
   # config.cache_store = :redis_store, 'redis://localhost:6379/'
   Rails.application.routes.default_url_options[:host] = "greengoat.com"
-  config.action_mailer.default_options = {from: 'tech@greengoat.org'}
+  config.action_mailer.default_options = { from: 'tech@greengoat.org' }
   config.action_mailer.default_url_options = { :host => 'http://167.172.245.215/' }
 
   config.action_mailer.delivery_method = :smtp
@@ -72,8 +72,8 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     address:              'smtpout.secureserver.net',
-    port:                 587,
-    domain:               'greengoat.org',
+    port:                 80,
+    domain:               'greengoat.org  ',
     user_name:            'tech@greengoat.org',
     password:             'ShajeeGoat',
     authentication:       :login,
