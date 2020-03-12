@@ -1,17 +1,15 @@
 ActiveAdmin.register Project, as: 'Prospect' do
   index do
     selectable_column
+    column :address
+    column :city
+    column :state
+    column :zip
     column :type_of_project
-    column :start_date
     column :year_built
     column :sqft
     column :estimated_value
-    column :estimated_time
     column :status
-    column :pm
-    column :appraiser
-    column :contractor
-    column :architect
     actions do |project|
       link_to 'Go live', edit_admin_contract_path(project), class: 'member_link' unless project.contract?
     end
