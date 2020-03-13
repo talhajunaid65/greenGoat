@@ -117,7 +117,7 @@ ActiveAdmin.register Project, as: 'Project' do
         a.input :title
         a.input :description
         a.input :price
-        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.all.map {|u| [u.title, u.id]}, input_html: { class: 'select2-dropdown', multiple: "true" }
+        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.all.map {|u| [u.title, u.id]}, input_html: { multiple: "true" }
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
         a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
