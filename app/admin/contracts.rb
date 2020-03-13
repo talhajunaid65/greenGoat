@@ -8,7 +8,7 @@ ActiveAdmin.register Project, as: 'Contract' do
       f.input :contractor, as: :select, collection: AdminUser.contractors
       f.input :architect, as: :select, collection: AdminUser.architects
       f.input :zillow_location
-      f.input :contract_date, as: :date_picker
+      f.input :contract_date, as: :datepicker
       f.input :access_info
       f.input :status, as: :hidden, input_html: { value:  'contract' }
     end

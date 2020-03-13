@@ -61,7 +61,7 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :uom
       f.input :payment_status
       f.input :need_uninstallation
-      f.input :uninstallation_date, as: :date_picker
+      f.input :uninstallation_date, as: :datepicker
       f.input :images, as: :file, input_html: { multiple: true }
     end
     f.inputs name: 'Location' do
@@ -101,8 +101,8 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :other, label: 'Other (Pounds)', input_html: { readonly: true }
     end
     f.inputs name: '' do
-      f.input :sale_date, as: :date_picker
-      f.input :pickup_date, as: :date_picker
+      f.input :sale_date, as: :datepicker
+      f.input :pickup_date, as: :datepicker
     end
     if f.object.images.attached?
       ul do

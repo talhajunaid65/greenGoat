@@ -71,7 +71,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
       f.input :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
       f.input :zillow_location, input_html: { class: 'select2-dropdown' }
-      f.input :contract_date, as: :date_picker
+      f.input :contract_date, as: :datepicker
       f.input :access_info
       f.input :name, label: 'Project Name'
       f.input :type_of_project
@@ -79,8 +79,8 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :city
       f.input :state
       f.input :zip
-      f.input :start_date, as: :date_picker
-      f.input :demo_date, as: :date_picker
+      f.input :start_date, as: :datepicker
+      f.input :demo_date, as: :datepicker
       f.input :year_built
       f.input :sqft
       f.input :val_sf

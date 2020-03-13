@@ -46,7 +46,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
       f.input :city
       f.input :state
       f.input :zip
-      f.input :start_date, as: :date_picker
+      f.input :start_date, as: :datepicker
       f.input :year_built
       f.input :sqft
       f.input :val_sf
