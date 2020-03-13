@@ -1,8 +1,4 @@
 //= require arctic_admin/base
-//= require select2
-
+//= require activeadmin_addons/all
 //= require admin/products
 
-$(document).ready(function(){
-  $( ".select2-dropdown" ).select2();
-});

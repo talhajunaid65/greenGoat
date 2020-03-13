@@ -1,12 +1,12 @@
 ActiveAdmin.register Project, as: 'Project' do
   actions :all, except: [:new, :create]
 
-  filter :user, input_html: { class: 'select2-dropdown' }, label: 'Weight by user'
-  filter :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
-  filter :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
-  filter :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
-  filter :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
-  filter :zillow_location, input_html: { class: 'select2-dropdown' }
+  filter :user, label: 'Weight by user'
+  filter :pm, as: :select, collection: AdminUser.pms
+  filter :appraiser, as: :select, collection: AdminUser.appraisers
+  filter :contractor, as: :select, collection: AdminUser.contractors
+  filter :architect, as: :select, collection: AdminUser.architects
+  filter :zillow_location
   filter :created_at, label: 'Weight by Year'
   filter :contract_date
   filter :visit_date
@@ -66,11 +66,11 @@ ActiveAdmin.register Project, as: 'Project' do
   form do |f|
     f.inputs do
       f.input :user, input_html: { disabled: true }
-      f.input :pm, as: :select, collection: AdminUser.pms, input_html: { class: 'select2-dropdown' }
-      f.input :appraiser, as: :select, collection: AdminUser.appraisers, input_html: { class: 'select2-dropdown' }
-      f.input :contractor, as: :select, collection: AdminUser.contractors, input_html: { class: 'select2-dropdown' }
-      f.input :architect, as: :select, collection: AdminUser.architects, input_html: { class: 'select2-dropdown' }
-      f.input :zillow_location, input_html: { class: 'select2-dropdown' }
+      f.input :pm, as: :select, collection: AdminUser.pms
+      f.input :appraiser, as: :select, collection: AdminUser.appraisers
+      f.input :contractor, as: :select, collection: AdminUser.contractors
+      f.input :architect, as: :select, collection: AdminUser.architects
+      f.input :zillow_location
       f.input :contract_date, as: :datepicker
       f.input :access_info
       f.input :name, label: 'Project Name'

@@ -1,8 +1,8 @@
 ActiveAdmin.register Product, as: 'Item' do
 
   filter :title_cont, as: :string, label: 'Title'
-  filter :category, input_html: { class: 'select2-dropdown' }
-  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status', input_html: { class: 'select2-dropdown' }
+  filter :category
+  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status'
   filter :need_uninstallation
   filter :uninstallation_date
   filter :asking_price_eq, label: 'Asking Price'
@@ -46,8 +46,8 @@ ActiveAdmin.register Product, as: 'Item' do
     f.inputs name: 'Basic' do
       f.input :project_ids, as: :select, collection: Project.contract_projects, selected: f.object.projects.last&.id || params.dig(:product, :project_ids),
               input_html: { disabled: !f.object.new_record?, required: true, class: 'select2-dropdown' }, label: 'Project'
-      f.input :category, label: 'Category', as: :select, collection: Category.parent_categories, input_html: { class: 'select2-dropdown' }
-      f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories, input_html: { class: 'select2-dropdown' }
+      f.input :category, label: 'Category', as: :select, collection: Category.parent_categories
+      f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories
       f.input :make
       f.input :model
       f.input :serial

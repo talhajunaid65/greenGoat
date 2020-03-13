@@ -1,8 +1,8 @@
 ActiveAdmin.register Sale do
   belongs_to :product, optional: true
 
-  filter :product, input_html: { class: 'select2-dropdown' }
-  filter :user, label: 'Client', input_html: { class: 'select2-dropdown' }
+  filter :product
+  filter :user, label: 'Client'
   filter :pm
   filter :created_at, label: 'Date Range'
   filter :sale_source, as: :select, collection: proc { Sale.sale_sources }
@@ -36,11 +36,11 @@ ActiveAdmin.register Sale do
 
   form do |f|
     f.inputs do
-      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products, input_html: { class: 'select2-dropdown' }
-      f.input :user, label: 'Client', input_html: { class: 'select2-dropdown' }
+      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
+      f.input :user, label: 'Client'
       f.input :phone
-      f.input :contact_date
-      f.input :visit_date
+      f.input :contact_date, as: :datepicker
+      f.input :visit_date, as: :datepicker
       f.input :sale_source
       f.input :sale_price
       f.input :other_source
@@ -51,7 +51,7 @@ ActiveAdmin.register Sale do
       f.input :state
       f.input :zipcode
       f.input :delivery_cost
-      f.input :delivery_date
+      f.input :delivery_date, as: :datepicker
       f.input :pickup_status
       f.input :pm_id, as: :hidden, input_html: { value: f.object.pm ? f.object.pm_id : current_admin_user.id } if current_admin_user.pm?
     end

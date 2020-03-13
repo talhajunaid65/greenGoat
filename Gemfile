@@ -29,6 +29,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # gem 'rack-cors'
 gem 'arctic_admin'
 gem 'activeadmin'
+gem 'activeadmin_addons'
 gem 'active_model_serializers'
 gem 'coffee-rails'
 gem 'devise_token_auth'
@@ -39,7 +40,6 @@ gem 'sidekiq'
 gem 'redis-rails'
 gem 'ransack'
 gem 'cancan'
-gem 'select2-rails'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.1'
 gem "roo", "~> 2.8.0"
 
