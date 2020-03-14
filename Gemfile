@@ -42,6 +42,7 @@ gem 'ransack'
 gem 'cancan'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.1'
 gem "roo", "~> 2.8.0"
+gem 'dotenv'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
