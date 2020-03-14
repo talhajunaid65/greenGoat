@@ -74,8 +74,8 @@ Rails.application.configure do
     address:              'smtpout.secureserver.net',
     port:                 80,
     domain:               'greengoat.org  ',
-    user_name:            'tech@greengoat.org',
-    password:             'ShajeeGoat',
+    user_name:            'info@greengoat.com',
+    password:             'ShajeeGoat321',
     authentication:       :login,
     enable_starttls_auto: true
   }
