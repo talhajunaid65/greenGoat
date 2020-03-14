@@ -110,6 +110,9 @@ GEM
       devise (> 3.5.2, < 5)
       rails (>= 4.2.0, < 6.1)
     dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     eventmachine (1.2.7)
     execjs (2.7.0)
@@ -340,7 +343,7 @@ DEPENDENCIES
   cancan
   coffee-rails
   devise_token_auth
-  dotenv
+  dotenv-rails
   formtastic (~> 3.0)
   geocoder
   geokit
