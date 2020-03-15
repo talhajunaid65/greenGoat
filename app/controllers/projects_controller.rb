@@ -78,14 +78,20 @@ class ProjectsController < ApiController
         #getting closest project from old projects
         old_projects.each do |old_project|
           Rails.logger.info "OLD PROJECT: #{old_project.address}, #{old_project.city} #{old_project.zip}"
-          coordinates = [old_project.latitude, old_project.longitude]
+
+          old_project_coordinates = [old_project.latitude, old_project.longitude]
           if old_project.latitude.blank? || old_project.longitude.blank?
-            coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates
-            old_project.update(latitude: coordinates[0], longitude: coordinates[1])
+            old_project_coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first&.coordinates
+            next if old_project_coordinates.blank?
+
+            old_project.update(latitude: old_project_coordinates[0], longitude: old_project_coordinates[1])
           end
           distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
           closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
         end
+        closest_distance_project = ['']
+        return render json: { message: 'Sorry, We are unable to find any project similiar to your project, we will get back to you for more details' },
+                      status: :ok if closest_distance_project.all?(&:blank?)
 
         #calculating estimation
         closest_project = ZillowLocation.find(closest_distance_project[1])
@@ -126,6 +132,7 @@ class ProjectsController < ApiController
               ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
             end
           elsif closest_distance_project[0] > miles
+            final_estimation = 0.0
             if year_difference < year_dif
               msg = 'Your house is in a new neighbourhood for us, We would be happy to come check out your project free of charge.'
               msg_return = msg
@@ -141,6 +148,7 @@ class ProjectsController < ApiController
         msg_return = "We could not find any information about the address you provided. Please check email for further information."
         ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
       end
+      project.update(val_sf: final_estimation)
     rescue => e
       Error.create(message: e.message)
     end
