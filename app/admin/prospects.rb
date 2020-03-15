@@ -1,4 +1,14 @@
 ActiveAdmin.register Project, as: 'Prospect' do
+
+  filter :user
+  filter :address
+  filter :city
+  filter :state
+  filter :zip
+  filter :type_of_project
+  filter :year_built
+  filter :sqft
+
   index do
     selectable_column
     column :address
@@ -6,6 +16,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
     column :state
     column :zip
     column :type_of_project
+    column :user
     column :year_built
     column :sqft
     column :estimated_value
