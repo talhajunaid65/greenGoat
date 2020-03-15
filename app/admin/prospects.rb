@@ -16,7 +16,9 @@ ActiveAdmin.register Project, as: 'Prospect' do
     column :state
     column :zip
     column :type_of_project
-    column :user
+    column 'Client' do |prospect|
+      link_to prospect.user, admin_client_path(prospect.user)
+    end
     column :year_built
     column :sqft
     column :estimated_value
