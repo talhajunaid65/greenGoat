@@ -89,7 +89,7 @@ class ProjectsController < ApiController
         #calculating estimation
         closest_project = ZillowLocation.find(closest_distance_project[1])
 
-        year_difference = closest_project.year_built.to_i - year_built.to_i
+        year_difference = (closest_project.year_built.to_i - year_built.to_i).abs
         final_estimation = (sqfoot.to_i * closest_project.val_sf.to_f).round(2)
 
         Rails.logger.info "CLOSEST PROJECT DISTANCE: #{closest_distance_project[0]}"
