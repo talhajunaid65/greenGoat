@@ -88,11 +88,11 @@ class ProjectsController < ApiController
           closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
         end
 
-          #calculating estimation
+        #calculating estimation
         closest_project = ZillowLocation.find(closest_distance_project[1])
 
         year_difference = closest_project.year_built.to_i - year_built.to_i
-        final_estimation = sqfoot * closest_project.val_sf
+        final_estimation = (sqfoot.to_i * closest_project.val_sf.to_f).round(2)
 
         if zestimate.to_i < 1000000
           msg_return = "We will get back to you after further review of your application. Hang tight!!!"
