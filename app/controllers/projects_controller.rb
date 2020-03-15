@@ -89,7 +89,7 @@ class ProjectsController < ApiController
           distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
           closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
         end
-        closest_distance_project = ['']
+
         return render json: { message: 'Sorry, We are unable to find any project similiar to your project, we will get back to you for more details' },
                       status: :ok if closest_distance_project.all?(&:blank?)
 
