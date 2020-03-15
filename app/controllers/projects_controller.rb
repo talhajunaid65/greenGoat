@@ -77,8 +77,6 @@ class ProjectsController < ApiController
 
         #getting closest project from old projects
         old_projects.each do |old_project|
-          next if project.other?
-
           puts "OLD PROJECT: #{old_project.address}, #{old_project.city} #{old_project.zip}"
           old_data = URI.parse(URI.encode("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}")).read
           old_xml_doc = Nokogiri::XML(data)
