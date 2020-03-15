@@ -40,7 +40,7 @@ class ProjectsController < ApiController
   def zillow_flow
     project = Project.new(project_params.merge(status: 'proposal'))
     puts project.inspect
-    old_projects = ZillowLocation.type(project.type_of_project)
+    old_projects = ZillowLocation.type(project.type_of_project).in_zipcode(project.zip)
     closest_distance_project = ['', '']
     msg_return = ''
     miles = 5
@@ -78,10 +78,11 @@ class ProjectsController < ApiController
         #getting closest project from old projects
         old_projects.each do |old_project|
           Rails.logger.info "OLD PROJECT: #{old_project.address}, #{old_project.city} #{old_project.zip}"
-          old_data = URI.parse(URI.encode("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}")).read
-          old_xml_doc = Nokogiri::XML(data)
-          old_project_coordinates = [old_xml_doc.at('latitude').text, old_xml_doc.at('longitude').text]
-          old_project_coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates unless old_project_coordinates
+          coordinates = [old_project.latitude, old_project.longitude]
+          if old_project.latitude.blank? || old_project.longitude.blank?
+            coordinates = Geocoder.search("#{old_project.address}, #{old_project.city} #{old_project.zip}").first.coordinates
+            old_project.update(latitude: coordinates[0], longitude: coordinates[1])
+          end
           distance = Geocoder::Calculations.distance_between(coordinates, old_project_coordinates)
           closest_distance_project = [distance, old_project.id] if closest_distance_project.all?(&:blank?) or distance < closest_distance_project[0]
         end
