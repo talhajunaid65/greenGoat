@@ -77,7 +77,7 @@ class ProjectsController < ApiController
 
         #getting closest project from old projects
         old_projects.each do |old_project|
-          puts "OLD PROJECT: #{old_project.address}, #{old_project.city} #{old_project.zip}"
+          Rails.logger.info "OLD PROJECT: #{old_project.address}, #{old_project.city} #{old_project.zip}"
           old_data = URI.parse(URI.encode("https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz17jcynzxx57_14qhc&address=#{old_project.address}&citystatezip=#{old_project.city} #{old_project.state} #{old_project.zip}")).read
           old_xml_doc = Nokogiri::XML(data)
           old_project_coordinates = [old_xml_doc.at('latitude').text, old_xml_doc.at('longitude').text]
@@ -92,13 +92,13 @@ class ProjectsController < ApiController
         year_difference = closest_project.year_built.to_i - year_built.to_i
         final_estimation = (sqfoot.to_i * closest_project.val_sf.to_f).round(2)
 
-        puts "CLOSEST PROJECT DISTANCE: #{closest_distance_project[0]}"
-        puts "CLOSEST PROJECT BUILT: #{closest_project.year_built.to_i}"
-        puts "YEAR BUILT OF ZILLOW: #{year_built.to_i}"
-        puts "YEARS DIFFERENCE: #{year_difference}"
-        puts "SQUREFOOT: #{sqfoot.to_i}"
-        puts "CLOSED PROJET VALUE: #{closest_project.val_sf.to_f}"
-        puts "Final Estimation: #{final_estimation}"
+        Rails.logger.info "CLOSEST PROJECT DISTANCE: #{closest_distance_project[0]}"
+        Rails.logger.info "CLOSEST PROJECT BUILT: #{closest_project.year_built.to_i}"
+        Rails.logger.info "YEAR BUILT OF ZILLOW: #{year_built.to_i}"
+        Rails.logger.info "YEARS DIFFERENCE: #{year_difference}"
+        Rails.logger.info "SQUREFOOT: #{sqfoot.to_i}"
+        Rails.logger.info "CLOSED PROJET VALUE: #{closest_project.val_sf.to_f}"
+        Rails.logger.info "Final Estimation: #{final_estimation}"
 
         if zestimate.to_i < 1000000
           msg_return = "We will get back to you after further review of your application. Hang tight!!!"
