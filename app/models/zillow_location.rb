@@ -10,6 +10,8 @@ class ZillowLocation < ApplicationRecord
   enum type_of_project: [:gut, :full, :kitchen, :other]
   enum status: [:not_pursuing, :appraisal_notes, :proposal, :contract]
 
+  scope :type, ->(type_of_project) { where(type_of_project: type_of_project) }
+
   def to_s
     "#{address}, #{city} #{zip} #{state}"
   end
