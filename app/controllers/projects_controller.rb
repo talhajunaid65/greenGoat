@@ -94,6 +94,14 @@ class ProjectsController < ApiController
         year_difference = closest_project.year_built.to_i - year_built.to_i
         final_estimation = (sqfoot.to_i * closest_project.val_sf.to_f).round(2)
 
+        puts "CLOSEST PROJECT DISTANCE: #{closest_distance_project[0]}"
+        puts "CLOSEST PROJECT BUILT: #{closest_project.year_built.to_i}"
+        puts "YEAR BUILT OF ZILLOW: #{year_built.to_i}"
+        puts "YEARS DIFFERENCE: #{year_difference}"
+        puts "SQUREFOOT: #{sqfoot.to_i}"
+        puts "CLOSED PROJET VALUE: #{closest_project.val_sf.to_f}"
+        puts "Final Estimation: #{final_estimation}"
+
         if zestimate.to_i < 1000000
           msg_return = "We will get back to you after further review of your application. Hang tight!!!"
           ProjectMailer.less_estimate(project.user, project).deliver_now
