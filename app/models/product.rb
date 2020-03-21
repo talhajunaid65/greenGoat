@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
   has_many_attached :images
+  before_destroy :remove_images
+  before_destroy :remove_from_group_items
 
   belongs_to :category
   belongs_to :sub_category, class_name: 'Category', foreign_key: 'sub_category_id'
@@ -93,5 +95,17 @@ class Product < ApplicationRecord
     return 0 if material_percentage.blank? || material_percentage == 0
 
     (weight * (material_percentage / 100)).round(2)
+  end
+
+  def remove_images
+    images&.collect(:purge_later)
+  end
+
+  def remove_from_group_items
+    group_items = GroupItem.find_by_product_id(self.id.to_s)
+    group_items.items.each do |group_item|
+      group_item.product_ids.delete(self.id.to_s)
+      group_item.update(product_ids: group_item.product_ids)
+    end
   end
 end
