@@ -9,7 +9,7 @@ class Project < ApplicationRecord
   belongs_to :user
 
   has_many :tasks
-  has_many :group_items
+  has_many :group_items, dependent: :destroy
   has_many :project_products, dependent: :destroy
   has_many :products, through: :project_products
 
