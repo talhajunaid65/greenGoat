@@ -32,7 +32,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 
-  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.secret_key_base = Rails.application.credentials.secret_key_base
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
@@ -75,20 +75,22 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
+  Rails.application.routes.default_url_options[:host] = "greengoat.com"
+  config.action_mailer.default_options = { from: Rails.application.credentials.default_from }
+  config.action_mailer.default_url_options = { host: Rails.application.credentials.host }
 
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_options = {from: 'tech@greengoat.org'}
   config.action_mailer.smtp_settings = {
-    address: 'smtp.gmail.com',
-    port: 587,
-    domain: "gmail.com",
-    user_name: 'test44149@gmail.com',
-    password: 'greengoat@1',
-    authentication: 'login',
+    address:              'smtpout.secureserver.net',
+    port:                 80,
+    domain:               Rails.application.credentials.domain,
+    user_name:            Rails.application.credentials.user_name,
+    password:             Rails.application.credentials.password,
+    authentication:       :login,
     enable_starttls_auto: true
   }
-
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
