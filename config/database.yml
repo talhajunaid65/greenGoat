@@ -82,5 +82,5 @@ test:
 #
 production:
   <<: *default
-  database: greenGoat_production
+  database: greengoat_production
   password: 12345678
