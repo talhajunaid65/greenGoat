@@ -98,7 +98,7 @@ class Product < ApplicationRecord
   end
 
   def remove_images
-    images&.collect(:purge_later)
+    images&.collect(&:purge_later)
   end
 
   def remove_from_group_items
