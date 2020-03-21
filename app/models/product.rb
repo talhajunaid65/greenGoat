@@ -103,7 +103,7 @@ class Product < ApplicationRecord
 
   def remove_from_group_items
     group_items = GroupItem.find_by_product_id(self.id.to_s)
-    group_items.items.each do |group_item|
+    group_items.each do |group_item|
       group_item.product_ids.delete(self.id.to_s)
       group_item.update(product_ids: group_item.product_ids)
     end
