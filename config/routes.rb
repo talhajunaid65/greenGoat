@@ -27,9 +27,9 @@ Rails.application.routes.draw do
         }
   end
 
-  resources :wishlists, only: %i[index]
-  post '/wishlists/add-to-wishlist', to: 'wishlists#add_to_wishlist'
-  post '/wishlists/remove-from-wishlist', to: 'wishlists#remove_from_wishlist'
+  resources :favourites, only: %i[index]
+  post '/favourites/add-to-favourite', to: 'favourites#add_to_favourite'
+  post '/favourites/remove-from-favourite', to: 'favourites#remove_from_favourite'
 
   post '/contact-us', to: 'projects#contact_us'
 

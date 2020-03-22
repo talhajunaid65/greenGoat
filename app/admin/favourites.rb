@@ -1,3 +1,3 @@
-ActiveAdmin.register Wishlist do
+ActiveAdmin.register Favourite do
   actions :index, :show, :destroy
 end

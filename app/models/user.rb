@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :activities, dependent: :destroy
 
   has_one_attached :image
-  has_one :wishlist
+  has_one :favourite
 
   before_create do |user|
     user.client_code = user.generate_client_code
