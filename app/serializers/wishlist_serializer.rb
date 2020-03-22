@@ -11,11 +11,11 @@ class WishlistSerializer < ActiveModel::Serializer
 	products.each do |product|
 		image_array = []
 		Product.find(product["id"]).images.each do |image|
-			image_array << "http://167.172.245.215" + rails_blob_path(image, only_path: true) 
+			image_array << Rails.application.credentials.root_url + rails_blob_path(image, only_path: true)
 		end
 		product['id'] = product['id'].to_s
 		product['images'] = image_array
-	end	
+	end
 	products
-  end	
+  end
 end

@@ -11,7 +11,7 @@ class GroupItemSerializer < ActiveModel::Serializer
     products.each do |product|
       image_array = []
       Product.find(product["id"]).images.each do |image|
-        image_array << "http://3.84.100.107" + rails_blob_path(image, only_path: true)
+        image_array << Rails.application.credentials.root_url + rails_blob_path(image, only_path: true)
       end
       product['id'] = product['id'].to_s
       product['images'] = image_array

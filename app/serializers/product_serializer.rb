@@ -8,7 +8,7 @@ class ProductSerializer < ActiveModel::Serializer
   def images
     image_array = []
     object.images.each do |image|
-      image_array << "http://167.172.245.215" + rails_blob_path(image, only_path: true)
+      image_array << Rails.application.credentials.root_url + rails_blob_path(image, only_path: true)
     end
 
     image_array
