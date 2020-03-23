@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :projects
   has_many :sales
   has_many :activities, dependent: :destroy
+  has_many :wishlists
 
   has_one_attached :image
   has_one :favourite

@@ -36,5 +36,5 @@ Rails.application.routes.draw do
   post '/checkout', to: 'orders#checkout'
 
   resources :tasks
-
+  resources :wishlists, only: [:index, :create, :destroy]
 end

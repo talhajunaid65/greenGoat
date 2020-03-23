@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_102347) do
+ActiveRecord::Schema.define(version: 2020_03_23_183259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -312,6 +312,16 @@ ActiveRecord::Schema.define(version: 2020_03_22_102347) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "wishlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.text "description"
+    t.boolean "complete", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_wishlists_on_user_id"
+  end
+
   create_table "zillow_locations", force: :cascade do |t|
     t.integer "type_of_project"
     t.string "address"
@@ -340,4 +350,5 @@ ActiveRecord::Schema.define(version: 2020_03_22_102347) do
   add_foreign_key "projects", "users", on_delete: :cascade
   add_foreign_key "projects", "zillow_locations"
   add_foreign_key "sales", "products"
+  add_foreign_key "wishlists", "users", on_delete: :cascade
 end
