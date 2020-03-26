@@ -14,9 +14,9 @@ ActiveAdmin.register Product, as: 'Item' do
   scope 'Items Waiting For Uninstallation', :wating_for_uninstallation
   scope 'Show All Available', :available_products
 
-  member_action :delete_product_image, method: :delete do
-    @pic = ActiveStorage::Attachment.find(params[:id])
-    @pic.purge_later
+  member_action :remove_image, method: :delete do
+    ActiveStorage::Attachment.find(params[:id]).purge_later
+
     redirect_back(fallback_location: edit_admin_item_path)
   end
 
@@ -106,10 +106,10 @@ ActiveAdmin.register Product, as: 'Item' do
     end
     if f.object.images.attached?
       ul do
-        f.object.images.each do |img|
-          li do
-            span image_tag(img, height: '100')
-            span link_to "delete", delete_product_image_admin_item_path(img.id), method: :delete,data: { confirm: 'Are you sure?' }
+        f.object.images.each do |image|
+          li class: 'display-inline-block' do
+            span link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
+            span link_to "remove", remove_image_admin_item_path(image.id), method: :delete, data: { confirm: 'Are you sure?' }
           end
          end
       end
@@ -153,11 +153,11 @@ ActiveAdmin.register Product, as: 'Item' do
       row :sale_date
       row :pickup_date
       row :uninstallation_date
-      row :images do |ad|
+      row :images do |item|
         ul do
-          ad.images.each do |img|
-            li do
-              image_tag url_for(img), height: '100'
+          item.images.each do |image|
+            li class: 'display-inline-block' do
+              link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
             end
           end
         end

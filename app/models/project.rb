@@ -13,7 +13,7 @@ class Project < ApplicationRecord
   has_many :project_products, dependent: :destroy
   has_many :products, through: :project_products
 
-  has_one_attached :picture
+  has_many_attached :images
 
   accepts_nested_attributes_for :tasks, allow_destroy: true
   accepts_nested_attributes_for :group_items, allow_destroy: true

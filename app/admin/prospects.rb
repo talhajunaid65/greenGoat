@@ -65,7 +65,6 @@ ActiveAdmin.register Project, as: 'Prospect' do
       f.input :val_sf
       f.input :estimated_value
       f.input :status, as: :select, collection: Project.statuses.except(:contract).map{|k, _v| [k, k]}, selected: params.dig(:project, :status) || 'proposal'
-      f.input :picture, as: :file
       f.input :is_hot
     end
     f.submit value: params[:action] == 'edit' ? 'Update Prospect' : 'Create Prospect'
@@ -87,6 +86,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
     end
   end
 
-  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date
+  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id,
+                :val_sf, :estimated_value, :start_date, :sqft
 
 end

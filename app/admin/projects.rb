@@ -17,6 +17,12 @@ ActiveAdmin.register Project, as: 'Project' do
   scope('Completed Projects') { |scope| scope.complete }
 
 
+  member_action :remove_image, method: :delete do
+    ActiveStorage::Attachment.find(params[:id]).purge_later
+
+    redirect_back(fallback_location: edit_admin_project_path)
+  end
+
   member_action :project_address, method: :get do
     @project = Project.find(params[:id])
 
@@ -86,8 +92,18 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :val_sf
       f.input :estimated_value
       f.input :status
-      f.input :picture, as: :file
+      f.input :images, as: :file, input_html: { multiple: true }
       f.input :is_hot
+      if f.object.images.attached?
+        ul do
+          f.object.images.each do |image|
+            li class: 'display-inline-block' do
+              span link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
+              span link_to "remove", remove_image_admin_project_path(image.id), method: :delete,data: { confirm: 'Are you sure?' }
+            end
+           end
+        end
+      end
     end
     f.inputs name: 'Tasks' do
       f.has_many :tasks, heading: false do |a|
@@ -128,8 +144,14 @@ ActiveAdmin.register Project, as: 'Project' do
 
   show do
     attributes_table do
-      row :picture do |project|
-        project.picture.attached? ? image_tag(project.picture, size: '80x80') : 'Picture not attached'
+      row :images do |project|
+        ul do
+          project.images.each do |image|
+            li class: 'display-inline-block' do
+              link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
+            end
+          end
+        end
       end
       row :project_name do |project|
         project.name
@@ -223,9 +245,10 @@ ActiveAdmin.register Project, as: 'Project' do
     end
   end
 
-  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :picture,
-        :user_id, :status, :tracking_id, :val_sf, :estimated_value, :start_date, :demo_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
-        tasks_attributes: [:id, :estimated_time, :title, :description, :start_date,
-                           :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
-        group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
+  permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id,
+                :val_sf, :estimated_value, :start_date, :demo_date, :pm_id, :appraiser_id, :contractor_id, :architect_id,
+                :zillow_location_id, :contract_date, :access_info, :sqft, :is_hot, images: [],
+                tasks_attributes: [:id, :estimated_time, :title, :description, :start_date,
+                                  :is_hot, :_destroy, notes_attributes: [:id, :message, :created_by_id, :_destroy]],
+                group_items_attributes: [:id, :title, :price, :description, :project_id, :sold, :_destroy, :product_ids => [] ]
 end
