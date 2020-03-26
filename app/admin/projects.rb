@@ -94,7 +94,7 @@ ActiveAdmin.register Project, as: 'Project' do
       f.input :status
       f.input :images, as: :file, input_html: { multiple: true }
       f.input :is_hot
-      if f.object.images.attached?
+      if f.object.images.attached? && f.object.images.all?(&:persisted?)
         ul do
           f.object.images.each do |image|
             li class: 'display-inline-block' do

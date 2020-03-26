@@ -63,6 +63,17 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :need_uninstallation
       f.input :uninstallation_date, as: :datepicker
       f.input :images, as: :file, input_html: { multiple: true }
+
+      if f.object.images.attached? && f.object.images.all?(&:persisted?)
+        ul do
+          f.object.images.each do |image|
+            li class: 'display-inline-block' do
+              span link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
+              span link_to "remove", remove_image_admin_item_path(image.id), method: :delete, data: { confirm: 'Are you sure?' }
+            end
+           end
+        end
+      end
     end
     f.inputs name: 'Location' do
       f.input :address
@@ -104,16 +115,7 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :sale_date, as: :datepicker
       f.input :pickup_date, as: :datepicker
     end
-    if f.object.images.attached?
-      ul do
-        f.object.images.each do |image|
-          li class: 'display-inline-block' do
-            span link_to(image_tag(image, height: '100'), url_for(image), target: :blank)
-            span link_to "remove", remove_image_admin_item_path(image.id), method: :delete, data: { confirm: 'Are you sure?' }
-          end
-         end
-      end
-    end
+
     f.submit value: params[:action] == 'edit' ? 'Update Item' : 'Create Item',
              data: { disable_with: params[:action] == 'edit' ? 'Update Item' : 'Create Item' }
   end
