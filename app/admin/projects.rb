@@ -13,7 +13,7 @@ ActiveAdmin.register Project, as: 'Project' do
   filter :demo_date
 
   scope 'Projects Approaching Demo', :approaching_demo
-  scope('Show All') { |scope| scope.contract_projects }
+  scope('Show All') { |scope| scope.contract_or_complete_projects }
   scope('Completed Projects') { |scope| scope.complete }
 
 
@@ -239,9 +239,20 @@ ActiveAdmin.register Project, as: 'Project' do
   end
 
   controller do
+    after_action :create_zillow, only: :update
+
     def scoped_collection
-      return Project.contract_projects if current_admin_user.admin?
-      Project.contract_projects.method("#{current_admin_user.role}_projects}").call(current_admin_user.id)
+      return Project.contract_or_complete_projects if current_admin_user.admin?
+      Project.contract_or_complete_projects.method("#{current_admin_user.role}_projects}").call(current_admin_user.id)
+    end
+
+    def create_zillow
+      return unless resource.complete?
+
+      ZillowLocation.create(
+        type_of_project: resource.type_of_project, address: resource.address, city: resource.city,
+        state: resource.state, zip: resource.zip, year_built: resource.year_built, val_sf: resource.val_sf
+      )
     end
   end
 

@@ -31,6 +31,7 @@ class Project < ApplicationRecord
   scope :contractor_projects, -> (contractor_id) { where(contractor_id: contractor_id) }
   scope :architect_projects, -> (architect_id) { where(architect_id: architect_id) }
   scope :approaching_demo, -> { where(demo_date: 1.week.from_now.to_date) }
+  scope :contract_or_complete_projects, -> { where(status: [3,4]) }
 
   def to_s
     "#{name} #{id}"

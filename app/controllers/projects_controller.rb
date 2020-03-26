@@ -148,6 +148,7 @@ class ProjectsController < ApiController
       end
 
       project.val_sf = final_estimation
+      project.zilow_location = closest_project
       project.save
     rescue => e
       Error.create(message: e.message)
