@@ -1,4 +1,6 @@
 ActiveAdmin.register Sale do
+  config.clear_action_items!
+
   belongs_to :product, optional: true
 
   filter :product
