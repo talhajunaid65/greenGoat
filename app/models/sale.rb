@@ -23,6 +23,6 @@ class Sale < ApplicationRecord
   validates :pickup_status, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, presence: true, if: :need_delivery?
 
   def to_s
-    user
+    user.to_s
   end
 end

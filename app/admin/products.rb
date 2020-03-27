@@ -28,6 +28,10 @@ ActiveAdmin.register Product, as: 'Item' do
     end
   end
 
+  action_item :add_sale, only: [:show] do
+    link_to "Add Sale", new_admin_item_sale_path(resource)
+  end
+
   index do
     column :title
     column :description
@@ -193,9 +197,6 @@ ActiveAdmin.register Product, as: 'Item' do
           end
           column :phone
           column :contact_date
-          column do |sale|
-            link_to "Add Sale", new_admin_item_sale_path(item)
-          end
         end
       end
     end

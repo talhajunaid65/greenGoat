@@ -36,7 +36,7 @@ set :keep_releases, 5
 ## Linked Files & Directories (Default None):
 set :linked_files, %w{config/master.key}
 set :bundle_binstubs, nil
-set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs,  %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system storage}
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'

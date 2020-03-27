@@ -16,7 +16,6 @@ ActiveAdmin.register Sale do
       link_to sale.user, admin_client_path(sale.user) if sale.user.present?
     end
     column :phone
-    column :status
     column :contact_date
     column :visit_date
     column :sale_source

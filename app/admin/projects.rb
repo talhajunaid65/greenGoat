@@ -211,12 +211,9 @@ ActiveAdmin.register Project, as: 'Project' do
         table_for project.products do
           column :title
           column :link do |p| link_to "View", admin_item_path(p) end
-          column "Sale" do |product|
-            if product.sales.blank?
-              link_to "Add Sale",  new_admin_item_sale_path(product)
-            else
-              link_to "View sales",  admin_item_sales_path(product)
-            end
+          column "Actions" do |product|
+            (link_to "Add Sale", new_admin_item_sale_path(product)) + ' | ' +
+            (link_to "View sales", admin_item_sales_path(product))
           end
 
           column "Change Location" do |item|
