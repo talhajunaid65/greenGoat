@@ -38,7 +38,7 @@ class Project < ApplicationRecord
   end
 
   def first_three_hot_tasks
-    tasks.hot_tasks.first(3)
+    tasks.hot.incomplete.first(3)
   end
 
   def update_tasks_start_date

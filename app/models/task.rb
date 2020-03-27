@@ -5,8 +5,8 @@ class Task < ApplicationRecord
 
   accepts_nested_attributes_for :notes, allow_destroy: true
 
-  scope :hot_tasks, -> { where(is_hot: true, closed: false) }
-
+  scope :hot, -> { where(is_hot: true) }
+  scope :incomplete, -> { where(closed: false) }
   before_create do |task|
     task.job_number = task.generate_job_number
   end
