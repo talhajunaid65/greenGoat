@@ -13,7 +13,7 @@ class ProjectsController < ApiController
   end
 
   def create
-    project = current_user.project.new(project_params.merge(status: 'proposal'))
+    project = current_user.projects.new(project_params.merge(status: 'proposal'))
     project.save
 
     render_errors(project.errors.full_messages) && return if project.errors.any?
@@ -54,6 +54,7 @@ class ProjectsController < ApiController
       xml_doc = Nokogiri::XML(data)
 
       unless xml_doc.at('code').text.to_i == 0
+        project.save
         ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
         return render json: { message: 'We could not find any information about the address you provided. Please check email for further information.' },
                       status: :ok

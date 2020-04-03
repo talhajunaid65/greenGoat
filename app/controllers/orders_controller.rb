@@ -16,7 +16,7 @@ class OrdersController < ApiController
     request = Net::HTTP::Post.new(url)
     request["Authorization"] = ["Basic", "Basic Z3JlZW5nb2E6cyFLSnlZQEs3MiNtSjckMzRTZmV3Uw=="]
     request["Content-Type"] = "application/json"
-    request.body = "{\"merchid\": \"496335333886\",\"account\": \"#{params[:number]}\",\"expiry\": \"#{params[:expiry]}\",\"amount\": \"#{params[:price]}\",\"currency\": \"USD\",\"name\": \"CC TEST\"}"
+    request.body = "{\"merchid\": \"496353885882\",\"account\": \"#{params[:number]}\",\"expiry\": \"#{params[:expiry]}\",\"amount\": \"#{params[:price]}\",\"currency\": \"USD\",\"name\": \"CC TEST\"}"
 
     response = https.request(request)
     response_body = JSON.parse(response.read_body)
