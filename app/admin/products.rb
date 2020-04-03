@@ -34,6 +34,7 @@ ActiveAdmin.register Product, as: 'Item' do
 
   index do
     column :title
+    column 'Item ID', &:product_id
     column :description
     column 'Status', &:product_status
     column :category
@@ -62,6 +63,7 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :height, label: 'Height (inches)'
       f.input :depth, label: 'Depth (inches)'
       f.input :room_id
+      f.input :product_id, label: 'Item ID'
       f.input :uom
       f.input :payment_status
       f.input :need_uninstallation
@@ -133,6 +135,9 @@ ActiveAdmin.register Product, as: 'Item' do
       row :payment_status
       row 'Status' do |item|
         item.product_status
+      end
+      row 'Item ID' do |item|
+        item.product_id
       end
       row :room_id
       row :need_uninstallation
@@ -222,8 +227,8 @@ ActiveAdmin.register Product, as: 'Item' do
     end
   end
 
-  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price, :description, :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status, :payment_status,
-                :serial, :sale_date, :pickup_date, :uninstallation_date, :other, :weight, :asking_price, :adjusted_price, :sale_price,
-                images: []
-
+  permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price,
+                :description, :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status,
+                :payment_status, :serial, :sale_date, :pickup_date, :uninstallation_date, :other, :weight, :asking_price, :adjusted_price,
+                :sale_price, :product_id, images: []
 end
