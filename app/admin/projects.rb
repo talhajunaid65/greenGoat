@@ -204,6 +204,10 @@ ActiveAdmin.register Project, as: 'Project' do
           column 'Notes' do |task|
             link_to "Notes", admin_task_path(task)
           end
+
+          column 'View' do |task|
+            link_to "View task", admin_task_path(task)
+          end
         end
       end
 

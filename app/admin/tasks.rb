@@ -1,7 +1,5 @@
 ActiveAdmin.register Task do
-  menu false
-
-  actions :show
+  actions :index, :show, :destroy
 
   member_action :close, method: :get do
     task = Task.find(params[:id])

@@ -3,6 +3,13 @@ ActiveAdmin.register Wishlist do
 
   permit_params :name, :description, :complete, :user_id
 
+  filter :user, label: 'Client'
+  filter :name
+  filter :description
+  filter :complete
+  filter :created_at
+  filter :updated_at
+
   index do
     selectable_column
     column :name
