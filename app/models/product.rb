@@ -42,6 +42,10 @@ class Product < ApplicationRecord
     product_statuses.last.new_status
   end
 
+  def sold?
+    product_statuses.last&.sold?
+  end
+
   def to_s
     title
   end
@@ -64,6 +68,15 @@ class Product < ApplicationRecord
     products = products.search_by_title(q[:title]) if q[:title].present?
     products = products.in_price_range(q[:min_price], q[:max_price]) if q[:min_price] || q[:max_price]
     products
+  end
+
+  def remove_from_group_items
+    group_items = GroupItem.find_by_product_id(id.to_s)
+
+    group_items.each do |group_item|
+      group_item.product_ids.delete(id.to_s)
+      group_item.update(product_ids: group_item.product_ids)
+    end
   end
 
   private
@@ -99,15 +112,6 @@ class Product < ApplicationRecord
 
   def remove_images
     images&.collect(&:purge_later)
-  end
-
-  def remove_from_group_items
-    group_items = GroupItem.find_by_product_id(self.id.to_s)
-
-    group_items.each do |group_item|
-      group_item.product_ids.delete(self.id.to_s)
-      group_item.update(product_ids: group_item.product_ids)
-    end
   end
 
   def remove_from_favourites

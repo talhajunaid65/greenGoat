@@ -5,6 +5,10 @@ class GroupItem < ApplicationRecord
 
   before_save :sanitize_array_input
 
+  def sold!
+    update(sold: true)
+  end
+
   private
 
   def sanitize_array_input

@@ -21,10 +21,13 @@ Rails.application.routes.draw do
 
   get '/myactivity', to: 'activities#index'
 
-  namespace :api, constraints: { format: 'json' } do
-        mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-          registrations:  'users/registrations'
-        }
+  namespace :api do
+    mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+      registrations:  'users/registrations'
+    }
+    namespace :v1 do
+      resources :orders, only: [:create]
+    end
   end
 
   resources :favourites, only: %i[index]
@@ -32,8 +35,6 @@ Rails.application.routes.draw do
   post '/favourites/remove-from-favourite', to: 'favourites#remove_from_favourite'
 
   post '/contact-us', to: 'projects#contact_us'
-
-  post '/checkout', to: 'orders#checkout'
 
   resources :tasks
   resources :wishlists, only: [:index, :create, :destroy]

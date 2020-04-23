@@ -36,13 +36,13 @@ gem 'devise_token_auth'
 gem 'formtastic', '~> 3.0'
 gem 'geokit'
 gem 'geocoder'
-gem 'sidekiq'
 gem 'redis-rails'
+gem 'sidekiq'
+gem 'stripe'
 gem 'ransack'
 gem 'cancan'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.1'
 gem "roo", "~> 2.8.0"
-gem 'dotenv-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
