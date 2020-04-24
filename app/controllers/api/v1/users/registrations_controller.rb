@@ -1,4 +1,4 @@
-class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
+class Api::V1::Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
 	# frozen_string_literal: true
 
 
@@ -46,7 +46,7 @@ class Users::RegistrationsController < DeviseTokenAuth::RegistrationsController
           base64image = Base64.decode64(params[:image])
           decoded_image = StringIO.new(base64image)
         	@resource.image.attach(io: decoded_image, filename: "#{params[:firstname]}.jpg")
-        end  
+        end
         yield @resource if block_given?
 
         unless @resource.confirmed?
