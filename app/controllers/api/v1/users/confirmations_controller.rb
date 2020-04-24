@@ -1,4 +1,4 @@
-class Api::V1::Users::ComfirmationsController < DeviseTokenAuth::ComfirmationsController
+class Api::V1::Users::ComfirmationsController < DeviseTokenAuth::ConfirmationsController
   def show
     @resource = resource_class.confirm_by_token(resource_params[:confirmation_token])
 
