@@ -1,4 +1,4 @@
-class FavouritesController < ApiController
+class Api::V1::FavouritesController < ApiController
   before_action :authenticate_user!
   before_action :set_favourite
 

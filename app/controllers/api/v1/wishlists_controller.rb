@@ -1,4 +1,4 @@
-class WishlistsController < ApiController
+class Api::V1::WishlistsController < ApiController
   before_action :authenticate_user!
 
   def index

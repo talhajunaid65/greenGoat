@@ -1,4 +1,4 @@
-class GroupItemsController < ApplicationController
+class Api::V1::GroupItemsController < ApiController
   def index
     products = GroupItem.where(sold: false)
 
