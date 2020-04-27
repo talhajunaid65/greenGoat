@@ -18,7 +18,7 @@ class Api::V1::OrdersController < ApiController
       @item.sold!
     end
 
-    render json: { message: message }, status: :ok
+    render json: { success: result, message: message }, status: :ok
   end
 
   private
