@@ -35,8 +35,8 @@ class Api::V1::OrdersController < ApiController
         GroupItem.find_by(id: order_params[:id])
       end
 
-    render json: { message: "No item or group found with id=#{order_params[:id]}" }, status: 500 if @item.blank?
-    render json: { message: 'This item is already sold' } if @item.sold?
+    render json: { success: false, message: "No item or group found with id=#{order_params[:id]}" }, status: 500 if @item.blank?
+    render json: { success: false, message: 'This item is already sold' } if @item.sold?
   end
 
 end
