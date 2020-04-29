@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self) rescue ActiveAdmin::DatabaseHitDuringLoad
 
-  resources :pages
-
   mount_devise_token_auth_for 'User', at: 'auth'
 
   namespace :api do
@@ -35,4 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :users do
+    resources :passwords, only: %i[create edit update]
+  end
 end
