@@ -5,7 +5,7 @@ ActiveAdmin.register Sale do
 
   filter :product
   filter :user, label: 'Client'
-  filter :pm
+  filter :pm, label: 'Project Manager', as: :select, collection: proc { AdminUser.pms }
   filter :created_at, label: 'Date Range'
   filter :sale_source, as: :select, collection: proc { Sale.sale_sources }
   filter :other_source_cont, as: :string, label: 'Other Source'
@@ -54,7 +54,7 @@ ActiveAdmin.register Sale do
       f.input :delivery_cost
       f.input :delivery_date, as: :datepicker
       f.input :pickup_status
-      f.input :pm_id, as: :hidden, input_html: { value: f.object.pm ? f.object.pm_id : current_admin_user.id } if current_admin_user.pm?
+      f.input :pm_id, as: :hidden, input_html: { value: f.object.pm ? f.object.pm_id : current_admin_user.id } if current_admin_user.project_manager?
     end
     f.actions
   end

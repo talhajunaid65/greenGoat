@@ -24,7 +24,7 @@ ActiveAdmin.register_page "Dashboard" do
 
       column do
         if current_admin_user
-          panel "Upcoming Vists" do
+          panel "Upcoming Visits" do
             table do
               thead do
                 tr do

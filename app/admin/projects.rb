@@ -2,7 +2,7 @@ ActiveAdmin.register Project, as: 'Project' do
   actions :all, except: [:new, :create]
 
   filter :user, label: 'Weight by user'
-  filter :pm, as: :select, collection: AdminUser.pms
+  filter :pm, label: 'Project Manager', as: :select, collection: AdminUser.pms
   filter :appraiser, as: :select, collection: AdminUser.appraisers
   filter :contractor, as: :select, collection: AdminUser.contractors
   filter :architect, as: :select, collection: AdminUser.architects
@@ -53,7 +53,7 @@ ActiveAdmin.register Project, as: 'Project' do
         end
       end
     else
-      column :'pm' do |project|
+      column :project_manager do |project|
         link_to project.pm, admin_admin_user_path(project.pm) if project.pm
       end
       column :appraiser do |project|
@@ -72,7 +72,7 @@ ActiveAdmin.register Project, as: 'Project' do
   form do |f|
     f.inputs do
       f.input :user, input_html: { disabled: true }
-      f.input :pm, as: :select, collection: AdminUser.pms
+      f.input :pm, label: 'Project Manager', as: :select, collection: AdminUser.pms
       f.input :appraiser, as: :select, collection: AdminUser.appraisers
       f.input :contractor, as: :select, collection: AdminUser.contractors
       f.input :architect, as: :select, collection: AdminUser.architects
@@ -156,7 +156,7 @@ ActiveAdmin.register Project, as: 'Project' do
       row :project_name do |project|
         project.name
       end
-      row :pm do |project|
+      row :project_manager do |project|
         link_to project.pm, admin_admin_user_path(project.pm) if project.pm
       end
       row :appraiser do |project|

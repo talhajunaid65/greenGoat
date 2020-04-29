@@ -19,6 +19,7 @@ ActiveAdmin.register Task do
       row :start_date
       row :closed_date
       row :closed_by
+      row :description
       panel "Notes" do
         table_for task.notes do
           column :created_by do |note|
