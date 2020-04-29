@@ -1,20 +1,22 @@
+<h1>Change your password</h1>
+<hr>
 <%= form_for(@resource, url: users_password_path(@resource), html: { method: :put }) do |f| %>
   <%= f.hidden_field :reset_password_token, value: params[:reset_password_token] %>
 
-  <div class="field">
+  <div class="form-group mt-10">
     <%= f.label :password, "New password" %><br />
     <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em><br />
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true %>
+    <%= f.password_field :password, autofocus: true, autocomplete: "new-password", required: true, class: 'form-control' %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: 'form-control' %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= f.submit "Change my password", class: 'btn btn-primary' %>
   </div>
 <% end %>

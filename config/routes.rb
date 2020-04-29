@@ -36,4 +36,6 @@ Rails.application.routes.draw do
   namespace :users do
     resources :passwords, only: %i[create edit update]
   end
+
+  resources :pages, only: [:index]
 end

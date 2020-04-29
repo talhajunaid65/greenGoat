@@ -78,6 +78,8 @@ GEM
       font-awesome-sass (~> 5.6.1)
       jquery-rails
     arel (9.0.0)
+    autoprefixer-rails (9.7.6)
+      execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -85,6 +87,10 @@ GEM
     bcrypt (3.1.13)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
+    bootstrap (4.4.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 1.14.3, < 2)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
     cancan (1.6.10)
@@ -215,6 +221,7 @@ GEM
     pg (1.2.2)
     polyamorous (2.3.2)
       activerecord (>= 5.2.1)
+    popper_js (1.16.0)
     public_suffix (4.0.3)
     puma (3.12.4)
     rack (2.1.1)
@@ -361,6 +368,7 @@ DEPENDENCIES
   activeadmin_addons
   arctic_admin
   bootsnap (>= 1.1.0)
+  bootstrap (~> 4.4.1)
   byebug
   cancan
   capistrano
@@ -373,6 +381,7 @@ DEPENDENCIES
   formtastic (~> 3.0)
   geocoder
   geokit
+  jquery-rails
   letter_opener
   listen (>= 3.0.5, < 3.2)
   mailcatcher

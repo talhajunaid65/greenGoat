@@ -31,6 +31,7 @@ class Users::PasswordsController < ApplicationController
     @resource.reset_password!(resource_params[:password], resource_params[:password_confirmation])
 
     if @resource.errors.any?
+      flash.now[:alert] = @resource.errors.full_messages.to_sentence
       render :edit
     else
       redirect_to root_path, notice: 'Your password is successfully updated.'
