@@ -11,7 +11,7 @@ ActiveAdmin.register_page "Dashboard" do
               hr
               ul do
                 project.first_three_hot_tasks.each do |task|
-                  li task.job_number
+                  li link_to task.job_number, admin_task_path(task)
                 end
                 br
                 li link_to 'More', admin_project_path(project)
