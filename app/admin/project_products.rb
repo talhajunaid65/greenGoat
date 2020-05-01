@@ -5,7 +5,7 @@ ActiveAdmin.register ProjectProduct, as: 'ItemLocation' do
 
   form do |f|
     f.inputs do
-      f.input :project
+      f.input :project, as: :select, collection: Project.contract
       f.input :product_id, as: :hidden, input_html: { value: params[:item_id] || resource.product_id }
     end
     f.actions do
