@@ -3,20 +3,23 @@ ActiveAdmin.register User, as: 'Client' do
 
   actions :all, except: [:new, :create]
 
+  filter :email_cont, label: 'Email'
+  filter :firstname_cont, label: 'First Name'
+  filter :lastname_cont, lebel: 'Last Name'
+  filter :client_code_cont, as: :string, label: 'Client Code'
+  filter :created_at
+
   index do
     selectable_column
     id_column
     column :email
+    column :firstname
+    column :lastname
     column :client_code
     column :sign_in_count
     column :created_at
     actions
   end
-
-  filter :email
-  filter :sign_in_count
-  filter :client_code_cont, as: :string, label: 'Client Code'
-  filter :created_at
 
   form do |f|
     f.inputs do

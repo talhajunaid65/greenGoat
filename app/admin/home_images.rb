@@ -1,4 +1,5 @@
 ActiveAdmin.register HomeImage do
+  config.filters = false
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
@@ -15,14 +16,14 @@ form do |f|
     input :image, as: :file
     f.submit
   end
-  
+
 	show do
 	  attributes_table(*resource.attributes.keys) do
 	    row :image do |ad|
 	       image_tag url_for(ad.image), height: '200'
 	    end
 	  end
-	end  
-  
+	end
+
 
 end

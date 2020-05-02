@@ -32,7 +32,7 @@ class Product < ApplicationRecord
 
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
-  scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status = ?', 6).distinct }
+  scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status <> ?', Product.statuses[:sold]).distinct }
   scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
