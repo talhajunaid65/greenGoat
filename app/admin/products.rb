@@ -2,7 +2,7 @@ ActiveAdmin.register Product, as: 'Item' do
 
   filter :title_cont, as: :string, label: 'Title'
   filter :category
-  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses }, label: 'Status'
+  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses.except(:sold) }, label: 'Status'
   filter :need_uninstallation
   filter :uninstallation_date
   filter :asking_price_eq, label: 'Asking Price'
@@ -12,6 +12,7 @@ ActiveAdmin.register Product, as: 'Item' do
   filter :make_cont, label: 'Make'
 
   scope 'Items Waiting For Uninstallation', :wating_for_uninstallation
+  scope 'Sold Products', :sold_products
   scope 'Show All Available', :available_products
 
   member_action :remove_image, method: :delete do
@@ -208,10 +209,6 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   controller do
-    def scoped_collection
-      Product.available_products
-    end
-
     def create
       @resource = Product.new(permitted_params[:product])
       project_id = params.dig(:product, :project_ids)

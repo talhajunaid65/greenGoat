@@ -32,11 +32,16 @@ class Product < ApplicationRecord
 
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
-  scope :available_products, ->  { joins(:product_statuses).where.not('product_statuses.new_status <> ?', Product.statuses[:sold]).distinct }
+  scope :available_products, ->  { where.not(id: sold_product_ids) }
+  scope :sold_products, -> { where(id: sold_product_ids) }
   scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
   scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
+
+  def self.sold_product_ids
+    Product.includes(:product_statuses).all.map{ |product| product.id if product.sold? }
+  end
 
   def product_status
     product_statuses.last.new_status
