@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   has_one_attached :image
   has_one :favourite
 
+  enum role: %i[contractor appraiser donor buyer real_estate_agent]
+
   before_create do |user|
     user.client_code = user.generate_client_code
   end
