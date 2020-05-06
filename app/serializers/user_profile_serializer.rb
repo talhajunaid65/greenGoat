@@ -1,7 +1,7 @@
 class UserProfileSerializer < ActiveModel::Serializer
 	include Rails.application.routes.url_helpers
   attributes :id, :firstname, :lastname, :email, :password, :password_confirmation,
-	  		 :phone, :phone_type, :address1, :address2, :city, :state, :zip, :role,
+	  		 :phone, :phone_type, :address1, :address2, :city, :state, :zip, :roles,
 	  		 :image
 
 	def image
