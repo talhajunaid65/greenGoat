@@ -8,13 +8,13 @@ class User < ActiveRecord::Base
         :recoverable, :rememberable, :trackable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  ROLES = {
-    contractor: 'Contractor',
-    appraiser: 'Appraiser',
-    donor: 'Donor',
-    buyer: 'Buyer',
-    real_estate_agent: 'Real Estate Agent'
-  }
+  ROLES = %w[
+    Contractor
+    Appraiser
+    Donor
+    Buyer
+    Real Estate Agent
+  ]
 
   has_many :projects
   has_many :sales
@@ -78,6 +78,6 @@ class User < ActiveRecord::Base
 
 
   def roles_consistency
-    errors.add(:role, 'is not valid.') unless ROLES.values.include?(roles)
+    errors.add(:role, 'is not valid.') unless roles.reject(&:blank?).all?{ |ele| ROLES.include?(ele) }
   end
 end

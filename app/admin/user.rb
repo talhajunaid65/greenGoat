@@ -4,7 +4,7 @@ ActiveAdmin.register User, as: 'Client' do
   filter :email_cont, label: 'Email'
   filter :firstname_cont, label: 'First Name'
   filter :lastname_cont, label: 'Last Name'
-  filter :where_roles_contains, as: :select, collection: proc { User::ROLES.map{|key, value| [value, key.to_s] } }, label: 'Role'
+  filter :where_roles_contains, as: :select, collection: proc { User::ROLES }, label: 'Role'
   filter :client_code_cont, as: :string, label: 'Client Code'
   filter :created_at
 
@@ -33,7 +33,7 @@ ActiveAdmin.register User, as: 'Client' do
       f.input :city
       f.input :state
       f.input :zip
-      f.input :roles, as: :select, collection: User::ROLES.map{|key, value| [value, key.to_s] }, class: 'select2-dropdown', multiple: true
+      f.input :roles, as: :select, collection: User::ROLES, class: 'select2-dropdown', multiple: true
     end
     f.actions do
       f.action :submit
