@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   has_one_attached :image
   has_one :favourite
 
+  validate :roles_consistency
   scope :where_roles_contains, -> (role) { where("roles @> ?", "{#{role}}") }
 
   before_create do |user|
@@ -73,5 +74,10 @@ class User < ActiveRecord::Base
 
   def sanitize_array_input
     self.roles = roles.reject(&:blank?)
+  end
+
+
+  def roles_consistency
+    errors.add(:role, 'is not valid.') unless ROLES.values.include?(roles)
   end
 end
