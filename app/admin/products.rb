@@ -2,7 +2,7 @@ ActiveAdmin.register Product, as: 'Item' do
 
   filter :title_cont, as: :string, label: 'Title'
   filter :category
-  filter :product_statuses_new_status_eq, as: :select, collection: proc { ProductStatus.new_statuses.except(:sold) }, label: 'Status'
+  filter :where_status_is, as: :select, collection: proc { ProductStatus.new_statuses.map{|val| [val[0], val[0]]} }, label: 'Status'
   filter :need_uninstallation
   filter :uninstallation_date
   filter :asking_price_eq, label: 'Asking Price'
@@ -30,7 +30,7 @@ ActiveAdmin.register Product, as: 'Item' do
   end
 
   action_item :add_sale, only: [:show] do
-    link_to "Add Sale", new_admin_item_sale_path(resource)
+    link_to "Add Sale", new_admin_item_sale_path(item_id: resource.id) unless resource.sold?
   end
 
   index do
@@ -50,7 +50,8 @@ ActiveAdmin.register Product, as: 'Item' do
 
   form do |f|
     f.inputs name: 'Basic' do
-      f.input :project_ids, as: :select, collection: Project.contract_projects, selected: f.object.projects.last&.id || params.dig(:product, :project_ids),
+      f.input :product_id, label: 'Item ID'
+      f.input :project_ids, as: :select, collection: Project.contract_projects, selected: f.object.projects.last&.id || params.dig(:product, :project_ids) || params[:project_id],
               input_html: { disabled: !f.object.new_record?, required: true, class: 'select2-dropdown' }, label: 'Project'
       f.input :category, label: 'Category', as: :select, collection: Category.parent_categories
       f.input :sub_category, label: 'Sub Category', as: :select, collection: Category.sub_categories
@@ -64,7 +65,6 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :height, label: 'Height (inches)'
       f.input :depth, label: 'Depth (inches)'
       f.input :room_id
-      f.input :product_id, label: 'Item ID'
       f.input :uom
       f.input :payment_status
       f.input :need_uninstallation
@@ -187,7 +187,7 @@ ActiveAdmin.register Product, as: 'Item' do
         end
       end
 
-      panel "Projects" do
+      panel "Project" do
         table_for item.projects do
           column "Name" do |project|
             link_to project.name, admin_project_path(project)
@@ -196,7 +196,7 @@ ActiveAdmin.register Product, as: 'Item' do
         end
       end
 
-      panel "Sales" do
+      panel "Sale" do
         table_for item.sales do
           column "Buyer Name" do |sale|
             link_to sale, admin_sale_path(sale)

@@ -105,6 +105,9 @@ ActiveAdmin.register Project, as: 'Project' do
         end
       end
     end
+    li class: 'add-new-item-link' do
+      link_to 'Add Item', new_admin_item_path(project_id: f.object.id), class: 'button' if f.object.persisted? && !f.object.complete?
+    end
     f.inputs name: 'Tasks' do
       f.has_many :tasks, heading: false do |a|
         a.inputs do
@@ -188,6 +191,7 @@ ActiveAdmin.register Project, as: 'Project' do
       panel "Tasks" do
         table_for project.tasks do
           column :job_number
+          column :title
           column :estimated_time
           column :start_date
           column :closed_date
@@ -216,13 +220,13 @@ ActiveAdmin.register Project, as: 'Project' do
           column :title
           column :link do |p| link_to "View", admin_item_path(p) end
           column "Actions" do |product|
-            (link_to "Add Sale", new_admin_item_sale_path(product)) + ' | ' +
-            (link_to "View sales", admin_item_sales_path(product))
+            [(link_to "Add Sale", new_admin_item_sale_path(product)),
+            (link_to "View sale", admin_item_sales_path(product))].join(' | ').html_safe
           end
 
-          column "Change Location" do |item|
-            link_to 'Change', new_admin_item_location_path(item_id: item.id)
-          end
+          # column "Change Location" do |item|
+          #   link_to 'Change', new_admin_item_location_path(item_id: item.id)
+          # end
         end
       end
 

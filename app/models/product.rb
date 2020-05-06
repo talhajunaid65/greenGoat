@@ -38,6 +38,10 @@ class Product < ApplicationRecord
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
   scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
+  scope :where_status_is, -> (status) do
+    matching_ids = Product.includes(:product_statuses).all.map { |product| product.id if product.product_statuses.last.new_status == status }
+    where(id: matching_ids)
+  end
 
   def self.sold_product_ids
     Product.includes(:product_statuses).all.map{ |product| product.id if product.sold? }
@@ -82,6 +86,10 @@ class Product < ApplicationRecord
       group_item.product_ids.delete(id.to_s)
       group_item.update(product_ids: group_item.product_ids)
     end
+  end
+
+  def self.ransackable_scopes(*)
+    %i(where_status_is)
   end
 
   private

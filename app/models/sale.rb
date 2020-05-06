@@ -22,7 +22,13 @@ class Sale < ApplicationRecord
 
   validates :pickup_status, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, presence: true, if: :need_delivery?
 
+  after_create :update_product_status
+
   def to_s
     user.to_s
+  end
+
+  def update_product_status
+    product.product_statuses.create(new_status: 'sold', admin_user_id: pm.id) if delivered?
   end
 end

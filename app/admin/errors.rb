@@ -1,4 +1,5 @@
 ActiveAdmin.register Error do
+  menu false
   actions :index, :destroy
 
   index do

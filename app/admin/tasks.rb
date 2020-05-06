@@ -10,6 +10,8 @@ ActiveAdmin.register Task do
   show do
     attributes_table do
       row :job_number
+      row :title
+      row :description
       row :closed
       row :project do |task|
         link_to task.project, admin_project_path(task.project)
@@ -19,7 +21,6 @@ ActiveAdmin.register Task do
       row :start_date
       row :closed_date
       row :closed_by
-      row :description
       panel "Notes" do
         table_for task.notes do
           column :created_by do |note|

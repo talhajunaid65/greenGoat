@@ -1,6 +1,6 @@
 ActiveAdmin.register Project, as: 'Prospect' do
 
-  filter :user
+  filter :user, label: 'Client'
   filter :address
   filter :city
   filter :state
@@ -52,7 +52,12 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
   form do |f|
     f.inputs do
-      f.input :user, input_html: { disabled: !f.object.new_record?, class: 'select2-dropdown' }
+      f.inputs do
+        f.input :user, input_html: { disabled: !f.object.new_record?, class: 'select2-dropdown' }, label: 'Client'
+        li class: 'weight-labels' do
+          link_to 'Add new client', new_admin_client_path
+        end
+      end
       f.input :name, label: 'Project Name'
       f.input :type_of_project
       f.input :address

@@ -8,6 +8,14 @@ class User < ActiveRecord::Base
         :recoverable, :rememberable, :trackable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
+  ROLES = {
+    contractor: 'Contractor',
+    appraiser: 'Appraiser',
+    donor: 'Donor',
+    buyer: 'Buyer',
+    real_estate_agent: 'Real Estate Agent'
+  }
+
   has_many :projects
   has_many :sales
   has_many :activities, dependent: :destroy
@@ -17,11 +25,13 @@ class User < ActiveRecord::Base
   has_one_attached :image
   has_one :favourite
 
-  enum role: %i[contractor appraiser donor buyer real_estate_agent]
+  scope :where_roles_contains, -> (role) { where("roles @> ?", "{#{role}}") }
 
   before_create do |user|
     user.client_code = user.generate_client_code
   end
+
+  before_save :sanitize_array_input
 
   def to_s
     "#{firstname} #{lastname} - #{client_code}"
@@ -29,7 +39,7 @@ class User < ActiveRecord::Base
 
   def generate_client_code
     loop do
-      client_code = SecureRandom.hex(3)
+      client_code = SecureRandom.hex(8)
       break client_code unless User.exists?(client_code: client_code)
     end
   end
@@ -47,9 +57,21 @@ class User < ActiveRecord::Base
     save
   end
 
+  def self.ransackable_scopes(*)
+    %i(where_roles_contains)
+  end
+
+  def titleize_roles
+    roles.collect(&:titleize)
+  end
+
   private
 
   def generate_token
     SecureRandom.hex(10)
+  end
+
+  def sanitize_array_input
+    self.roles = roles.reject(&:blank?)
   end
 end

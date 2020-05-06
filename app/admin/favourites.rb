@@ -4,7 +4,9 @@ ActiveAdmin.register Favourite do
   index do
     selectable_column
     column :id
-    column :product_names
+    column :products do |favourite|
+      favourite.products.map{ |product| link_to product, admin_item_path(product) }.join(', ').html_safe
+    end
     column :user
     actions
   end

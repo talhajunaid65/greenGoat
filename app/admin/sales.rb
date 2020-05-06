@@ -37,8 +37,13 @@ ActiveAdmin.register Sale do
 
   form do |f|
     f.inputs do
-      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products
-      f.input :user, label: 'Client'
+      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products, selected: params[:item_id]
+      f.inputs do
+        f.input :user, label: 'Client'
+        li class: 'weight-labels' do
+          link_to 'Add new client', new_admin_client_path
+        end
+      end
       f.input :phone
       f.input :contact_date, as: :datepicker
       f.input :visit_date, as: :datepicker
