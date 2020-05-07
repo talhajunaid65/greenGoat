@@ -78,6 +78,8 @@ class User < ActiveRecord::Base
 
 
   def roles_consistency
+    return if roles.blank?
+
     errors.add(:role, 'is not valid.') unless roles.reject(&:blank?).all?{ |ele| ROLES.include?(ele) }
   end
 end
