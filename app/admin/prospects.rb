@@ -41,6 +41,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
     if visit_date.present?
       resource.update(visit_date: visit_date)
+      Activity.find_or_create_by(project: resource, user: resource.user, activity_type: 'scheduled_tour')
       ProjectMailer.scheduled_tour_user_email(resource).deliver_now
       ProjectMailer.scheduled_tour_admin_email(user: current_admin_user, prospect: resource).deliver_now
       redirect_to admin_prospect_path(resource), notice: 'Tour is scheduled for prospect.'

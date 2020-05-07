@@ -8,7 +8,8 @@ class Activity < ApplicationRecord
   enum activity_type: {
     project_status_changed: 'project_status_changed',
     task_added: 'task_added',
-    task_completed: 'task_completed'
+    task_completed: 'task_completed',
+    scheduled_tour: 'scheduled_tour'
   }
 
   delegate :title, to: :task, prefix: true, allow_nil: true

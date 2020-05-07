@@ -10,6 +10,8 @@ class ActivitySerializer < ActiveModel::Serializer
         "New task <b>#{object.task_title}</b> is added to your donation form ID:<b>#{object.project_id}</b>."
       when 'task_completed'
         "Task <b>#{object.task_title}</b> of your donation form ID:<b>#{object.project_id}</b>is complete."
+      when 'scheduled_tour'
+        "A tour is scheduled at #{object.project.visit_date.strftime('%I:%M%p')} for your donation #{object.project.title}  "
       else
         ''
       end

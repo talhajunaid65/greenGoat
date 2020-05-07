@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   before_save :sanitize_array_input
 
   def to_s
-    "#{firstname} #{lastname} - #{client_code}"
+    "#{full_name} - #{client_code}"
   end
 
   def generate_client_code
@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
       client_code = SecureRandom.hex(8)
       break client_code unless User.exists?(client_code: client_code)
     end
+  end
+
+  def full_name
+    "#{firstname} #{lastname}"
   end
 
   def generate_password_token!

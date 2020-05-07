@@ -1,0 +1,10 @@
+<p>Hi <%= @user.full_name %>!</p>
+
+<p>A new task is added to your donation <%= @project.title %>.</p>
+<p>Task detail:</p>
+<p>Title: <%= @task.title %></p>
+<p>Complete Tasks: <%= @project.tasks.closed %> out of <%= @project.tasks.total %></p>
+<p>Total Tasks: <%= @project.tasks.count %></p>
+
+<p>Thank you,</p>
+<p>greenGoat Admin</p>

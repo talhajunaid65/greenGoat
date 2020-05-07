@@ -24,6 +24,12 @@ class Task < ApplicationRecord
 
   def create_activity
     activity_type = closed? ? 'task_completed' : 'task_added'
-    Activity.find_or_create_by(user: self.project.user, project: self.project, task: self, activity_type: activity_type)
+    activity = Activity.find_or_initialize_by(user: self.project.user, project: self.project, task: self, activity_type: activity_type)
+    if activity.persisted?
+      TaskMailer.task_completed(self).deliver_now if closed?
+    else
+      activity.save
+      TaskMailer.new_task_added(self).deliver_now
+    end
   end
 end
