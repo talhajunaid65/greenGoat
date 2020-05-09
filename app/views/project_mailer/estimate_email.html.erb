@@ -6,13 +6,9 @@
         <td>
           <div style="text-align: center">
             <img src='http://www.greengoat.com/wp-content/uploads/2018/08/cropped-hhglhjl-2.png' style='max-width: 100px; padding-bottom: 20px;'></img>
-            <h2>Hi <%= @user.full_name %>!</h2>
+            <h2>Hello <%= @user.to_s %></h2>
           </div>
-          <p>Task <b><%= @task.title %></b> in your donation <%= @project.name %> is complete.</p>
-          <p>Task detail:</p>
-          <p>Title: <%= @task.title %></p>
-          <p>Complete Tasks: <%= @project.tasks.complete.count %> out of <%= @project.tasks.count %></p>
-          <p>Total Tasks: <%= @project.tasks.count %></p>
+          <p><%= @msg %>. One of our representive will reach out to you soon.</p>
           <hr>
         </td>
       </tr>

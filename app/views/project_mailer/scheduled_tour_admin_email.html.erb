@@ -1,5 +1,18 @@
-Hi,
-<br>
-You have scheduled a site tour for prospect <%= @project.address %><br/>on date:  <%= @project.visit_date.strftime('%H:%M%p %d-%m-%y') %>
-<br/>
-Thank you
+<!-- START MAIN CONTENT AREA -->
+<tr>
+  <td class="wrapper">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>
+          <div style="text-align: center">
+            <img src='http://www.greengoat.com/wp-content/uploads/2018/08/cropped-hhglhjl-2.png' style='max-width: 100px; padding-bottom: 20px;'></img>
+            <h2>Scheduled a visit</h2>
+          </div>
+          <p>You have scheduled a site tour for prospect <%= @project.address %><br/>on date:  <%= @project.visit_date.strftime('%H:%M%p %d-%m-%y') %>.</p>
+          <hr>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<!-- END MAIN CONTENT AREA -->
