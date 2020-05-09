@@ -28,6 +28,8 @@ class Api::V1::OrdersController < ApiController
   end
 
   def ensure_product_or_group
+    return render json: { success: false, message: "Amount can't be blank." } if order_params[:amount].blank?
+
     @item =
       if order_params[:order_type] == 'item'
         Product.find_by(id: order_params[:id])
@@ -35,7 +37,7 @@ class Api::V1::OrdersController < ApiController
         GroupItem.find_by(id: order_params[:id])
       end
 
-    render json: { success: false, message: "No item or group found with id=#{order_params[:id]}" }, status: 500 if @item.blank?
+    return render json: { success: false, message: "No item or group found with id=#{order_params[:id]}" }, status: 500 if @item.blank?
     render json: { success: false, message: 'This item is already sold' } if @item.sold?
   end
 

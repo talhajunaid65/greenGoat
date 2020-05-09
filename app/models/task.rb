@@ -7,10 +7,11 @@ class Task < ApplicationRecord
 
   scope :hot, -> { where(is_hot: true) }
   scope :incomplete, -> { where('closed is NULL OR closed = false') }
+  scope :complete, -> { where(closed: true) }
+
   before_create do |task|
     task.job_number = task.generate_job_number
   end
-
   after_save :create_activity
 
   def generate_job_number

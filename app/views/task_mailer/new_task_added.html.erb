@@ -1,9 +1,9 @@
 <p>Hi <%= @user.full_name %>!</p>
 
-<p>A new task is added to your donation <%= @project.title %>.</p>
+<p>A new task is added to your donation <%= @project.name %>.</p>
 <p>Task detail:</p>
 <p>Title: <%= @task.title %></p>
-<p>Complete Tasks: <%= @project.tasks.closed %> out of <%= @project.tasks.total %></p>
+<p>Complete Tasks: <%= @project.tasks.complete.count %> out of <%= @project.tasks.count %></p>
 <p>Total Tasks: <%= @project.tasks.count %></p>
 
 <p>Thank you,</p>
