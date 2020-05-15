@@ -22,7 +22,7 @@ class Api::V1::Users::ConfirmationsController < DeviseTokenAuth::ConfirmationsCo
 
       redirect_to(redirect_to_link)
     else
-      raise ActionController::RoutingError, 'Not Found'
+      redirect_to root_path, alert: @resource.errors.full_messages.to_sentence
     end
   end
 
