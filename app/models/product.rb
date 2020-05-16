@@ -12,48 +12,26 @@ class Product < ApplicationRecord
   has_many :projects, through: :project_products
   has_many :product_statuses, dependent: :destroy
 
-  enum status: {
-    'available' => 0,
-    'listed_for_sale' => 1,
-    'has_interest' => 2,
-    'scheduled_buyer_meeting' => 3,
-    'declined / waiting for other prospects' => 4,
-    'took_deposit' => 5,
-    'sold' => 6,
-    'uninstalled / ready for pickup' => 7,
-    'picked up' => 8,
-    'returned / broken' => 9
-  }
+  STATUSES = {
+    available: 0,
+    hold: 1,
+    returned: 2,
+    sold: 3
+  }.freeze
+
+  enum status: STATUSES
 
   enum payment_status: [:pending, :received]
 
-  validates_presence_of :category_id, :title
+  validates_presence_of :category_id, :title, :count
   validates_presence_of :weight, if: :material_types_present?
 
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
-  scope :available_products, ->  { where.not(id: sold_product_ids) }
-  scope :sold_products, -> { where(id: sold_product_ids) }
-  scope :wating_for_uninstallation, -> { available_products.where(need_uninstallation: true) }
+  scope :wating_for_uninstallation, -> { where(need_uninstallation: true) }
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
   scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
-  scope :where_status_is, -> (status) do
-    matching_ids = Product.includes(:product_statuses).all.map { |product| product.id if product.product_statuses.last.new_status == status }
-    where(id: matching_ids)
-  end
-
-  def self.sold_product_ids
-    Product.includes(:product_statuses).all.map{ |product| product.id if product.sold? }
-  end
-
-  def product_status
-    product_statuses.last.new_status
-  end
-
-  def sold?
-    product_statuses.last&.sold?
-  end
 
   def to_s
     title
@@ -65,12 +43,8 @@ class Product < ApplicationRecord
     ((material_weight / weight) * 100).round(2)
   end
 
-  def sold!
-    product_statuses.create(new_status: 6)
-  end
-
   def self.search_available_products(q)
-    products = available_products
+    products = available
     return products if q.blank?
 
     products = products.search_by_category(q[:category_id]) if q[:category_id].present?
@@ -86,10 +60,6 @@ class Product < ApplicationRecord
       group_item.product_ids.delete(id.to_s)
       group_item.update(product_ids: group_item.product_ids)
     end
-  end
-
-  def self.ransackable_scopes(*)
-    %i(where_status_is)
   end
 
   private

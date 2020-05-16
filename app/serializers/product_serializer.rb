@@ -1,9 +1,9 @@
 class ProductSerializer < ActiveModel::Serializer
   include Rails.application.routes.url_helpers
   attributes :id, :title, :room_id, :category, :sub_category, :images, :need_uninstallation, :appraised_value, :price, :description,
-             :count, :uom, :width, :height, :depth, :weight, :make, :model, :product_status, :address, :city, :state, :zipcode, :price,
+             :count, :uom, :width, :height, :depth, :weight, :make, :model, :address, :city, :state, :zipcode, :price,
              :serial, :sale_date, :pickup_date, :uninstallation_date, :wood, :ceramic, :glass, :metal, :stone_plastic, :asking_price,
-             :adjusted_price, :other
+             :adjusted_price, :other, :status
 
   def images
     image_array = []

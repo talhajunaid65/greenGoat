@@ -2,7 +2,7 @@ ActiveAdmin.register Product, as: 'Item' do
 
   filter :title_cont, as: :string, label: 'Title'
   filter :category
-  filter :where_status_is, as: :select, collection: proc { ProductStatus.new_statuses.map{|val| [val[0], val[0]]} }, label: 'Status'
+  filter :status, as: :select, collection: proc { Product.statuses }
   filter :need_uninstallation
   filter :uninstallation_date
   filter :asking_price_eq, label: 'Asking Price'
@@ -12,8 +12,7 @@ ActiveAdmin.register Product, as: 'Item' do
   filter :make_cont, label: 'Make'
 
   scope 'Items Waiting For Uninstallation', :wating_for_uninstallation
-  scope 'Sold Products', :sold_products
-  scope 'Show All Available', :available_products
+  scope 'Show All Available', :available
 
   member_action :remove_image, method: :delete do
     ActiveStorage::Attachment.find(params[:id]).purge_later
@@ -33,11 +32,15 @@ ActiveAdmin.register Product, as: 'Item' do
     link_to "Add Sale", new_admin_item_sale_path(item_id: resource.id) unless resource.sold?
   end
 
+  action_item :chnage_status, only: [:show] do
+    link_to "Change Status", new_admin_item_product_status_path(item_id: item.id, product_id: item.id)
+  end
+
   index do
     column :title
     column 'Item ID', &:product_id
     column :description
-    column 'Status', &:product_status
+    column :status
     column :category
     column :sub_category
     column :appraised_value
@@ -66,7 +69,6 @@ ActiveAdmin.register Product, as: 'Item' do
       f.input :depth, label: 'Depth (inches)'
       f.input :room_id
       f.input :uom
-      f.input :payment_status
       f.input :need_uninstallation
       f.input :uninstallation_date, as: :datepicker
       f.input :images, as: :file, input_html: { multiple: true }
@@ -133,10 +135,7 @@ ActiveAdmin.register Product, as: 'Item' do
       row :sub_category_id
       row :title
       row :description
-      row :payment_status
-      row 'Status' do |item|
-        item.product_status
-      end
+      row :status
       row 'Item ID' do |item|
         item.product_id
       end
@@ -226,6 +225,6 @@ ActiveAdmin.register Product, as: 'Item' do
 
   permit_params :title, :room_id, :category_id, :sub_category_id, :need_uninstallation, :address, :city, :state, :zipcode, :appraised_value, :price,
                 :description, :count, :uom, :width, :height, :depth, :wood, :ceramic, :glass, :metal, :stone_plastic, :make, :model, :status,
-                :payment_status, :serial, :sale_date, :pickup_date, :uninstallation_date, :other, :weight, :asking_price, :adjusted_price,
+                :serial, :sale_date, :pickup_date, :uninstallation_date, :other, :weight, :asking_price, :adjusted_price,
                 :sale_price, :product_id, images: []
 end

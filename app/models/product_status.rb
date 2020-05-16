@@ -2,24 +2,19 @@ class ProductStatus < ApplicationRecord
   belongs_to :product
   belongs_to :admin_user
 
-  STATUSES = {
-    'available' => 0,
-    'listed_for_sale' => 1,
-    'has_interest' => 2,
-    'scheduled_buyer_meeting' => 3,
-    'declined / waiting for other prospects' => 4,
-    'took_deposit' => 5,
-    'sold' => 6,
-    'uninstalled / ready for pickup' => 7,
-    'returned / broken' => 8,
-    'moved_to_project' => 9
-  }.freeze
 
-  enum new_status: STATUSES
+  enum new_status: Product::STATUSES
 
-  validates :product_id, :new_status, presence: true
+  validates :product_id, :new_status, :admin_user_id, presence: true
+  after_create :update_product_status
 
   def to_s
-    new_status&.titleize
+    new_status.titleize
+  end
+
+  private
+
+  def update_product_status
+    product.update_attributes(status: new_status)
   end
 end
