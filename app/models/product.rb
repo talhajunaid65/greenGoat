@@ -11,6 +11,7 @@ class Product < ApplicationRecord
   has_many :project_products, dependent: :destroy
   has_many :projects, through: :project_products
   has_many :product_statuses, dependent: :destroy
+  has_many :item_visits
 
   STATUSES = {
     available: 0,
@@ -23,8 +24,9 @@ class Product < ApplicationRecord
 
   enum payment_status: [:pending, :received]
 
-  validates_presence_of :category_id, :title, :count
+  validates_presence_of :category_id, :title
   validates_presence_of :weight, if: :material_types_present?
+  validates_presence_of :count, numericality: { greater_than: 0 }
 
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
@@ -32,6 +34,7 @@ class Product < ApplicationRecord
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
   scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
+  scope :not_sold, -> { where.not(status: :sold) }
 
   def to_s
     title
@@ -60,6 +63,20 @@ class Product < ApplicationRecord
       group_item.product_ids.delete(id.to_s)
       group_item.update(product_ids: group_item.product_ids)
     end
+  end
+
+  def decrement_count!
+    decrement!(:count)
+    product_sold! if count.zero?
+  end
+
+  def product_sold!
+    sold!
+    product_statuses.create(new_status: 'sold')
+  end
+
+  def increment_count!
+    increment!(:count)
   end
 
   private

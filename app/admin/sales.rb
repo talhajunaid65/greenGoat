@@ -17,9 +17,6 @@ ActiveAdmin.register Sale do
     column 'Client' do |sale|
       link_to sale.user, admin_client_path(sale.user) if sale.user.present?
     end
-    column :phone
-    column :contact_date
-    column :visit_date
     column :sale_source
     column :sale_price
     column :other_source
@@ -37,18 +34,15 @@ ActiveAdmin.register Sale do
 
   form do |f|
     f.inputs do
-      f.input :product_id, label: 'Item', as: :select, collection: Product.available_products, selected: params[:item_id]
+      f.input :product_id, label: 'Item', as: :select, collection: Product.all, selected: params[:item_id]
       f.inputs do
         f.input :user, label: 'Client'
         li class: 'weight-labels' do
           link_to 'Add new client', new_admin_client_path
         end
       end
-      f.input :phone
-      f.input :contact_date, as: :datepicker
-      f.input :visit_date, as: :datepicker
       f.input :sale_source
-      f.input :sale_price
+      f.input :sale_price, input_html: { readonly: !current_admin_user.admin? && action_name == 'edit' }
       f.input :other_source
       f.input :payment_method
       f.input :need_delivery
@@ -58,6 +52,7 @@ ActiveAdmin.register Sale do
       f.input :zipcode
       f.input :delivery_cost
       f.input :delivery_date, as: :datepicker
+      f.input :notes
       f.input :pickup_status
       f.input :pm_id, as: :hidden, input_html: { value: f.object.pm ? f.object.pm_id : current_admin_user.id } if current_admin_user.project_manager?
     end
@@ -70,13 +65,10 @@ ActiveAdmin.register Sale do
       row 'Client' do |sale|
         link_to sale.user, admin_client_path(sale.user) if sale.user
       end
-      row :phone
       row :status
-      row :contact_date
       row 'Created By' do |sale|
         link_to sale.pm, admin_admin_user_path(sale.pm) if sale.pm
       end
-      row :visit_date
       row :sale_source
       row :sale_price
       row :other_source
@@ -89,6 +81,7 @@ ActiveAdmin.register Sale do
       row :zipcode
       row :delivery_cost
       row :delivery_date
+      row :notes
     end
   end
 
@@ -97,8 +90,25 @@ ActiveAdmin.register Sale do
     def scoped_collection
       params[:item_id].present? ? Sale.where(product_id: params[:item_id]) : Sale.all
     end
+
+    def create
+      @resource = Sale.new(permitted_params[:sale].merge(pm_id: current_admin_user.id))
+      if @resource.save
+        @resource.product.decrement_count!
+        redirect_to admin_sale_path(@resource), notice: 'Sale is created successfully.'
+      else
+        render :edit
+      end
+    end
+
+    def destroy
+      resource.destroy
+      resource.product.increment_count!
+      resource.product.returned!
+      redirect_to sales_path, notice: 'Sales deleted successfully.'
+    end
   end
 
-  permit_params :phone, :contact_date, :product_id, :visit_date, :visit_date, :sale_source, :other_source, :pickup_status, :pm_id,
+  permit_params :product_id, :sale_source, :other_source, :pickup_status, :pm_id, :notes,
                 :need_delivery, :delivery_address, :city, :state, :zipcode, :delivery_cost, :delivery_date, :sale_price, :payment_method, :user_id
 end

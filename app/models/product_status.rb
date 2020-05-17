@@ -5,7 +5,7 @@ class ProductStatus < ApplicationRecord
 
   enum new_status: Product::STATUSES
 
-  validates :product_id, :new_status, :admin_user_id, presence: true
+  validates :product_id, :new_status, presence: true
   after_create :update_product_status
 
   def to_s

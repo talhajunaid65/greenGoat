@@ -14,8 +14,12 @@ class Api::V1::OrdersController < ApiController
         item_id: @item.id
       )
 
-      @item.remove_from_group_items if order_params[:order_type] == 'item'
-      @item.sold!
+      if @item.is_a?(Product)
+        @item.remove_from_group_items
+        @item.decrement_count!
+      else
+        @item.sold!
+      end
     end
 
     render json: { success: result, message: message }, status: :ok

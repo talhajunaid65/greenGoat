@@ -136,7 +136,7 @@ ActiveAdmin.register Project, as: 'Project' do
         a.input :title
         a.input :description
         a.input :price
-        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.all.map {|u| [u.title, u.id]}, input_html: { multiple: "true" }
+        a.input :product_ids, label: 'Item Ids', as: :select, collection: project.products.available.map {|u| [u.title, u.id]}, input_html: { multiple: "true" }
         a.input :sold
         a.input :project_id, :input_html => { :value => project.id }, as: :hidden
         a.input :_destroy, as: :boolean, required: false, label: 'Delete Group Item'
@@ -220,8 +220,10 @@ ActiveAdmin.register Project, as: 'Project' do
           column :title
           column :link do |p| link_to "View", admin_item_path(p) end
           column "Actions" do |product|
-            [(link_to "Add Sale", new_admin_item_sale_path(product)),
-            (link_to "View sale", admin_item_sales_path(product))].join(' | ').html_safe
+            links = []
+            links << (link_to "Add Sale", new_admin_item_sale_path(product)) unless product.sold?
+            links << (link_to "View sale", admin_item_sales_path(product))
+            links.join(' | ').html_safe
           end
 
           # column "Change Location" do |item|
@@ -248,7 +250,7 @@ ActiveAdmin.register Project, as: 'Project' do
 
     def scoped_collection
       return Project.contract_or_complete_projects if current_admin_user.admin?
-      Project.contract_or_complete_projects.method("#{current_admin_user.role}_projects}").call(current_admin_user.id)
+      Project.contract_or_complete_projects.method("#{current_admin_user.role}_projects").call(current_admin_user.id)
     end
 
     def create_zillow

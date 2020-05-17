@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_003211) do
+ActiveRecord::Schema.define(version: 2020_05_17_184814) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,18 @@ ActiveRecord::Schema.define(version: 2020_05_06_003211) do
   create_table "home_images", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "item_visits", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "user_id"
+    t.datetime "visit_date"
+    t.datetime "contact_date"
+    t.integer "admin_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_item_visits_on_product_id"
+    t.index ["user_id"], name: "index_item_visits_on_user_id"
   end
 
   create_table "notes", force: :cascade do |t|
@@ -254,6 +266,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_003211) do
     t.float "sale_price"
     t.bigint "user_id"
     t.integer "pm_id"
+    t.text "notes"
     t.index ["product_id"], name: "index_sales_on_product_id"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
@@ -342,6 +355,8 @@ ActiveRecord::Schema.define(version: 2020_05_06_003211) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "item_visits", "products", on_delete: :cascade
+  add_foreign_key "item_visits", "users", on_delete: :cascade
   add_foreign_key "notes", "tasks", on_delete: :cascade
   add_foreign_key "product_statuses", "admin_users"
   add_foreign_key "product_statuses", "products"

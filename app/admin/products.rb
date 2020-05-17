@@ -36,6 +36,10 @@ ActiveAdmin.register Product, as: 'Item' do
     link_to "Change Status", new_admin_item_product_status_path(item_id: item.id, product_id: item.id)
   end
 
+  action_item :schedule_visit, only: [:show] do
+    link_to "Schedule Visit", new_admin_item_visit_path(product_id: resource.id) unless resource.sold?
+  end
+
   index do
     column :title
     column 'Item ID', &:product_id
@@ -177,7 +181,11 @@ ActiveAdmin.register Product, as: 'Item' do
         table_for item.product_statuses do
           column :new_status
           column 'Changed By' do |status|
-            link_to status.admin_user, admin_admin_user_path(status.admin_user)
+            if status.admin_user
+              link_to status.admin_user, admin_admin_user_path(status.admin_user)
+            else
+              'Sold Out'
+            end
           end
           column :change_reason
           column "Changed at" do |status|
