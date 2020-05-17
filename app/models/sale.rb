@@ -11,7 +11,7 @@ class Sale < ApplicationRecord
     'cross_Sell' => 3,
     'other' => 4
   }
-  enum pickup_status: %i[pending delivered]
+  enum pickup_status: %i[pending delivered returned]
 
   validates_presence_of :pickup_status, :sale_source
   validates_presence_of :sale_price, numericality: { greater_than: 0.0 }

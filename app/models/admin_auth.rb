@@ -8,7 +8,7 @@ class AdminAuth < ActiveAdmin::AuthorizationAdapter
         false
       end
     when normalized(Sale)
-      if action == :destroy
+      if action == :destroy || action == :revert
         user.admin?
       else
         user.admin? || user.project_manager? ? true : false

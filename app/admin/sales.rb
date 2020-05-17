@@ -11,6 +11,15 @@ ActiveAdmin.register Sale do
   filter :other_source_cont, as: :string, label: 'Other Source'
   filter :pickup_status, as: :select, collection: proc { Sale.pickup_statuses }
 
+  action_item :revert, only: :show do
+    link_to 'Revert Sale', revert_admin_sale_path(resource) if !sale.returned? || sale.delivered?
+  end
+
+  member_action :revert, method: :get do
+    resource.returned!
+    redirect_to admin_sale_path(resource), notice: "Sale status is changed to #{resource.pickup_status.upcase}"
+  end
+
   index do
     selectable_column
     column :product
@@ -29,12 +38,14 @@ ActiveAdmin.register Sale do
     column :delivery_cost
     column :delivery_date
     column :pickup_status
-    actions
+    actions do |sale|
+      link_to 'Revert Sale', revert_admin_sale_path(sale), class: 'member_link' if sale.delivered? || !sale.returned?
+    end
   end
 
   form do |f|
     f.inputs do
-      f.input :product_id, label: 'Item', as: :select, collection: Product.all, selected: params[:item_id]
+      f.input :product_id, label: 'Item', as: :select, collection: Product.all, selected: params[:item_id] || f.object&.product_id
       f.inputs do
         f.input :user, label: 'Client'
         li class: 'weight-labels' do
@@ -99,13 +110,6 @@ ActiveAdmin.register Sale do
       else
         render :edit
       end
-    end
-
-    def destroy
-      resource.destroy
-      resource.product.increment_count!
-      resource.product.returned!
-      redirect_to sales_path, notice: 'Sales deleted successfully.'
     end
   end
 
