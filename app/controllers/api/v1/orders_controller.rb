@@ -3,7 +3,11 @@ class Api::V1::OrdersController < ApiController
   before_action :ensure_product_or_group
 
   def create
-    result, message = StripeClient.charge(token: order_params[:token], amount: order_params[:amount], email: current_user.email)
+    result, message = StripeClient.charge(
+      token: order_params[:token],
+      amount: order_params[:amount],
+      email: current_user.email
+    )
 
     if result
       Order.create(
@@ -41,7 +45,7 @@ class Api::V1::OrdersController < ApiController
         GroupItem.find_by(id: order_params[:id])
       end
 
-    return render json: { success: false, message: "No item or group found with id=#{order_params[:id]}" }, status: 500 if @item.blank?
+    return render json: { success: false, message: "No item or group found with id=#{order_params[:id]}" }, status: 301 if @item.blank?
     render json: { success: false, message: 'This item is already sold' } if @item.sold?
   end
 
