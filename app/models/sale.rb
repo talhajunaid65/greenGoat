@@ -15,7 +15,7 @@ class Sale < ApplicationRecord
 
   validates_presence_of :pickup_status, :sale_source
   validates_presence_of :sale_price, numericality: { greater_than: 0.0 }
-  validate :product_is_not_sold
+  validate :product_is_not_sold, if: :product_id_changed?
 
   delegate :status, to: :product, prefix: true, allow_nil: true
 
@@ -30,8 +30,6 @@ class Sale < ApplicationRecord
   private
 
   def product_is_not_sold
-    return if pickup_status_changed?
-
-    errors.add(:product_id, 'is already sold') if product_id_changed? && product.sold?
+    errors.add(:product_id, 'is already sold') if product.sold?
   end
 end

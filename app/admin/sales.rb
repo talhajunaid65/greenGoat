@@ -12,7 +12,7 @@ ActiveAdmin.register Sale do
   filter :pickup_status, as: :select, collection: proc { Sale.pickup_statuses }
 
   action_item :revert, only: :show do
-    link_to 'Revert Sale', revert_admin_sale_path(resource) if !sale.returned? || sale.delivered?
+    link_to 'Revert Sale', revert_admin_sale_path(resource) unless sale.returned?
   end
 
   member_action :revert, method: :get do
@@ -39,7 +39,7 @@ ActiveAdmin.register Sale do
     column :delivery_date
     column :pickup_status
     actions do |sale|
-      link_to 'Revert Sale', revert_admin_sale_path(sale), class: 'member_link' if sale.delivered? || !sale.returned?
+      link_to 'Revert Sale', revert_admin_sale_path(sale), class: 'member_link' unless sale.returned?
     end
   end
 
