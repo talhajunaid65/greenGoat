@@ -30,6 +30,8 @@ class Sale < ApplicationRecord
   private
 
   def product_is_not_sold
-    errors.add(:product_id, 'is already sold') if product && product.sold?
+    return if pickup_status_changed?
+
+    errors.add(:product_id, 'is already sold') if product_id_changed? && product.sold?
   end
 end
