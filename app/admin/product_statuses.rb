@@ -13,7 +13,7 @@ ActiveAdmin.register ProductStatus do
     end
     f.actions do
       f.action :submit
-      f.action :cancel, label: 'Cancel'
+      f.action :cancel, :as => :link, label: 'Cancel', wrapper_html: {class: :cancel}
     end
   end
 
