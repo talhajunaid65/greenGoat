@@ -2,7 +2,6 @@
 require 'capistrano/setup'
 require 'capistrano/deploy'
 
-require 'sshkit/sudo'
 require 'capistrano/rails'
 require 'capistrano/bundler'
 require 'capistrano/rbenv'
