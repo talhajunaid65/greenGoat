@@ -1,7 +1,5 @@
 class UserMailer < ApplicationMailer
   layout 'mailer'
-  default from: 'info@greengoat.com'
-  @@emails_send = ['abauman@greengoat.org']
 
   def reset_password_instruction(email:, reset_password_token:)
     @email = email
