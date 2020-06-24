@@ -33,7 +33,7 @@ class Product < ApplicationRecord
   scope :wating_for_uninstallation, -> { where(need_uninstallation: true) }
   scope :search_by_category, -> (category_id) { where(category_id: category_id) }
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
-  scope :in_price_range, -> (min_price, max_price) { where('sale_price >= ? AND sale_price <= ?', min_price, max_price) }
+  scope :in_price_range, -> (min_price, max_price) { where('(sale_price >= ? AND sale_price <= ?)', min_price, max_price) }
   scope :not_sold, -> { where.not(status: :sold) }
 
   def to_s
@@ -52,7 +52,13 @@ class Product < ApplicationRecord
 
     products = products.search_by_category(q[:category_id]) if q[:category_id].present?
     products = products.search_by_title(q[:title]) if q[:title].present?
-    products = products.in_price_range(q[:min_price], q[:max_price]) if q[:min_price] || q[:max_price]
+    products = products.select do |product|
+      if product.adjusted_price.to_i > 0
+        product.adjusted_price.between?(q[:min_price], q[:max_price])
+      else
+        product.asking_price.to_i > 0 && product.asking_price.between?(q[:min_price], q[:max_price])
+      end
+    end if q[:min_price] && q[:max_price]
     products
   end
 
