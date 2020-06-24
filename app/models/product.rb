@@ -54,9 +54,9 @@ class Product < ApplicationRecord
     products = products.search_by_title(q[:title]) if q[:title].present?
     products = products.select do |product|
       if product.adjusted_price.to_i > 0
-        product.adjusted_price.between?(q[:min_price], q[:max_price])
+        product.adjusted_price.between?(q[:min_price].to_f, q[:max_price].to_f)
       else
-        product.asking_price.to_i > 0 && product.asking_price.between?(q[:min_price], q[:max_price])
+        product.asking_price.to_i > 0 && product.asking_price.between?(q[:min_price].to_f, q[:max_price].to_f)
       end
     end if q[:min_price] && q[:max_price]
     products
