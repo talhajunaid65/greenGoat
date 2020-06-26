@@ -54,7 +54,7 @@ class Api::V1::ProjectsController < ApiController
       xml_doc = Nokogiri::XML(data)
 
       unless xml_doc.at('code').text.to_i == 0
-        project.save
+        project.save!
         ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
         return render json: { message: 'We could not find any information about the address you provided. Please check email for further information.' },
                       status: :ok
@@ -68,12 +68,12 @@ class Api::V1::ProjectsController < ApiController
       )
 
       if project.other?
-        project.save
+        project.save!
         ProjectMailer.other_type_project(project.user, project).deliver_now
         return render json: { message: "We can't provide any estimate right now. We will get back to you after further review." }, status: :ok
       end
 
-      miles, miles2, year_dif = [miles, miles2, year_dif].collect(&:to_i).map(&1.3.method(:*)) if project.estimated_value > 5000000
+      miles, miles2, year_dif = [miles, miles2, year_dif].collect(&:to_i).map(&1.3.method(:*)) if project.estimated_value.to_f > 5000000
 
       #getting closest project from old projects
       old_projects.each do |old_project|
@@ -91,7 +91,7 @@ class Api::V1::ProjectsController < ApiController
       end
 
       if closest_distance_project.all?(&:blank?)
-        project.save
+        project.save!
         return render json: { message: 'Sorry, We are unable to find any project similiar to your project, we will get back to you for more details' },
                       status: :ok
       end
@@ -150,9 +150,10 @@ class Api::V1::ProjectsController < ApiController
 
       project.val_sf = final_estimation
       project.zillow_location = closest_project
-      project.save
+      project.save!
     rescue => e
       Error.create(message: e.message)
+      msg_return = project.errors.any? ? project.errors.full_messages.to_sentence : e.message
     end
 
     render json: { message: msg_return }, status: :ok

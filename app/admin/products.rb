@@ -122,7 +122,7 @@ ActiveAdmin.register Product, as: 'Item' do
         f.input :stone_plastic, label: 'Stone Plastic (%)', input_html: { value: f.object.convert_weight_to_percentage(f.object.stone_plastic), data: { type: 'stone_plastic' } }
         li "Weight in pounds: #{f.object.stone_plastic}", id: 'stone_plastic_weight_in_pounds', class: 'weight-labels'
       end
-      f.input :other, label: 'Other (Pounds)', input_html: { readonly: true }
+      f.input :other, label: 'Plastic (Pounds)'
     end
     f.inputs name: '' do
       f.input :sale_date, as: :datepicker
@@ -160,8 +160,8 @@ ActiveAdmin.register Product, as: 'Item' do
       row :ceramic
       row :glass
       row :metal
-      row :stone_plastic
-      row :other
+      row :Stone, &:stone_plastic
+      row :Plastic, &:other
       row :make
       row :model
       row :serial

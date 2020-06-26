@@ -28,7 +28,7 @@ $(document).ready(function(){
       if(percentage == 0 || isNaN(percentage)) {
         addedValue = parseFloat(labelEle.text().split(': ')[1])
         if (isNaN(addedValue)) { return; }
-        otherEle.val(parseFloat(otherEle.val()) + addedValue)
+        otherEle.val((parseFloat(otherEle.val()) + addedValue).toFixed(2))
         labelEle.text(`Weight in pounds:`);
         return;
       }

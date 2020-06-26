@@ -47,8 +47,8 @@ ActiveAdmin.register Project, as: 'Project' do
       end
     if params.dig(:q, :user_id_eq) || params.dig(:q, :created_at_gteq_datetime) || params.dig(:q, :created_at_lteq_datetime)
       column :total_weight
-      %w[wood glass metal stone_plastic other].each do |key|
-        column "Total #{key.titleize}" do |project|
+      { wood: 'Wood', glass: 'Glass', metal: 'Metal', stone_plastic: 'Stone', other: 'Plastic' }.each do |key, value|
+        column "Total #{value}" do |project|
           project.sum_of_material_type(key)
         end
       end
