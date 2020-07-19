@@ -5,6 +5,7 @@ ActiveAdmin.register Product, as: 'Item' do
   filter :status, as: :select, collection: proc { Product.statuses }
   filter :need_uninstallation
   filter :uninstallation_date
+  filter :projects
   filter :asking_price_eq, label: 'Asking Price'
   filter :sale_price_eq, label: 'Sale Price'
   filter :model_cont, label: 'Model'
@@ -50,6 +51,7 @@ ActiveAdmin.register Product, as: 'Item' do
     column :appraised_value
     column :price, &:sale_price
     column :uom
+    column :projects
     actions do |item|
       link_to 'Change Status', new_admin_item_product_status_path(item_id: item.id, product_id: item.id), class: 'member_link'
     end
