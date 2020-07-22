@@ -56,7 +56,8 @@ class Api::V1::ProjectsController < ApiController
       unless xml_doc.at('code').text.to_i == 0
         project.save!
         ProjectMailer.wrong_donation_data(project, project.user.email).deliver_now
-        return render json: { message: 'We could not find any information about the address you provided. Please check email for further information.' },
+        #This is if Zillow couldn't find the address or zestimate is blank.
+        return render json: { message: 'The Multiple Listing Services (MLS) database does not have data for this address. Very sorry.' },
                       status: :ok
       end
       coordinates = [xml_doc.at('latitude').text, xml_doc.at('longitude').text]
@@ -70,7 +71,7 @@ class Api::V1::ProjectsController < ApiController
       if project.other?
         project.save!
         ProjectMailer.other_type_project(project.user, project).deliver_now
-        return render json: { message: "We can't provide any estimate right now. We will get back to you after further review." }, status: :ok
+        return render json: { message: 'We have emailed you. We thank you for your interest and will be in touch.' }, status: :ok
       end
 
       miles, miles2, year_dif = [miles, miles2, year_dif].collect(&:to_i).map(&1.3.method(:*)) if project.estimated_value.to_f > 5000000
@@ -92,7 +93,7 @@ class Api::V1::ProjectsController < ApiController
 
       if closest_distance_project.all?(&:blank?)
         project.save!
-        return render json: { message: 'Sorry, We are unable to find any project similiar to your project, we will get back to you for more details' },
+        return render json: { message: 'We have emailed you. Check your inbox. We thank you for your interest and will be in touch.' },
                       status: :ok
       end
 
@@ -109,40 +110,44 @@ class Api::V1::ProjectsController < ApiController
       Rails.logger.info "SQUREFOOT: #{project.sqft.to_i}"
       Rails.logger.info "CLOSED PROJET VALUE: #{closest_project.val_sf.to_f}"
       Rails.logger.info "Final Estimation: #{final_estimation}"
+      
+      generic_msg_popup = 'We have emailed you. Check your inbox. We thank you for your interest and will be in touch.'
 
       if project.estimated_value.to_i < 1000000
-        msg_return = "We will get back to you after further review of your application. Hang tight!!!"
-        ProjectMailer.less_estimate(project.user, project).deliver_now
+        #I changed and added an email msg.
+        msg = "We estimate that your materials would be worth $#{final_estimation}. Please remember that this is not an appraisal. Thank you for your interest. "
+        msg_return = generic_msg_popup
+        ProjectMailer.less_estimate(project.user, project, msg).deliver_now
       else
         if closest_distance_project[0] < miles2
           if year_difference < year_dif
-            msg = "Hoorrayyy!!! By donating this project you will be able to save approx. $#{final_estimation}. Amount may vary after on-site appraisal."
-            msg_return = "Please Check your email for our initial Qoute, Values may vary after appraisal."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Please remember that this is an estimate and needs further review."
+            msg_return = generic_msg_popup
             ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
           else
-            msg = "Your house is within 2 miles of one of our old project, but it is a few years old, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary widely after appraisal."
-            msg_return = 'Your house is within 2 miles of one of our old project, but it is a few years old, Please Check Email!'
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Please remember that this is an estimate and needs further review."
+            msg_return = generic_msg_popup
             ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
           end
         elsif closest_distance_project[0] < miles
           if year_difference < year_dif
-            msg = 'We found similar project a bit out of your neighbourhood, so values may very. Check Email!'
-            msg_return = "We have found an old project we did in your neighborhood, With initial estimation you will be able to save approx. $#{final_estimation}. Values may vary after appraisal."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
+            msg_return = generic_msg_popup
             ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
           else
-            msg = 'Your house is within 5 miles of one of our old project, but it is a few years old, so we will contact you after review.'
-            msg_return = msg
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
+            msg_return = generic_msg_popup
             ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
           end
         elsif closest_distance_project[0] > miles
           final_estimation = 0.0
           if year_difference < year_dif
-            msg = 'Your house is in a new neighbourhood for us, We would be happy to come check out your project free of charge.'
-            msg_return = msg
+            msg = 'You are in a new area for us! An estimate right now would be inaccurate, so please send a bit more information about the timing of your project. If we can schedule a site tour through a local partner, lets do that.'
+            msg_return = generic_msg_popup
             ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
           else
-            msg = 'Your house is more than 5 miles away from one of our past project, but that project is a few years old, We will contact you after further review.'
-            msg_return = msg
+            msg = 'You are in a new area for us! An estimate right now would be inaccurate, so please send a bit more information about the timing of your project. If we can schedule a site tour through a local partner, lets do that.'
+            msg_return = generic_msg_popup
             ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
           end
         end
