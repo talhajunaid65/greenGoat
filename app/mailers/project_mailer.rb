@@ -7,9 +7,10 @@ class ProjectMailer < ApplicationMailer
     mail(to: receivers, subject: 'Donation estimation update')
   end
 
-  def less_estimate(user, project)
+  def less_estimate(user, project, msg)
     @user  = user
     @project = project
+    @msg = msg
     receivers = @@receivers
     receivers << @user.email
     mail(to: receivers, subject: 'Donation estimation update')

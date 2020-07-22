@@ -110,32 +110,31 @@ class Api::V1::ProjectsController < ApiController
       Rails.logger.info "SQUREFOOT: #{project.sqft.to_i}"
       Rails.logger.info "CLOSED PROJET VALUE: #{closest_project.val_sf.to_f}"
       Rails.logger.info "Final Estimation: #{final_estimation}"
-      
+
       generic_msg_popup = 'We have emailed you. Check your inbox. We thank you for your interest and will be in touch.'
 
       if project.estimated_value.to_i < 1000000
-        #I changed and added an email msg.
-        msg = "We estimate that your materials would be worth $#{final_estimation}. Please remember that this is not an appraisal. Thank you for your interest. "
+        msg = "We estimate that your materials would be worth #{final_estimation}. Please remember that this is not an appraisal. Thank you for your interest. "
         msg_return = generic_msg_popup
         ProjectMailer.less_estimate(project.user, project, msg).deliver_now
       else
         if closest_distance_project[0] < miles2
           if year_difference < year_dif
-            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Please remember that this is an estimate and needs further review."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth #{final_estimation}. Please remember that this is an estimate and needs further review."
             msg_return = generic_msg_popup
             ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
           else
-            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Please remember that this is an estimate and needs further review."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth #{final_estimation}. Please remember that this is an estimate and needs further review."
             msg_return = generic_msg_popup
             ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
           end
         elsif closest_distance_project[0] < miles
           if year_difference < year_dif
-            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth #{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
             msg_return = generic_msg_popup
             ProjectMailer.estimate_email(project.user, project, final_estimation.to_i, msg).deliver_now
           else
-            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth $#{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
+            msg = "Fantastic! Based on similar projects, we estimate that your materials could be worth #{final_estimation}. Your house is a little distant from our comparison project, so values will vary widely."
             msg_return = generic_msg_popup
             ProjectMailer.old_house_estimate(project.user, project, msg).deliver_now
           end
