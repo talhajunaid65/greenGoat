@@ -13,7 +13,13 @@ class StripeClient
             source: token,
             description: "Charge for #{email}"
           )
-        return true, "Your card is charged with #{amount/100}$."
+        result = true
+        message = "Your card is charged with #{amount/100}$."
+        if stripe_response['error'].present?
+          result = false
+          message = stripe_response['error']['message']
+        end
+        result, message
       rescue => ex
         return false, "There was error in processing charge request. #{ex.message.to_s}."
       end
