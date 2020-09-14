@@ -19,9 +19,9 @@ class StripeClient
           result = false
           message = stripe_response['error']['message']
         end
-        result, message
+        [result, message]
       rescue => ex
-        return false, "There was error in processing charge request. #{ex.message.to_s}."
+        [false, "There was error in processing charge request. #{ex.message.to_s}."]
       end
     end
 
