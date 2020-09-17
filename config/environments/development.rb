@@ -44,6 +44,13 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = true
+
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
@@ -55,13 +62,4 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_url_options = {:host => "localhost", :port => '3000', :protocol => "http"}
-
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.perform_deliveries = true
-  # config.action_mailer.raise_delivery_errors = true
-  # config.action_mailer.default_options = {from: 'thegoat@greengoat.org'}
-  # config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
-  # config.action_mailer.default_url_options = {:host => "localhost", :port => '3000', :protocol => "http"}
-  # config.action_mailer.preview_path = "#{Rails.root}/tmp/mailers/previews"
-  # config.cache_store = :redis_store, 'redis://localhost:6379/'
 end
