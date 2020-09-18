@@ -11,7 +11,7 @@
     <% @items.each do |item| %>
       <div class="col-md-4 col-sm-6 col-lg-4 col-12">
         <div class="card" style="width: 18rem;">
-          <% image = item.images.attached? ? item.images.first : 'product-default.png'
+          <% image = item.images.attached? ? item.images.first : 'product-default.png' %>
           <%= image_tag image, class: "card-img-top", alt: "Card image cap" %>
           <div class="card-body">
             <h5 class="card-title"><%= item.to_s %></h5>
