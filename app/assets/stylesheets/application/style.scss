@@ -1,0 +1,109 @@
+.navbar-light {
+  .navbar-nav {
+    .nav-link {
+      color: black;
+    }
+
+    a:hover {
+      color: #60aa47;
+      text-decoration: none;
+      border-bottom: 2px solid #60aa47;
+    }
+
+    i {
+      color: #60aa47
+    }
+  }
+
+  .social-media-links {
+    a:hover {
+      color: #60aa47;
+      text-decoration: none;
+      border-bottom: none;
+    }
+  }
+}
+
+footer {
+  background: green;
+  bottom: 0;
+  a {
+    color: white;
+    font-size: 13px;
+    text-decoration: none;
+    background-color: transparent;
+  }
+
+  a:hover {
+    color: #60aa47;
+    text-decoration: none;
+  }
+
+  .column-headers {
+    color: white;
+  }
+
+  .subscribe-btn {
+    width: 224px;
+    background: darkgreen;
+    border: 1px;
+  }
+
+  .subscribe-btn:hover {
+    background: darkgreen;
+  }
+}
+
+.greengoat-header-image {
+  margin-right: 50%;
+  margin-left: 42%;
+  position: relative;
+  z-index: 1000;
+  margin-top: -100px;
+  margin-bottom: -15px;
+}
+
+.lightgray-background {
+  background: lightgray;
+}
+
+.quick-links {
+  background: lightgray;
+  border-radius: 12px;
+  height: 420px;
+  li {
+    list-style: none;
+  }
+
+  a {
+    color: #60aa47;
+    i {
+      font-size: large;
+    }
+  }
+
+  h4 {
+    color: #60aa47;
+  }
+}
+
+.border-radius-15 {
+  border-radius: 15px;
+}
+
+.page-title {
+  border-bottom: 2px solid green;
+  color: green;
+}
+
+.green-btn {
+  background: green;
+  border: none;
+}
+
+input {
+  border-color: green !important;
+  box-shadow: none;
+  border: 2px solid green !important;
+  border-radius: 10px !important;
+}

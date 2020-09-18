@@ -1,0 +1,24 @@
+<div class="">
+  <div class="page-title mb-4">
+    <h1>Available Items</h1>
+  </div>
+</div>
+
+<% if @items.blank? %>
+  <h1 class="mt-5 mb-5">No items found</h1>
+<% else %>
+  <div class="row">
+    <% @items.each do |item| %>
+      <div class="col-md-4 col-sm-6 col-lg-4 col-12">
+        <div class="card" style="width: 18rem;">
+          <%= image_tag items.images&.first, class: "card-img-top", alt: "Card image cap" %>
+          <div class="card-body">
+            <h5 class="card-title"><%= item.to_s %></h5>
+            <p class="card-text"><%= item.description %></p>
+            <a href="#" class="btn btn-primary">Item detail</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
