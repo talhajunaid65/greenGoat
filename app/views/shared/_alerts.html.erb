@@ -5,9 +5,9 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-<% elsif flash[:success].present? %>
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <%= flash[:success] %>.
+<% elsif flash[:success].present? || notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <%= flash[:success].presence || notice %>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>

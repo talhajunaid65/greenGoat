@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_one_attached :image
   has_one :favourite
 
+  validates_presence_of :firstname, :lastname, :address1, :phone_type, :city, :state, :zip, :dob, :roles
   validate :roles_consistency
   scope :where_roles_contains, -> (role) { where("roles @> ?", "{#{role}}") }
 
@@ -85,6 +86,6 @@ class User < ActiveRecord::Base
   def roles_consistency
     return if roles.blank?
 
-    errors.add(:role, 'is not valid.') unless roles.reject(&:blank?).all?{ |ele| ROLES.include?(ele) }
+    errors.add(:roles, 'is not valid.') unless roles.reject(&:blank?).all?{ |ele| ROLES.include?(ele) }
   end
 end

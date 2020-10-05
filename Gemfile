@@ -39,6 +39,9 @@ gem 'ransack'
 gem 'cancan'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.1'
 gem "roo", "~> 2.8.0"
+gem "bootstrap_form", ">= 4.0.0.alpha1"
+gem 'devise-bootstrap-form'
+gem "rails-i18n"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

@@ -1,0 +1,54 @@
+<div class="devise-bootstrap-form">
+  <div class="devise-bootstrap-form-row">
+    <div class="devise-bootstrap-form-col">
+      <h2 class="text-center page-title p-3">Edit <%= resource_name.to_s.humanize %></h2>
+      <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+
+        <%= f.text_field :firstname, autofocus: true, autocomplete: "firstname" %>
+        <%= f.text_field :lastname, autocomplete: "lastname" %>
+        <%= f.text_field :phone_type %>
+        <%= f.text_field :address1 %>
+        <%= f.text_field :address2 %>
+        <%= f.text_field :city %>
+        <%= f.text_field :state %>
+        <%= f.text_field :zip %>
+        <%= f.date_field :dob %>
+        <%= f.label :roles %><br>
+        <% User::ROLES.each do |role| %>
+          <div class="form-check form-check-inline">
+            <%= check_box_tag 'user[roles][]', role, f.object.roles.include?(role), class: 'form-check-input' %>
+            <%= f.label role, class: 'form-check-label' %>
+          </div>
+          <br>
+        <% end %>
+
+        <%= f.file_field :image %>
+        <%= f.email_field :email %>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <% end %>
+
+        <%= f.password_field :password, autocomplete: "off", help: "leave blank if you don't want to change it" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", class: "required" %>
+        <%= f.password_field :current_password,
+                             autocomplete: "off",
+                             class: "required",
+                             help: "We need your current password to confirm your changes." %>
+
+        <%= f.form_group do %>
+          <%= f.submit "Update", class: "btn btn-lg btn-block green-btn" %>
+        <% end %>
+      <% end %>
+
+      <h2>Cancel my account</h2>
+
+      <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-block btn-danger", data: { confirm: "Are you sure? You cannot undo this." }, method: :delete %></p>
+
+      <%= link_to "Back", :back %>
+    </div>
+  </div>
+</div>
+
