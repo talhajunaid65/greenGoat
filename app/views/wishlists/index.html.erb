@@ -1,0 +1,35 @@
+<div class="">
+  <div class="page-title mb-4">
+    <h1>Wishlist</h1>
+  </div>
+</div>
+
+<% if @wishlists.blank? %>
+  <h1 class="mt-5 mb-5">No items found</h1>
+<% else %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @wishlists.each do |wishlist| %>
+        <tr>
+          <th scope="row"><%= wishlist.id %></th>
+          <td><%= wishlist.name %></td>
+          <td><%= wishlist.description %></td>
+          <td>
+            <%= link_to 'Delete', wishlist, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= link_to 'Add New', new_wishlist_path, class: 'btn green-btn' %>

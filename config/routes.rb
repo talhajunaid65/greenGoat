@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root to: 'pages#home'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -39,6 +38,7 @@ Rails.application.routes.draw do
 
   resources :pages, only: [:index]
   resources :items, only: %i[index]
+  resources :wishlists, only: %i[index new create destroy]
 
   get 'home', to: 'pages#home'
   get 'grant_projects', to: 'pages#grant_projects'

@@ -1,0 +1,15 @@
+<div class="devise-bootstrap-form">
+  <div class="devise-bootstrap-form-row">
+    <div class="devise-bootstrap-form-col">
+      <h2 class="text-center p-3 page-title">Add New Wishlist</h2>
+      <%= bootstrap_form_for(@wishlist, html: { class: 'p-5' }) do |f| %>
+        <%= f.text_field :name, autofocus: true, required: true %>
+        <%= f.text_area :description, required: true %>
+
+        <%= f.form_group do %>
+          <%= f.submit "Create Wishlist", class: "btn green-btn btn-block btn-lg" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
