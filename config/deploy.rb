@@ -4,7 +4,7 @@ lock "~> 3.14.1"
 # Change these
 server '3.84.100.107', roles: [:web, :app, :db], primary: true
 
-set :repo_url, 'git@github.com:talhajunaid63/greenGoat.git'
+set :repo_url, 'git@github.com:talhajunaid65/greenGoat.git'
 set :user, 'ubuntu'
 set :application, 'greenGoat'
 set :rails_env, :production

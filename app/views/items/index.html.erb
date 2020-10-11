@@ -38,7 +38,9 @@
           <span class="font-weight-bold text-uppercase green">Package Deals</span>
         </div>
 
-        <%= render partial: 'group_item', collection: @group_items, as: :group_item %>
+        <div class="row g-3">
+          <%= render partial: 'group_item', collection: @group_items, as: :group_item %>
+        </div>
       </div>
     </div>
   </div>
