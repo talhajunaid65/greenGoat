@@ -13,7 +13,7 @@
             <% @product_images.each do |images| %>
               <% images.each do |image| %>
                 <%= content_tag :li, data: { thumb: rails_representation_url(image_variant(image, 80, 80).processed) } do %>
-                  <%= image_tag image %>
+                  <%= image_tag image, style: 'max-height: 450px;' %>
                 <% end %>
               <% end %>
             <% end %>
