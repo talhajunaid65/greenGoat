@@ -3,28 +3,7 @@ class Api::V1::OrdersController < ApiController
   before_action :ensure_product_or_group
 
   def create
-    result, message = StripeClient.charge(
-      token: order_params[:token],
-      amount: order_params[:amount],
-      email: current_user.email
-    )
-
-    if result
-      Order.create(
-        price: order_params[:amount],
-        item_or_group: order_params[:order_type],
-        user_id: current_user.id,
-        payment_status: 'Complete',
-        item_id: @item.id
-      )
-
-      if @item.is_a?(Product)
-        @item.remove_from_group_items
-        @item.decrement_count!
-      else
-        @item.sold!
-      end
-    end
+    result, message = CreateOrderService.new(order_params, current_user, @item).create_order
 
     render json: { success: result, message: message }, status: :ok
   end
