@@ -53,6 +53,10 @@ ActiveAdmin.register Project, as: 'Prospect' do
 
   form do |f|
     f.inputs do
+      if f.object.errors.any?
+        li f.object.errors.full_messages.to_sentence
+      end
+
       f.inputs do
         f.input :user, input_html: { disabled: !f.object.new_record?, class: 'select2-dropdown' }, label: 'Client'
         li class: 'weight-labels' do
@@ -61,6 +65,7 @@ ActiveAdmin.register Project, as: 'Prospect' do
       end
       f.input :name, label: 'Project Name'
       f.input :type_of_project
+      f.input :zillow_location
       f.input :address
       f.input :city
       f.input :state
@@ -93,6 +98,6 @@ ActiveAdmin.register Project, as: 'Prospect' do
   end
 
   permit_params :name, :type_of_project, :address, :city, :state, :zip, :year_built, :user_id, :status, :tracking_id,
-                :val_sf, :estimated_value, :start_date, :sqft
+                :val_sf, :estimated_value, :start_date, :sqft, :zillow_location_id, :is_hot
 
 end
