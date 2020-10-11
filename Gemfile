@@ -42,6 +42,7 @@ gem "roo", "~> 2.8.0"
 gem "bootstrap_form", ">= 4.0.0.alpha1"
 gem 'devise-bootstrap-form'
 gem "rails-i18n"
+gem "mini_magick"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
