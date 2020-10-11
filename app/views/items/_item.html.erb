@@ -1,0 +1,42 @@
+<div class="col-md-4 mb-2">
+  <div class="card">
+    <div id="itemImagesCarousel-<%= item.id %>" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <% item.images.each_with_index do |_, index| %>
+          <li data-target="#itemImagesCarousel-<%= item.id %>" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></li>
+        <% end %>
+      </ol>
+      <div class="carousel-inner">
+        <% item.images.each_with_index do |image, index| %>
+          <div class="carousel-item <%= 'active' if index == 0 %>">
+            <%= image_tag image_variant(image, 200, 150), class: 'card-img-top' %>
+          </div>
+        <% end %>
+      </div>
+      <a class="carousel-control-prev" href="#itemImagesCarousel-<%= item.id %>" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#itemImagesCarousel-<%= item.id %>" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <span class="font-weight-bold"><%= item.to_s %></span>
+        <span class="font-weight-bold">$<%= item.price %></span> </div>
+      <p class="card-text mb-1 mt-1"><%= item.description %></p>
+    </div>
+    <hr>
+    <div class="card-body">
+      <div class="text-right buttons">
+        <%= link_to 'Remove from favourites', remove_from_favourite_favourites_path(product_id: item.id), class: "mb-2 btn btn-outline-green #{'d-none' unless @favourites.include?(item.id)}", method: :post, remote: true, id: "favourite-remove-#{item.id}" %>
+         <%= link_to 'Add to favourites', add_to_favourite_favourites_path(product_id: item.id), class: "mb-2 btn btn-outline-green #{'d-none' if @favourites.include?(item.id)}", method: :post, remote: true, id: "favourite-add-#{item.id}" %>
+        <%= link_to 'More details', item_path(item), class: "mb-2 btn btn-outline-green" %>
+        <%= link_to 'Buy now', new_order_path(order_type: 'item', id: item.id), class: "mb-2 btn btn-green" %>
+      </div>
+    </div>
+  </div>
+</div>

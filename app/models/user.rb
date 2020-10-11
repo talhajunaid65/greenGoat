@@ -72,6 +72,10 @@ class User < ActiveRecord::Base
     roles.collect(&:titleize)
   end
 
+  def ensure_favourite
+    favourite || create_favourite
+  end
+
   private
 
   def generate_token

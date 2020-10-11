@@ -1,0 +1,17 @@
+<div class="">
+  <div class="page-title mb-4">
+    <h1>Favourites</h1>
+  </div>
+</div>
+
+<div class="container-fluid mt-2 mb-5">
+  <div class="products">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row g-3">
+          <%= render partial: 'items/item', collection: @items %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

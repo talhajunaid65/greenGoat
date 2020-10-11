@@ -24,7 +24,10 @@
           <br>
         <% end %>
 
-        <%= f.file_field :image %>
+        <% if f.object.image.attached? %>
+          <%= image_tag image_variant(f.object.image, 120, 120), class: 'rounded-circle' %>
+        <% end %>
+        <%= f.file_field :image, label: 'Profile Picture' %>
         <%= f.email_field :email %>
 
         <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -42,6 +45,7 @@
           <%= f.submit "Update", class: "btn btn-lg btn-block green-btn" %>
         <% end %>
       <% end %>
+      <hr>
 
       <h2>Cancel my account</h2>
 

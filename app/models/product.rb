@@ -28,6 +28,8 @@ class Product < ApplicationRecord
   validates_presence_of :weight, if: :material_types_present?
   validates_presence_of :count, numericality: { greater_than: 0 }
 
+  validate :images_attached
+
   before_save :convert_percentage_to_kg, if: :material_or_weight_changed?
 
   scope :wating_for_uninstallation, -> { where(need_uninstallation: true) }
@@ -35,6 +37,7 @@ class Product < ApplicationRecord
   scope :search_by_title, -> (title) { where('title ILIKE ?', "%#{title}%") }
   scope :in_price_range, -> (min_price, max_price) { where('(sale_price >= ? AND sale_price <= ?)', min_price, max_price) }
   scope :not_sold, -> { where.not(status: :sold) }
+  scope :for_category, -> (category_id) { where(category_id: category_id) }
 
   def to_s
     title
@@ -85,7 +88,15 @@ class Product < ApplicationRecord
     increment!(:count)
   end
 
+  def price
+    adjusted_price.zero? ? asking_price : adjusted_price
+  end
+
   private
+
+  def images_attached
+    errors.add(:images, 'Please attach alteast one image') unless images.attached?
+  end
 
   def material_types_present?
     wood || ceramic || glass || metal || stone_plastic

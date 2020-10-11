@@ -37,8 +37,19 @@ Rails.application.routes.draw do
   end
 
   resources :pages, only: [:index]
-  resources :items, only: %i[index]
+  resources :items, only: %i[index show]
   resources :wishlists, only: %i[index new create destroy]
+  resources :favourites, only: %i[index] do
+    collection do
+      post :add_to_favourite
+      post :remove_from_favourite
+    end
+  end
+  resources :orders, only: %i[new create] do
+    get :my, on: :collection
+  end
+  resources :projects, only: %i[new create]
+  resources :group_items, only: %i[show]
 
   get 'home', to: 'pages#home'
   get 'grant_projects', to: 'pages#grant_projects'

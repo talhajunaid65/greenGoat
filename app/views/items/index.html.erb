@@ -1,25 +1,45 @@
-<div class="">
+<div class="available-items-index">
   <div class="page-title mb-4">
-    <h1>Available Items</h1>
+    <h1>MarketPlace</h1>
   </div>
 </div>
 
 <% if @items.blank? %>
   <h1 class="mt-5 mb-5">No items found</h1>
-<% else %>
-  <div class="row">
-    <% @items.each do |item| %>
-      <div class="col-md-4 col-sm-6 col-lg-3 col-12 mb-2">
-        <div class="card" style="width: 18rem; height: 100%;">
-          <% image = item.images.attached? ? item.images.first : 'product-default.png' %>
-          <%= image_tag image, class: "card-img-top", alt: "Card image cap", style: 'max-height: 200px;' %>
-          <div class="card-body">
-            <h5 class="card-title"><%= item.to_s %></h5>
-            <p class="card-text"><%= item.description %></p>
-            <a href="#" class="btn btn-primary">Item detail</a>
-          </div>
+<% end %>
+
+<div class="container-fluid px-0">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed">
+    <div class="container-fluid d-flex">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation"> <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Products</a> </li>
+        <li class="nav-item" role="presentation"> <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Package Deals</a> </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid mt-2 mb-5">
+  <div class="products">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="d-flex justify-content-between p-3 bg-white mb-3 align-items-center">
+          <span class="font-weight-bold text-uppercase green">Products</span>
+        </div>
+
+        <div class="row g-3">
+          <%= render partial: 'item', collection: @items %>
         </div>
       </div>
-    <% end %>
+
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <!--Chairs-->
+        <div class="d-flex justify-content-between p-3 bg-white mb-3 align-items-center">
+          <span class="font-weight-bold text-uppercase green">Package Deals</span>
+        </div>
+
+        <%= render partial: 'group_item', collection: @group_items, as: :group_item %>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>

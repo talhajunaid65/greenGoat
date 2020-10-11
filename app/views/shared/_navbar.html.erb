@@ -26,8 +26,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to 'Available Items', items_path, class: 'dropdown-item' %>
-          <a class="dropdown-item" href="#">Orders</a>
+          <%= link_to 'Orders', my_orders_path, class: 'dropdown-item' %>
           <%= link_to 'WishtList', wishlists_path, class: 'dropdown-item' %>
+          <%= link_to 'Favourite', favourites_path, class: 'dropdown-item' %>
           <a class="dropdown-item" href="#">Join Email List</a>
         </div>
       </li>

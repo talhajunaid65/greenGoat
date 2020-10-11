@@ -1,11 +1,15 @@
 class Project < ApplicationRecord
   default_scope { order(is_hot: :desc, updated_at: :desc) }
 
-  belongs_to :pm, class_name: 'AdminUser', foreign_key: 'pm_id'
-  belongs_to :appraiser, class_name: 'AdminUser', foreign_key: 'appraiser_id'
-  belongs_to :contractor, class_name: 'AdminUser', foreign_key: 'contractor_id'
-  belongs_to :architect, class_name: 'AdminUser', foreign_key: 'architect_id'
-  belongs_to :zillow_location
+  MILES1 = 5.0
+  MILES2 = 2.0
+  YEAR_DIFF = 10.0
+
+  belongs_to :pm, class_name: 'AdminUser', foreign_key: 'pm_id', optional: true
+  belongs_to :appraiser, class_name: 'AdminUser', foreign_key: 'appraiser_id', optional: true
+  belongs_to :contractor, class_name: 'AdminUser', foreign_key: 'contractor_id', optional: true
+  belongs_to :architect, class_name: 'AdminUser', foreign_key: 'architect_id', optional: true
+  belongs_to :zillow_location, optional: true
   belongs_to :user
 
   has_many :tasks

@@ -1,0 +1,74 @@
+<div class="available-items-index">
+  <div class="page-title mb-4">
+    <h1><%= @group_item.title %></h1>
+  </div>
+</div>
+
+<div class="container-fluid mt-2 mb-3 item-detail">
+  <div class="row no-gutters">
+    <div class="col-md-5 pr-2">
+      <div class="card">
+        <div class="demo">
+          <ul id="lightSlider">
+            <% @product_images.each do |images| %>
+              <% images.each do |image| %>
+                <%= content_tag :li, data: { thumb: rails_representation_url(image_variant(image, 80, 80).processed) } do %>
+                  <%= image_tag image %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="card">
+        <div class="about">
+          <span class="font-weight-bold"><%= @group_item.title %></span>
+          <h4 class="font-weight-bold">$<%= @group_item.price %></h4>
+        </div>
+
+        <div class="buttons">
+          <%= link_to 'Buy now', new_order_path(order_type: 'group', id: @group_item.id), class: "btn btn-long btn-green" %>
+        </div>
+        <hr>
+
+        <div class="product-description">
+          <div class="mt-2">
+            <span class="font-weight-bold">Description</span>
+            <p><%= @group_item.description %></p>
+          </div>
+
+          <div class="mt-2">
+            <span class="font-weight-bold">Products</span>
+            <% @products.each do |product| %>
+              <%= link_to product, item_path(product) %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-2">
+        <span>Similar items:</span>
+        <div class="similar-products mt-2 d-flex flex-row">
+          <% @simialar_groups.each do |simialr_item| %>
+            <%= link_to group_item_path(simialr_item) do %>
+              <div class="card border p-1" style="width: 9rem;margin-right: 3px;">
+                <%= image_tag image_variant(@product_images.first.first, 150, 150), class: 'card-img-top' %>
+                <div class="card-body">
+                  <h6 class="card-title">$<%= simialr_item.price %></h6>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :js_init do %>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+  <script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
+<% end %>

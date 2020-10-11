@@ -1,0 +1,31 @@
+<div class="available-items-index">
+  <div class="page-title mb-4">
+    <h1>My Orders</h1>
+  </div>
+</div>
+
+<% if @orders.blank? %>
+  <h1 class="mt-5 mb-5">You don't have any orders yet.</h1>
+<% end %>
+
+<div class="container-fluid mt-2 mb-5">
+  <div class="products">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+        <div class="row g-3">
+          <% @orders.each do |order| %>
+            <% order_item = @orders_items[order.id] %>
+            <% next if order_item.blank? %>
+
+            <% if order_item.is_a?(Product) %>
+              <%= render partial: 'items/item', locals: { item: order_item } %>
+            <% else %>
+              <%= render partial: 'items/group_item', locals: { group_item: order_item } %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

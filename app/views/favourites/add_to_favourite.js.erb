@@ -1,0 +1,5 @@
+<% unless @favourite.errors.any? %>
+  var itemId = '<%= params[:product_id] %>';
+  $('#favourite-remove-' + itemId).removeClass('d-none');
+  $('#favourite-add-' + itemId).addClass('d-none');
+<% end %>

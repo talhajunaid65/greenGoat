@@ -1,0 +1,66 @@
+<div class="available-items-index">
+  <div class="page-title mb-4">
+    <h1><%= @item.title %></h1>
+  </div>
+</div>
+
+<div class="container-fluid mt-2 mb-3 item-detail">
+  <div class="row no-gutters">
+    <div class="col-md-5 pr-2">
+      <div class="card">
+        <div class="demo">
+          <ul id="lightSlider">
+            <% @item.images.each do |image| %>
+              <%= content_tag :li, data: { thumb: rails_representation_url(image_variant(image, 80, 80).processed) } do %>
+                <%= image_tag image %>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="card">
+        <div class="about">
+          <span class="font-weight-bold"><%= @item.title %></span>
+          <h4 class="font-weight-bold">$<%= @item.price %></h4>
+        </div>
+
+        <div class="buttons">
+          <%= link_to 'Remove from favourites', remove_from_favourite_favourites_path(product_id: @item.id), class: "btn btn-outline-green btn-long #{'d-none' unless @favourites.include?(@item.id)}", method: :post, remote: true, id: "favourite-remove-#{@item.id}" %>
+          <%= link_to 'Add to favourites', add_to_favourite_favourites_path(product_id: @item.id), class: "btn btn-outline-green btn-long #{'d-none' if @favourites.include?(@item.id)}", method: :post, remote: true, id: "favourite-add-#{@item.id}" %>
+          <%= link_to 'Buy Now', new_order_path(order_type: 'item', id: @item.id), class: 'btn btn-long btn-green' %>
+        </div>
+        <hr>
+
+        <div class="product-description">
+          <div class="mt-2">
+            <span class="font-weight-bold">Description</span>
+            <p><%= @item.description %></p>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-2">
+        <span>Similar items:</span>
+        <div class="similar-products mt-2 d-flex flex-row">
+          <% @similar_items.each do |simialr_item| %>
+            <%= link_to item_path(simialr_item) do %>
+              <div class="card border p-1" style="width: 9rem;margin-right: 3px;">
+                <%= image_tag image_variant(simialr_item.images.first, 150, 150), class: 'card-img-top' %>
+                <div class="card-body">
+                  <h6 class="card-title">$<%= @item.price %></h6>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :js_init do %>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+  <script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
+<% end %>

@@ -3,6 +3,8 @@ class GroupItem < ApplicationRecord
 
   scope :find_by_product_id, -> (prodduct_id) { where(":product_id = ANY(product_ids)", product_id: prodduct_id) }
 
+  scope :available, -> { where(sold: false) }
+
   before_save :sanitize_array_input
 
   def sold!

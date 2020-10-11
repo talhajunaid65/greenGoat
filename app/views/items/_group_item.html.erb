@@ -1,0 +1,51 @@
+<div class="row g-3">
+  <% images = [] %>
+  <% @group_items_products[group_item.id].each { |item| images << item.images }.flatten %>
+  <div class="col-md-4">
+    <div class="card">
+      <div id="groupItemImagesCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <% last_index = 0 %>
+          <% images.each_with_index do |group_itme_images, index| %>
+            <% group_itme_images.each_with_index do |image, image_index| %>
+              <% last_index = !last_index.zero? && index + image_index == 0 ? last_index + 1 : index + image_index %>
+              <li data-target="#groupItemImagesCarousel" data-slide-to="<%= last_index %>" class="<%= 'active' if last_index == 0 %>"></li>
+            <% end %>
+          <% end %>
+        </ol>
+        <div class="carousel-inner">
+          <% images.each_with_index do |group_itme_images, index| %>
+            <% group_itme_images.each_with_index do |image, image_index| %>
+              <div class="carousel-item <%= 'active' if image_index + index == 0 %>">
+                <%= image_tag image_variant(image, 200, 150), class: 'card-img-top' %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <a class="carousel-control-prev" href="#groupItemImagesCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#groupItemImagesCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <span class="font-weight-bold"><%= group_item.title %></span>
+          <span class="font-weight-bold">$<%= group_item.price %></span>
+        </div>
+        <p class="card-text mb-1 mt-1"><%= group_item.description %></p>
+      </div>
+      <hr>
+      <div class="card-body">
+        <div class="text-right buttons">
+          <%= link_to 'More details', group_item_path(group_item), class: "btn btn-outline-green" %>
+          <%= link_to 'Buy now', new_order_path(order_type: 'group', id: group_item.id), class: "btn btn-green" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
