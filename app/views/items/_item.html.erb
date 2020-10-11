@@ -1,4 +1,4 @@
-<div class="col-md-4 mb-2" style="display: flex;">
+<div class="col-md-4 mb-2">
   <div class="card">
     <div id="itemImagesCarousel-<%= item.id %>" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -9,7 +9,7 @@
       <div class="carousel-inner">
         <% item.images.each_with_index do |image, index| %>
           <div class="carousel-item <%= 'active' if index == 0 %>">
-            <%= image_tag image_variant(image, 200, 150), class: 'card-img-top' %>
+            <%= image_tag image_variant(image, 200, 150), class: 'card-img-top', style: 'max-height: 450px;' %>
           </div>
         <% end %>
       </div>

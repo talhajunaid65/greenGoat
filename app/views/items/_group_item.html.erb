@@ -1,6 +1,6 @@
 <% images = [] %>
 <% @group_items_products[group_item.id].each { |item| images << item.images }.flatten %>
-<div class="col-md-4 mb-2" style="display: flex;">
+<div class="col-md-4 mb-2">
   <div class="card">
     <div id="groupItemImagesCarousel" class="carousel slide" data-ride="carousel">
       <ol class="carousel-indicators">
@@ -16,7 +16,7 @@
         <% images.each_with_index do |group_itme_images, index| %>
           <% group_itme_images.each_with_index do |image, image_index| %>
             <div class="carousel-item <%= 'active' if image_index + index == 0 %>">
-              <%= image_tag image_variant(image, 200, 150), class: 'card-img-top' %>
+              <%= image_tag image_variant(image, 200, 150), class: 'card-img-top', style: 'max-height: 450px;' %>
             </div>
           <% end %>
         <% end %>
