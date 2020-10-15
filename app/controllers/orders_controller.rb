@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
       order_item = @orders_items[order.id] = order.item
       next if order_item.blank?
 
-      @group_items_products[order_item.id] = Product.where(id: group_item.product_ids) if order_item.is_a?(GroupItem)
+      @group_items_products[order_item.id] = Product.where(id: order_item.product_ids) if order_item.is_a?(GroupItem)
     end
   end
 

@@ -63,4 +63,5 @@ Rails.application.routes.draw do
   get 'contact', to: 'pages#contact'
   get 'privacy_policy', to: 'pages#privacy_policy'
   get 'terms_and_conditions', to: 'pages#terms_and_conditions'
+  get 'services', to: 'pages#services'
 end

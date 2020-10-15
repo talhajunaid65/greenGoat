@@ -4,7 +4,7 @@
       <li data-target="#carouselExampleIndicators" data-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></li>
     <% end %>
   </ol>
-  <div class="carousel-inner" style="height: 45vh;">
+  <div class="carousel-inner" style="height: 70vh;">
     <% HomeImage.all.each_with_index do |home_image, index| %>
       <div class="carousel-item <%= 'active' if index == 0 %>">
         <%= image_tag home_image.image, class: 'd-block w-100' %>
