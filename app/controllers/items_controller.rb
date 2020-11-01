@@ -4,7 +4,9 @@ class ItemsController < ApplicationController
   before_action :set_favourites
 
   def index
-    @items = Product.includes(:category).with_attached_images.available
+    return redirect_to categories_items_path, alert: 'Please select a category' if params.dig(:q, :category_id).blank?
+
+    @items = Product.includes(:category).with_attached_images.available.search_available_products(params[:q])
     @group_items = GroupItem.where(sold: false)
     @group_items_products = {}
     @group_items.each { |group_item| @group_items_products[group_item.id] = Product.where(id: group_item.product_ids) }
@@ -12,6 +14,10 @@ class ItemsController < ApplicationController
 
   def show
     @similar_items = Product.includes(:category).with_attached_images.available.for_category(@item.category_id).first(4)
+  end
+
+  def categories
+    @categories = Category.parent_categories
   end
 
   private

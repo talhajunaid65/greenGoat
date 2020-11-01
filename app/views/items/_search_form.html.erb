@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-6">
+    <p>
+      <a data-toggle="collapse" href="#filters-card" role="button" aria-expanded="false" aria-controls="filters-card">
+        <i class="fa fa-filter" aria-hidden="true"></i> Filters
+      </a>
+    </p>
+
+    <div class="collapse" id="filters-card">
+      <div class="card">
+        <div class="card-header">
+          Filters
+        </div>
+        <div class="card-body">
+          <%= form_tag items_path, method: :get do %>
+
+            <div class="form-group">
+              <label for="inputAddress">Category</label>
+              <%= select_tag 'q[category_id]', options_for_select(Category.parent_categories.pluck(:name, :id), selected: params.dig(:q, :category_id)), class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <label for="inputAddress">Title</label>
+              <%= text_field_tag 'q[title]', params.dig(:q, :title), class: 'form-control', placeholder: 'Wooden floor etc.' %>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="min-price">Min. Price</label>
+                <%= number_field_tag 'q[min_price]', params.dig(:q, :min_price), class: "form-control", id: "min-price", placeholder: "0.0", min: '0' %>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="max-price">Max. Price</label>
+                <%= number_field_tag 'q[max_price]', params.dig(:q, :max_price), class: "form-control", id: "max-price", placeholder: "1000" %>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-green mt-3">Filter</button>
+            <%= link_to 'Clear Filters', items_path(q: { category_id: params.dig(:q, :category_id) }), class: "btn btn-light mt-3" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

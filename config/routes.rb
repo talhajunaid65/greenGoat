@@ -37,7 +37,9 @@ Rails.application.routes.draw do
   end
 
   resources :pages, only: [:index]
-  resources :items, only: %i[index show]
+  resources :items, only: %i[index show] do
+    get :categories, on: :collection
+  end
   resources :wishlists, only: %i[index new create destroy]
   resources :favourites, only: %i[index] do
     collection do
