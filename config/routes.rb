@@ -57,7 +57,7 @@ Rails.application.routes.draw do
   get 'grant_projects', to: 'pages#grant_projects'
   get 'recycling_plans', to: 'pages#recycling_plans'
   get 'need_more_info', to: 'pages#need_more_info'
-  get 'what_we_take', to: 'pages#what_we_take'
+  get 'calculate_worth', to: 'pages#calculate_worth'
   get 'our_mobile_app', to: 'pages#our_mobile_app'
   get 'join_email_list', to: 'pages#join_email_list'
   get 'press', to: 'pages#press'

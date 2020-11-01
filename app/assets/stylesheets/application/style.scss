@@ -133,8 +133,8 @@ a:hover {
 }
 
 @media only screen and (max-width: 998px) {
-  .recycle-plan {
-    margin-left: 8.5rem !important;
+  .funding-plan {
+    margin-left: 0 !important;
   }
 }
 
@@ -152,4 +152,9 @@ a:hover {
 .services-block {
   border: 1px solid green;
   border-radius: 12px;
+}
+
+.funding-plan {
+  margin-left: 3rem;
+  margin-right: 10em;
 }
