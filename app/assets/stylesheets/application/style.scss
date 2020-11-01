@@ -132,8 +132,19 @@ a:hover {
   color: green !important;
 }
 
-@media only screen and (min-width: 576px) {
+@media only screen and (max-width: 998px) {
   .recycle-plan {
     margin-left: 8.5rem !important;
   }
+}
+
+.image {
+  img {
+    border: 1px solid;
+  }
+}
+
+.oval-shaped-graphic {
+  width: 70%;
+  margin-left: 16%;
 }
