@@ -61,7 +61,7 @@ class Product < ApplicationRecord
       else
         product.asking_price.to_i > 0 && product.asking_price.between?(q[:min_price].to_f, q[:max_price].to_f)
       end
-    end if q[:min_price] && q[:max_price]
+    end if q[:min_price].present? && q[:max_price].present?
     products
   end
 
