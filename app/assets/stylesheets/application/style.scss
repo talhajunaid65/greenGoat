@@ -1,32 +1,130 @@
-.navbar-light {
+
   .navbar-nav {
     .nav-link {
-      color: black;
+      color: #333333 !important;
+      font-family: Helvetica, sans-serif;
+      font-weight: 200;
     }
 
     a:hover {
-      color: #60aa47;
+      color: var(--primary) !important;
       text-decoration: none;
-      border-bottom: 2px solid #60aa47;
     }
 
-    i {
-      color: #60aa47
+    .bold {
+      font-weight: 600 !important;
     }
   }
 
-  .social-media-links {
-    a:hover {
-      color: #60aa47;
-      text-decoration: none;
-      border-bottom: none;
-    }
-  }
+.search {
+  border: 2px solid #dddddd !important;
+  border-right: 0 !important;
+  border-radius: 10px 0px 0px 10px !important;
+  height: 40px;
 }
 
+.search-btn {
+  border: 2px solid #dddddd !important;
+  border-left: 0 !important;
+  border-radius: 0px 10px 10px 0px !important;
+  height: 40px;
+}
+
+.search-btn:hover {
+  background-color: black;
+  color: white;
+}
+
+h1 {
+  font-family: 'Archivo Black', sans-serif;
+  font-size: 24px !important;
+  color: black;
+}
+
+p {
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  color: black;
+}
+
+.btn-primary {
+  background-color: var(--dark);
+  border: none;
+  color: white;
+  padding: 8px 22px;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2), 0 5px 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+  background-color: var(--hover-s);
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: white;
+  border: 2px solid black;
+  color: black;
+  padding: 7px 21px;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2), 0 5px 12px 0 rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary:hover {
+  background-color: var(--hover-p);
+  text-decoration: none;
+  border: 2px solid black;
+}
+
+.hero1 {
+  background-image: image-url('burned_logo.png');
+  height: 430px;
+  background-position: center;
+  background-size: 110%;
+}
+
+.hero2 {
+  background-image: image-url('old_house.png');
+  height: 430px;
+  background-position: center;
+  background-size: cover;
+}
+
+.hero3 {
+  background-image: image-url('action_shot1.png');
+  height: 430px;
+  background-position: center;
+  background-size: 110%;
+}
+
+.carousel-control-prev {
+  width: 5%;
+  opacity: 75%;
+}
+
+.carousel-control-next {
+  width: 5%;
+  opacity: 75%;
+}
+
+.sale {
+  background-image: image-url('sale.png');
+  background-position: right;
+  background-size: 100%;
+}
+
+
 footer {
-  background: green;
-  bottom: 0;
   a {
     color: white;
     font-size: 13px;
@@ -35,126 +133,18 @@ footer {
   }
 
   a:hover {
-    color: #60aa47;
+    color: var(--primary);
     text-decoration: none;
   }
 
-  .column-headers {
-    color: white;
-  }
-
-  .subscribe-btn {
-    width: 224px;
-    background: darkgreen;
-    border: 1px;
-  }
-
-  .subscribe-btn:hover {
-    background: darkgreen;
-  }
-}
-
-.greengoat-header-image {
-  margin-right: 50%;
-  margin-left: 42%;
-  position: relative;
-  z-index: 1000;
-  margin-top: -100px;
-  margin-bottom: -15px;
-}
-
-.lightgray-background {
-  background: lightgray;
-}
-
-.quick-links {
-  background: lightgray;
-  border-radius: 12px;
-  height: 420px;
   li {
     list-style: none;
   }
 
-  a {
-    color: #60aa47;
-    i {
-      font-size: large;
-    }
-  }
-
-  h4 {
-    color: #60aa47;
+  ul {
+    padding-left: 30px;
   }
 }
 
-.border-radius-15 {
-  border-radius: 15px;
-}
-
-.page-title {
-  border-bottom: 2px solid green;
-  color: green;
-}
-
-.green-btn {
-  background: green;
-  border: none;
-}
-
-input {
-  border-color: green !important;
-  box-shadow: none;
-  border: 2px solid green !important;
-  border-radius: 10px !important;
-}
-
-a {
-  color: green;
-}
-
-a:hover {
-  color: green;
-}
-
-.btn-outline-green {
-  color: green;
-  border-color: green;
-}
-
-.btn-green {
-  color: #fff;
-  background-color: green;
-  border-color: green;
-}
 
 
-.green {
-  color: green !important;
-}
-
-@media only screen and (max-width: 998px) {
-  .funding-plan {
-    margin-left: 0 !important;
-  }
-}
-
-.image {
-  img {
-    border: 1px solid;
-  }
-}
-
-.oval-shaped-graphic {
-  width: 70%;
-  margin-left: 16%;
-}
-
-.services-block {
-  border: 1px solid green;
-  border-radius: 12px;
-}
-
-.funding-plan {
-  margin-left: 3rem;
-  margin-right: 10em;
-}

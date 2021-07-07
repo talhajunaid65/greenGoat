@@ -1,5 +1,17 @@
+$theme-colors: (
+  "primary": #52A677,
+  "secondary": #3A7D55,
+  "dark": #111111, 
+  "light": #F4F4F4,
+  "hover-p": #333333,
+  "hover-s": #bbbbbb
+);
+
 @import "bootstrap";
 @import "application/style";
 @import "devise_bootstrap_form";
 @import "items";
 @import "orders";
+@import "pages.scss";
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');

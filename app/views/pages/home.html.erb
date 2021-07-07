@@ -1,112 +1,236 @@
-<div class="row">
-  <div class="col-12 col-md-12 col-sm-12 col-xl-12">
-    <div class="row">
-      <div class="col-sm-12 col-xl-4">
-        <div class="oval-shaped-graphic">
-          <div id="servicesImagesCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#servicesImagesCarousel" data-slide-to='0' class="active"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active image text-center">
-                <%= link_to services_path do %>
-                  <%= image_tag 'services.png', class: 'rounded-circle', width: '350px', height: '250px' %>
-                <% end %>
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#servicesImagesCarousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-
-            <a class="carousel-control-next" href="#servicesImagesCarousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
-          <div class="oval-text text-center mt-5 mb-5">
-            greenGoat offers tax advantaged redistribution, but also … consulting, specification writing, recycling reports and more!
-          </div>
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="6000">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="row no-gutters">
+        <div class="col-lg-8 hero1">
+        </div>
+        <div class="col-lg-4 bg-primary p-5">
+          <h1>Salvaging Home Improvement Materials Since 2001</h1>
+          <p>greenGoat salvages everything from raw lumber down to light switch covers — rerouting otherwise wasted materials into reuse.</p>
+          <div class="btn-primary mt-2">ABOUT US</div>
         </div>
       </div>
-
-      <div class="col-sm-12 col-xl-4">
-        <div class="oval-shaped-graphic">
-          <div id="buyImagesCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#buyImagesCarousel" data-slide-to='0' class="active"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active image text-center">
-                <%= link_to items_path do %>
-                  <%= image_tag 'buy.png', class: 'rounded-circle', width: '350px', height: '250px' %>
-                <% end %>
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#buyImagesCarousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-
-            <a class="carousel-control-next" href="#buyImagesCarousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
-          <div class="oval-text text-center mt-5 mb-5">
-            greenGoat resells residential materials old and new. A lot of our materials come from very well maintained home, and sell for a fraction of their retail value!
-          </div>
+    </div>
+    <div class="carousel-item">
+      <div class="row no-gutters">
+        <div class="col-lg-8 hero2">
+        </div>
+        <div class="col-lg-4 bg-primary p-5">
+          <h1>Architectural Features with loads of History</h1>
+          <p>Deconstructing historic homes means historic pieces, full of character and craftsmanship. </p>
+          <div class="btn-primary mt-2">RARE FINDS</div>
         </div>
       </div>
-
-      <div class="col-sm-12 col-xl-4">
-        <div class="oval-shaped-graphic">
-
-          <div id="projectImagesCarousel" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#projectImagesCarousel" data-slide-to='0' class="active"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active image text-center">
-                <%= link_to calculate_worth_path do %>
-                  <%= image_tag 'donate.png', class: 'rounded-circle', width: '350px', height: '250px' %>
-                <% end %>
-              </div>
-            </div>
-            <a class="carousel-control-prev" href="#projectImagesCarousel" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-
-            <a class="carousel-control-next" href="#projectImagesCarousel" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-
-          <div class="oval-text text-center mt-5 mb-5">
-            For homeowners about to rebuild, donate unwanted materials to greenGoat! We work in parallel with the design and permitting process, so there is no delay in construction.
-          </div>
+    </div>
+    <div class="carousel-item">
+      <div class="row no-gutters">
+        <div class="col-lg-8 hero3">
+        </div>
+        <div class="col-lg-4 bg-primary p-5">
+          <h1>Home Improvement’s Never Been So Green</h1>
+          <p>greenGoat has rerouted 2,714 tons of useful materials  back into reuse. Help us continue our mission by shopping salvaged.</p>
+          <div class="btn-primary mt-2">SHOP</div>
         </div>
       </div>
     </div>
   </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<br/>
+<br/>
 
-  <br>
-  <div class="row mt-5">
-    <%= render 'sidebar' %>
-
-    <div class="col-8 col-md-10 col-sm-8 col-xl-10">
-      <div class="page-title mb-4">
-        <h1>greenGoat mission</h1>
-      </div>
-
-      <div class="intro lightgray-background p-4 border-radius-15">
-        <p>greenGoat facilitates evolutionary resource management (from our beginnings in salvaging and recycling construction and demolition - 'C&D' - debris to our current concentration in residential projects).</p>
-        <p>We handle everything from material placement, removal (for full demo projects), hauling storage, and reporting.</p>
-      </div>
+<div class="container-fluid">
+  <div class="row mt-1">
+    <div class="col-md-4 mb-2">
+      <h1>Thrifty</h1>
+      <p>greenGoat collects used home improvement materials and brings them to you at a fraction of the cost you’ll find in stores.</p>
+    </div>
+    <div class="col-md-4 mb-2">
+      <h1>Quality</h1>
+      <p>Second-hand doesn’t mean second-rate. greenGoat guarantees quality items and a timely delivery to keep your project moving forward. </p>
+    </div>
+    <div class="col-md-4 mb-2">
+      <h1>Eco-Friendly</h1>
+      <p>By choosing salvaged home improvement supplies, you’re keeping materials out of landfills and helping revolutionize construction waste streams. </p>
     </div>
   </div>
 </div>
+
+<br/>
+<br/>
+
+<div class="container-fluid sale">
+  <div class="row">
+    <div class="col-md-8 bg-primary my-4 px-5 py-4">
+      <h1>Get up to 40% off your first purchase!</h1>
+      <p class="m-0">Use coupon code <b>NEW</b> at checkout to save on your first order</p>
+    </div>
+  </div>
+</div>
+
+<br/>
+<br/>
+
+<div class="container-fluid bg-light">
+  <h1 class="pt-5 pl-5 pb-2 mb-0">Shop By Category</h1>
+</div>
+
+<div class="d-flex justify-content-around flex-wrap p-4 bg-light">
+  <div>
+    <div>
+      <%= image_tag 'appliances.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">APPLIANCES</div>
+  </div>
+  
+  <div>
+    <div>
+      <%= image_tag 'bathroom.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">BATHROOM</div>
+  </div>
+
+  <div>
+    <div>
+      <%= image_tag 'building_materials.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">BUILDING MATERIALS</div>
+  </div>
+
+<div>
+    <div>
+      <%= image_tag 'doors_and_windows.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">DOORS & WINDOWS</div>
+  </div>
+  
+  <div>
+    <div>
+      <%= image_tag 'electrical.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">ELECTRICAL</div>
+  </div>
+
+  <div>
+    <div>
+      <%= image_tag 'flooring.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">FLOORING</div>
+  </div>  
+
+  <div>
+    <div>
+      <%= image_tag 'fireplaces.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">FIREPLACES</div>
+  </div>
+  
+  <div>
+    <div>
+      <%= image_tag 'furniture.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">FURNITURE</div>
+  </div>
+
+  <div>
+    <div>
+      <%= image_tag 'heating_and_cooling.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">HEATING & COOLING</div>
+  </div>
+
+  <div>
+    <div>
+      <%= image_tag 'kitchen.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">KITCHEN</div>
+  </div>
+  
+  <div>
+    <div>
+      <%= image_tag 'lawn_and_outdoor_living.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">LAWN & OUTDOOR LIVING</div>
+  </div>
+
+  <div>
+    <div>
+      <%= image_tag 'lighting.png', height: '210px' %>
+    </div>
+    <div class="btn-secondary mt-3 mb-5">LIGHTING</div>
+  </div>
+
+</div>
+
+
+<br/>
+<br/>
+
+<div class="container-fluid bg-primary p-5">
+  <div class="row">
+    <div class="col-lg-8">
+      <h1>Get updates on new items and sales!</h1>
+      <p class="m-0">greenGoat has new items available every day!</p>
+    </div>
+    <div class="col-lg-4 d-flex align-items-center">
+      <div class="btn-primary my-3 mx-1 text-nowrap">SIGN UP</div>
+      <div class="btn-secondary my-3 mx-1 text-nowrap">SEE SALES</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!--Carousel Wrapper-->
+<div id="carousel-example-1z" class="carousel slide carousel-fade" data-ride="carousel">
+  <!--Indicators-->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-1z" data-slide-to="1"></li>
+    <li data-target="#carousel-example-1z" data-slide-to="2"></li>
+  </ol>
+  <!--/.Indicators-->
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+    <!--First slide-->
+    <div class="carousel-item active">
+      <p>asdasdasdasdasdasd</p>
+    </div>
+    <!--/First slide-->
+    <!--Second slide-->
+    <div class="carousel-item">
+      <p>asdasdasdasdasdasd<br><br><br>sdasdasd</p>
+    </div>
+    <!--/Second slide-->
+    <!--Third slide-->
+    <div class="carousel-item">
+      <p>asdasdasdasdasdasd<br><br><br>sdasdasd</p>
+      <p>asdasdasdasdasdasd<br><br><br>sdasdasd</p>
+    </div>
+    <!--/Third slide-->
+  </div>
+  <!--/.Slides-->
+  <!--Controls-->
+  <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  <!--/.Controls-->
+</div>
+<!--/.Carousel Wrapper-->
+        Content under the Slider

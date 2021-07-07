@@ -1,34 +1,52 @@
 <footer class="">
-  <div class="pt-5 border-bottom">
+  <div class="p-5 border-bottom bg-dark">
     <div class="row">
-      <div class="col-md-4 col-sm-12 mb-3 text-center">
-        <%= image_tag 'abc.png', class: 'img-fluid' %>
-        <br/>
-        All Copyrights reserved
+      <div class="col-lg-3 col-sm-12 mb-4">
+        <%= image_tag 'logo_white.svg', height: '70px' %>
       </div>
-      <div class="col-md-8 col-sm-12">
-        <div class="col-md-6 col-sm-4 col-4 p-0 float-left mb-3">
-          <h5 class="mb-4 column-headers">Helpful Links</h5>
-          <ul class="list-group">
-            <li class="list-group-item bg-transparent border-0 p-0 mb-2"><%= link_to 'About us', who_are_we_path %></li>
-            <li class="list-group-item bg-transparent border-0 p-0 mb-2"><%= link_to 'Privacy Policy', privacy_policy_path %></li>
-            <li class="list-group-item bg-transparent border-0 p-0 mb-2"><%= link_to 'Terms & Conditions', terms_and_conditions_path %></li>
-            <li class="list-group-item bg-transparent border-0 p-0 mb-2"><%= link_to 'Available Products', categories_items_path %></a></li>
+
+      <div class="col-md-7 d-flex">
+        <div>
+          <ul>
+            <li><a href="#">SHOP</a></li>
+            <li><a href="#">DONATE</a></li>
+            <li><a href="#">ABOUT</a></li>
           </ul>
         </div>
 
-        <div class="col-md-3 col-sm-4 col-4 p-0 mb-3 float-left">
-          <h5 class="mb-4 column-headers">Subscribe Now</h5>
-          <form>
-            <div class="form-group row">
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword" placeholder="email password">
-                <br>
-                <button type="button" class="btn btn-dark subscribe-btn">SUBSCRIBE NOW</button>
-              </div>
-            </div>
-          </form>
+        <div>
+          <ul>
+            <li><a href="#">Appliances</a></li>
+            <li><a href="#">Bathroom</a></li>
+            <li><a href="#">Building Materials</a></li>
+            <li><a href="#">Doors & Windows</a></li>
+          </ul>
         </div>
+
+        <div>
+          <ul>
+            <li><a href="#">Electrical</a></li>
+            <li><a href="#">Flooring</a></li>
+            <li><a href="#">Fireplaces Materials</a></li>
+            <li><a href="#">Furniture</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <ul>
+            <li><a href="#">Heating & Cooling</a></li>
+            <li><a href="#">Kitchen</a></li>
+            <li><a href="#">Lawn & Outdoor</a></li>
+            <li><a href="#">Lighting</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="col-md-2 d-flex justify-content-end">
+        <a href="" class="px-1"><%= image_tag 'facebook.svg', height: '40px' %></a>
+        <a href="" class="px-1"><%= image_tag 'twitter.svg', height: '40px' %></a>
+        <a href="" class="px-1"><%= image_tag 'pinterest.svg', height: '40px' %></a>
       </div>
     </div>
   </div>
